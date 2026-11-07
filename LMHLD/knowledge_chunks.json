@@ -1,0 +1,470 @@
+[
+  {
+    "id": "REG-001",
+    "category": "行业法规",
+    "title": "2025年版智能化指南的目标与适用范围",
+    "source_id": "guide2025",
+    "locator": "发布会：安全基础司关于指南的答问",
+    "content": "官方解读以减人、增安和提效为建设目标，分别针对露天、井工金属非金属矿山提出总体架构和系统要求。功能与效果是重点，不能据此声称指南指定了本项目的AI算法或卫星路线。",
+    "keywords": "智能化 指南 2025",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-002",
+    "category": "行业法规",
+    "title": "GB/T 37573-2019的正确名称与用途",
+    "source_id": "std37573",
+    "locator": "标准名称、状态、实施日期",
+    "content": "该标准名称为《露天煤矿边坡稳定性年度评价技术规范》，不是“监测预警规范”。官方登记为现行，2020年1月1日实施。本库只核对元数据，不能据此回答未获取的具体阈值与条文。",
+    "keywords": "37573 年度 评价",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-003",
+    "category": "行业法规",
+    "title": "矿安〔2024〕41号露天矿山补充情形",
+    "source_id": "hazard41",
+    "locator": "二、金属非金属露天矿山重大事故隐患（一）（二）",
+    "content": "露天矿山部分增加了人员集聚场所位于灾害威胁范围，以及遇极端天气未及时停止作业和撤出现场人员两类情形。该文件不是原库所写的“形变速率阈值”来源。",
+    "keywords": "41号 极端天气 滑坡威胁",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-004",
+    "category": "行业法规",
+    "title": "119号监测系统建设范围：煤矿与150米非煤边坡",
+    "source_id": "mine119",
+    "locator": "二（一）建设范围",
+    "content": "建设任务涵盖正常生产建设的露天煤矿，以及边坡现状高度150米及以上、正常生产建设的金属非金属露天矿山。150米条件不能擅自套用于通知中的所有露天煤矿。",
+    "keywords": "119号 150米 建设范围",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-005",
+    "category": "行业法规",
+    "title": "119号必须监测的表面变形和视频图像",
+    "source_id": "mine119",
+    "locator": "二（二）建设内容",
+    "content": "表面变形、视频图像是通知列明的必须监测项目；内部变形、应力、地下水、爆破振动和降雨量等结合实际与相关规范开展。单幅光学分割图不能代替变形监测数据。",
+    "keywords": "必采 表面变形 视频 监测项目",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-006",
+    "category": "行业法规",
+    "title": "边坡监测系统设计与专家评审",
+    "source_id": "mine119",
+    "locator": "三（二）设计要求第1段",
+    "content": "监测系统设计由原设计单位或具备相应设计资质的单位承担，经专家评审后实施和验收。不符合通知要求的既有系统应补充或重新设计。软件演示不等于完成工程验收。",
+    "keywords": "设计 资质 专家 验收",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-007",
+    "category": "行业法规",
+    "title": "分区监测方案所需工程与水文资料",
+    "source_id": "mine119",
+    "locator": "三（二）设计要求第2段",
+    "content": "方案须结合边坡勘察、稳定性研究、开采设计、地质及水文条件，评估分区稳定性并确定安全监测等级。判断须考虑开采时期与要求，不能只依据一幅影像的异常面积。",
+    "keywords": "分区 地质 水文 勘察 稳定性",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-008",
+    "category": "行业法规",
+    "title": "边坡感知数据的联网层级",
+    "source_id": "mine119",
+    "locator": "二（三）联网方式",
+    "content": "通知采用企业、省级矿山安全监管监察部门、国家局的感知数据上报链路，具体接入规范另行制定。导出PNG或GeoJSON不代表已经对接监管监测平台。",
+    "keywords": "联网 上报 平台",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-009",
+    "category": "行业法规",
+    "title": "200米采场边坡在线监测的重大隐患情形",
+    "source_id": "hazard88",
+    "locator": "二（七）第1、2项",
+    "content": "金属非金属露天矿山中，200米及以上采场边坡未在线监测、相应高度排土场边坡未建稳定监测系统，列入重大隐患情形。其用途与119号150米建设范围不同。",
+    "keywords": "200米 在线 排土场 150米",
+    "related_source_ids": [
+      "mine119"
+    ]
+  },
+  {
+    "id": "REG-010",
+    "category": "行业法规",
+    "title": "不得破坏边坡监测系统或篡改相关数据",
+    "source_id": "hazard88",
+    "locator": "二（七）第3项",
+    "content": "关闭或破坏监测系统，以及隐瞒、篡改、销毁其相关数据和信息，被列入边坡重大隐患情形。模型结果应保留数据来源与版本，不应将模拟内容伪装为真实监测。",
+    "keywords": "数据 篡改 关闭 监测",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-011",
+    "category": "行业法规",
+    "title": "人员集聚场所位于滑坡等灾害威胁范围",
+    "source_id": "hazard41",
+    "locator": "二（一）",
+    "content": "办公、生活等人员集聚场所落在危崖、塌陷、崩落或洪水、泥石流、滑坡威胁范围内，属于该补充情形。威胁范围需专业判定，不应由检测框直接充当危险区设计。",
+    "keywords": "办公区 生活区 人员 威胁范围",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-012",
+    "category": "行业法规",
+    "title": "极端天气时露天矿山停工撤人的条款",
+    "source_id": "hazard41",
+    "locator": "二（二）",
+    "content": "对金属非金属露天矿山，遇极端天气未及时停止作业并撤出现场人员，是新增重大隐患情形。项目的低异常占比不能抵消天气和现场制度提出的停工撤人要求。",
+    "keywords": "极端天气 停止作业 撤人",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-013",
+    "category": "行业法规",
+    "title": "煤矿安全规程现行版本与施行日期",
+    "source_id": "coal17",
+    "locator": "第17号部令公布文本",
+    "content": "2025年公布的应急管理部令第17号《煤矿安全规程》自2026年2月1日起施行。查询露天煤矿要求应核对该版本与实际条文，不能将非煤矿山标准或旧版名称混用。",
+    "keywords": "煤矿 安全规程 第17号 2026",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-014",
+    "category": "行业法规",
+    "title": "2026年煤矿重大事故隐患判定标准",
+    "source_id": "coal21",
+    "locator": "第21号部令公布文本",
+    "content": "应急管理部令第21号公布的《煤矿重大事故隐患判定标准》自2026年7月1日起施行。它与矿安〔2022〕88号非煤矿山标准的适用对象不同。此条仅说明版本，不代替具体隐患判定。",
+    "keywords": "煤矿 第21号 重大事故隐患 2026",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-015",
+    "category": "行业法规",
+    "title": "旧露天煤矿125号文件的废止关系",
+    "source_id": "coal_versions",
+    "locator": "2026-06-03安全基础司公开回复",
+    "content": "国家局公开答复明确，第21号《煤矿重大事故隐患判定标准》施行时，矿安〔2023〕125号露天煤矿重大事故隐患通知废止。2026年10月引用时不能仍把125号列为现行依据。",
+    "keywords": "125号 废止 版本 第21号",
+    "related_source_ids": [
+      "coal21"
+    ]
+  },
+  {
+    "id": "REG-016",
+    "category": "行业法规",
+    "title": "GB/T 37697-2019变形监测标准名称",
+    "source_id": "std37697",
+    "locator": "标准编号、中文名称与实施日期",
+    "content": "GB/T 37697-2019为《露天煤矿边坡变形监测技术规范》，与37573年度评价标准不同。两者均于2020年1月1日实施。本库未获取全文，不提供未经核对的监测频率或位移阈值。",
+    "keywords": "37697 变形监测 技术规范",
+    "related_source_ids": [
+      "std37573"
+    ]
+  },
+  {
+    "id": "KNOW-001",
+    "category": "灾害机理",
+    "title": "滑坡的地质、水文与扰动因素",
+    "source_id": "usgs_types",
+    "locator": "Causes of landslides",
+    "content": "弱岩土、裂隙与坡体结构、水的作用、地震等因素会改变坡体稳定性。须结合工程资料判断主因；不能把统一坡角数值当作所有矿山的高风险分界。",
+    "keywords": "岩性 节理 水 地震 扰动",
+    "related_source_ids": []
+  },
+  {
+    "id": "KNOW-002",
+    "category": "灾害机理",
+    "title": "裂缝与地表变形：需要复核的滑坡迹象",
+    "source_id": "usgs_signs",
+    "locator": "Signs of a potential landslide",
+    "content": "地面、道路等新裂缝或变形，以及设施倾斜或错动，是值得关注的迹象。是否能在遥感图中看到，取决于分辨率、遮挡和拍摄条件，不能笼统声称卫星可识别毫米级裂缝。",
+    "keywords": "裂缝 识别特征 分辨率",
+    "related_source_ids": []
+  },
+  {
+    "id": "KNOW-003",
+    "category": "灾害机理",
+    "title": "新的渗水与水位异常",
+    "source_id": "usgs_signs",
+    "locator": "Signs of a potential landslide：water",
+    "content": "坡面新出现流水、异常积水或井水位变化，可作为复核线索。影像颜色差异并不自动证明地下水异常；需要现场水文记录或监测证据。",
+    "keywords": "渗水 水位 地下水 积水",
+    "related_source_ids": []
+  },
+  {
+    "id": "KNOW-004",
+    "category": "灾害机理",
+    "title": "滑坡、崩塌与流动类灾害的区别",
+    "source_id": "usgs_types",
+    "locator": "Types of landslides",
+    "content": "岩土移动包含滑动、坠落、倾倒、流动等不同过程。光学二分类掩膜不提供灾害运动类型和速度，不能把所有裸地、矿坑台阶或坍塌响应都直接称为同一种滑坡。",
+    "keywords": "崩塌 坠落 泥石流 类型",
+    "related_source_ids": []
+  },
+  {
+    "id": "KNOW-005",
+    "category": "灾害机理",
+    "title": "没有可见前兆不等于没有风险",
+    "source_id": "usgs_basics",
+    "locator": "Signs of Landslide Development / Movement",
+    "content": "有些滑坡出现线索，有些可能突然发生而没有可见预警迹象。单次影像未检测到异常，只能表述该次输入下模型未识别，不足以证明边坡安全。",
+    "keywords": "无异常 漏检 前兆 安全",
+    "related_source_ids": []
+  },
+  {
+    "id": "WARN-001",
+    "category": "预警分级",
+    "title": "蓝黄橙红：本项目的筛查分级定义",
+    "source_id": "project",
+    "locator": "能力边界：RISK_RULES",
+    "content": "当前原型以预测掩膜面积占比1%、5%、15%为黄、橙、红分界，低于1%为蓝。这是本项目筛查规则，不是国家标准阈值，也不是滑坡发生概率或现场法定预警结论。",
+    "keywords": "蓝色 黄色 橙色 红色 四级 阈值",
+    "related_source_ids": []
+  },
+  {
+    "id": "WARN-002",
+    "category": "预警分级",
+    "title": "误报减少与漏检之间的权衡",
+    "source_id": "project",
+    "locator": "能力边界：正负两侧验证",
+    "content": "降低报警面积可能来自模型整体变保守。必须同时检查正类检出与背景误报；源域F1保持、自然滑坡区域分离度，不能替代矿山滑坡真值上的召回评估。",
+    "keywords": "误报 漏检 负样本 阈值 召回",
+    "related_source_ids": []
+  },
+  {
+    "id": "WARN-003",
+    "category": "预警分级",
+    "title": "监测等级应来自分区工程设计",
+    "source_id": "mine119",
+    "locator": "三（二）设计要求第2段；与原型分级的区别",
+    "content": "边坡安全监测等级依据分区稳定性与工程资料确定。原型面积占比的颜色不能替代该设计，也不能自行推出位移速率阈值或事故发生时间。",
+    "keywords": "安全监测等级 预警 参数",
+    "related_source_ids": [
+      "project"
+    ]
+  },
+  {
+    "id": "ACT-001",
+    "category": "处置措施",
+    "title": "发现异常后的专业复核与记录",
+    "source_id": "usgs_signs",
+    "locator": "专业地质或工程人员评估建议",
+    "content": "发现可能的滑坡迹象，应报告相关负责人员并由具有滑坡经验的地质或工程人员评估。此处是一般技术建议；矿山行动按现场应急制度与专业研判执行，不能由AI草稿直接设计治理工程。",
+    "keywords": "复核 报告 专家 处置",
+    "related_source_ids": []
+  },
+  {
+    "id": "ACT-002",
+    "category": "处置措施",
+    "title": "中小矿山方案的成本核算边界",
+    "source_id": "project",
+    "locator": "能力边界：成本与部署",
+    "content": "成本应分别核算影像获取、硬件、现场监测、模型服务、运维与专业人员投入。未经同口径实际核算，不宣称总成本降至传统系统的十分之一；光学筛查也不能替代规定的监测项目。",
+    "keywords": "成本 低成本 十分之一 部署",
+    "related_source_ids": []
+  },
+  {
+    "id": "ACT-003",
+    "category": "处置措施",
+    "title": "报告应保留的检测证据",
+    "source_id": "project",
+    "locator": "能力边界：报告来源与导出",
+    "content": "报告应保留输入时间与范围、模型版本、阈值、检测统计、配准状态和知识来源。自动分析失败时可输出检测事实汇总，但要明确来源与状态，不能填入固定的模拟风险判断。",
+    "keywords": "报告 证据 来源 版本 模拟",
+    "related_source_ids": []
+  },
+  {
+    "id": "CASE-001",
+    "category": "典型案例",
+    "title": "阿拉善新井煤业事故：历史案例的正确用途",
+    "source_id": "alxa",
+    "locator": "事故调查报告：事故概况与直接原因",
+    "content": "2023年2月22日新井煤业露天煤矿发生特别重大坍塌。调查涉及违规开采、超高超陡边坡及应急处置等问题。事故影像可作识别与复盘案例，不能证明模型曾在事故前成功预警。",
+    "keywords": "阿拉善 新井 2·22 坍塌",
+    "related_source_ids": []
+  },
+  {
+    "id": "CASE-002",
+    "category": "典型案例",
+    "title": "真实底图测试与现场试用的区别",
+    "source_id": "project",
+    "locator": "能力边界：应用验证",
+    "content": "公开底图驱动系统证明了场景输入和功能可运行。矿山实际使用效果还须有用户试用、专业确认和工作流程对照；不得把历史卫星底图的测试结果写成矿山合作或现场上线证明。",
+    "keywords": "试用 实际应用 真实场景 底图",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-001",
+    "category": "影像与数据",
+    "title": "Sentinel-2的空间分辨率与重访资料",
+    "source_id": "esa_s2",
+    "locator": "Mission facts：resolution and revisit",
+    "content": "ESA任务资料列出10米分辨率和典型5天重访。10米像元不能直接支撑毫米或厘米裂缝识别；实际可用影像还受云雪、观测条件与数据处理影响。",
+    "keywords": "Sentinel-2 10米 5天 裂缝",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-002",
+    "category": "影像与数据",
+    "title": "云雪、阴影与采集日期质量检查",
+    "source_id": "project",
+    "locator": "能力边界：影像可用性",
+    "content": "检测前核对影像日期、地面分辨率、范围、云雪和阴影。云量元数据较低仍可能积雪；不同时相底图与动态开采会影响解释。当前软件没有自动完成全部影像质量审查。",
+    "keywords": "云 雪 阴影 时间 可用性",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-003",
+    "category": "影像与数据",
+    "title": "RGB缺少真实近红外",
+    "source_id": "project",
+    "locator": "输入协议：channel_order",
+    "content": "普通RGB输入没有NIR；检测器可复制红波段以满足四通道形状，但复制值不新增光谱信息。只有明确声明真实四波段顺序、确认辐射信息后，才允许计算NDVI等指数。",
+    "keywords": "RGB NIR 波段 缺失",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-004",
+    "category": "影像与数据",
+    "title": "NDVI的输入与含义",
+    "source_id": "project",
+    "locator": "输入协议：NDVI=(NIR-R)/(NIR+R)",
+    "content": "NDVI需真实近红外与红波段及一致的辐射信息。复制R为NIR会使公式恒为0，这不能作为裸土或无植被证据。NDVI也不是边坡位移、稳定性系数或滑坡概率。",
+    "keywords": "NDVI 植被 裸土",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-005",
+    "category": "影像与数据",
+    "title": "RGBA透明度不能作为NIR",
+    "source_id": "project",
+    "locator": "输入协议：普通图片与四波段声明",
+    "content": "普通四通道PNG常为颜色加透明度，不是多光谱影像。系统默认丢弃透明度；真实四波段输入须声明BGRN或RGBN，并自行确认文件内部真实顺序。",
+    "keywords": "RGBA PNG alpha 透明度 四波段",
+    "related_source_ids": []
+  },
+  {
+    "id": "DATA-006",
+    "category": "影像与数据",
+    "title": "合成NIR与实测NIR的区别",
+    "source_id": "project",
+    "locator": "输入协议：nir_synth",
+    "content": "RGB生成的NIR属于模型估计，不能称为实测波段。开启合成器时须保留来源；当前链路不将复制或合成NIR计算为具有实测含义的植被、水体指数。",
+    "keywords": "合成 NIR 生成 光谱指数",
+    "related_source_ids": []
+  },
+  {
+    "id": "GEO-001",
+    "category": "几何与变化",
+    "title": "像素量与米制量的换算条件",
+    "source_id": "project",
+    "locator": "几何协议：meters_per_pixel",
+    "content": "面积与长度默认以像素表达。只有可靠的地面分辨率才允许按GSD平方换算面积、按GSD换算长度。没有比例尺的截图不能凭模型估计米制尺寸。",
+    "keywords": "像素 米 平方米 分辨率 GSD",
+    "related_source_ids": []
+  },
+  {
+    "id": "GEO-002",
+    "category": "几何与变化",
+    "title": "监测范围ROI决定统计范围",
+    "source_id": "project",
+    "locator": "几何协议：roi",
+    "content": "圈定ROI后，报告实例与面积占比按范围内统计，范围外单列作参考。取景范围会影响面积比例，比较不同影像时不能混用整幅、ROI和背景区域口径。",
+    "keywords": "ROI 范围 面积占比 整幅",
+    "related_source_ids": []
+  },
+  {
+    "id": "GEO-003",
+    "category": "几何与变化",
+    "title": "多边形保真不等于检测准确率",
+    "source_id": "project",
+    "locator": "几何协议：mask_to_regions",
+    "content": "预测掩膜转为多边形后的还原率，衡量表达对输入掩膜的保真；不是对现场真实滑坡的准确率。由掩膜计算的面积、周长与长轴应分别引用，不能互换数字。",
+    "keywords": "多边形 99.4 几何 真值 周长 长轴",
+    "related_source_ids": []
+  },
+  {
+    "id": "GEO-004",
+    "category": "几何与变化",
+    "title": "两期影像变化分析的配准前提",
+    "source_id": "project",
+    "locator": "变化协议：registration",
+    "content": "两期比较须对应相同地面位置。自动配准失败时不输出变化判断；已配准模式要求用户确认相同范围、分辨率与位置。改变图片大小并不能保证完成空间配准。",
+    "keywords": "配准 T1 T2 两期 变化",
+    "related_source_ids": []
+  },
+  {
+    "id": "GEO-005",
+    "category": "几何与变化",
+    "title": "共同有效范围与变化量",
+    "source_id": "project",
+    "locator": "变化协议：valid_pixels",
+    "content": "自动对齐后只在共同有效覆盖范围统计两期面积比例。新增或消退可能受生产扰动、光照和识别误差影响，不能直接推定边坡物理扩张或稳定性改善。",
+    "keywords": "新增 扩大 消退 共同范围",
+    "related_source_ids": []
+  },
+  {
+    "id": "VAL-001",
+    "category": "验证与使用",
+    "title": "无矿山正样本时可作出的结论",
+    "source_id": "project",
+    "locator": "验证边界：目标域真值",
+    "content": "矿区负样本测试只能验证部分背景响应，不能单独证明矿山正类召回。自然滑坡代理与源域指标是补充证据，应明确标注，不能替代矿山事件的专家确认。",
+    "keywords": "正样本 无正样本 矿山 召回",
+    "related_source_ids": []
+  },
+  {
+    "id": "VAL-002",
+    "category": "验证与使用",
+    "title": "图块划分与跨站点盲测",
+    "source_id": "project",
+    "locator": "验证边界：数据独立性",
+    "content": "相邻图块来自同一影像时并非独立场景。训练、调参与最终测试应按矿区、事件或时间分离；留出测试不能反复用于阈值或配方选择。",
+    "keywords": "泄漏 划分 盲测 跨站点",
+    "related_source_ids": []
+  },
+  {
+    "id": "VAL-003",
+    "category": "验证与使用",
+    "title": "模型通道、阈值和评估口径",
+    "source_id": "project",
+    "locator": "验证边界：模型元数据",
+    "content": "报告需指出实际模型和阈值，不能静默换回基座。图块报警率、像素FPR、预测面积占比和实例召回是不同指标，必须说明标签、分母和后处理口径。",
+    "keywords": "模型 阈值 FPR 指标 口径",
+    "related_source_ids": []
+  },
+  {
+    "id": "VAL-004",
+    "category": "验证与使用",
+    "title": "报告数字与知识引用的复核",
+    "source_id": "project",
+    "locator": "报告协议：结构化几何与引用编号",
+    "content": "几何数值应对应同一实例、指标和单位。知识回答应带库内条目编号；标准元数据不能冒充完整条文。模型自评和格式校验通过，不等于事实已被独立专家验证。",
+    "keywords": "数字 引用 质量 自评",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-017",
+    "category": "行业法规",
+    "title": "露天煤矿边坡72小时连续加速位移",
+    "source_id": "coal21",
+    "locator": "附件《煤矿重大事故隐患判定标准》第十五条（三）",
+    "content": "现行煤矿标准将边坡位移量在72小时内连续呈加速趋势而未采取措施，列为相应重大隐患情形。位移量必须来自可核验的监测；两期分割面积差不能充当位移加速度。",
+    "keywords": "72小时 位移 加速 重大隐患",
+    "related_source_ids": []
+  },
+  {
+    "id": "REG-018",
+    "category": "行业法规",
+    "title": "露天煤矿局部滑坡、裂缝发展与停工撤人",
+    "source_id": "coal21",
+    "locator": "附件《煤矿重大事故隐患判定标准》第十五条（四）",
+    "content": "现行煤矿标准涉及局部滑坡、放射状裂缝、坡脚上隆或裂缝持续发展等现象下未及时停工并撤出影响区人员的情形。应依据现场现象和专业确认研判，不能等模型生成报告后才执行既有应急制度。",
+    "keywords": "煤矿 裂缝 停工 撤人 滑坡",
+    "related_source_ids": []
+  }
+]

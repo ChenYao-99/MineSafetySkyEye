@@ -1,0 +1,1333 @@
+{
+  "completed_at": "2026-10-20T08:20:53+08:00",
+  "status": "completed",
+  "fits": 6,
+  "head_fits": 18,
+  "target_macro_by_source_budget": {
+    "0.02": {
+      "tta5": {
+        "f1": 0.6555617090285129,
+        "small_cover50": 0.4851978996996625,
+        "small_iou50": 0.26269412543613074,
+        "background_fpr": 0.03634021795365949
+      },
+      "mean_multiscale5": {
+        "f1": 0.6501276551057501,
+        "small_cover50": 0.5466145027937568,
+        "small_iou50": 0.32405700684292876,
+        "background_fpr": 0.03502480681973928
+      },
+      "constant_gate": {
+        "f1": 0.6533445792810729,
+        "small_cover50": 0.522247422160826,
+        "small_iou50": 0.30542554678139516,
+        "background_fpr": 0.03562189095293867
+      },
+      "feature_gate": {
+        "f1": 0.6508394177325042,
+        "small_cover50": 0.5193236565569095,
+        "small_iou50": 0.31059909417675235,
+        "background_fpr": 0.03491909704895054
+      },
+      "feature_gate_no_gsd": {
+        "f1": 0.6514896830676703,
+        "small_cover50": 0.5195241106139851,
+        "small_iou50": 0.30439143293723614,
+        "background_fpr": 0.0356821915458034
+      }
+    },
+    "0.01": {
+      "tta5": {
+        "f1": 0.575135394706157,
+        "small_cover50": 0.3864586984460801,
+        "small_iou50": 0.23789520949167142,
+        "background_fpr": 0.021194308812809936
+      },
+      "mean_multiscale5": {
+        "f1": 0.5720002568955198,
+        "small_cover50": 0.45430632587186054,
+        "small_iou50": 0.306942583085343,
+        "background_fpr": 0.020960022236221874
+      },
+      "constant_gate": {
+        "f1": 0.5761776386333318,
+        "small_cover50": 0.4350023710851323,
+        "small_iou50": 0.28229944857952527,
+        "background_fpr": 0.0211182577831847
+      },
+      "feature_gate": {
+        "f1": 0.571889412291419,
+        "small_cover50": 0.4445242824317483,
+        "small_iou50": 0.29296738440673614,
+        "background_fpr": 0.020986779396587867
+      },
+      "feature_gate_no_gsd": {
+        "f1": 0.5746026181622312,
+        "small_cover50": 0.4402599946392858,
+        "small_iou50": 0.28970089963780815,
+        "background_fpr": 0.021241446391910918
+      }
+    },
+    "0.005": {
+      "tta5": {
+        "f1": 0.47462278715865663,
+        "small_cover50": 0.3156734454501511,
+        "small_iou50": 0.20620227761626905,
+        "background_fpr": 0.012372306641743533
+      },
+      "mean_multiscale5": {
+        "f1": 0.46140500778592336,
+        "small_cover50": 0.3689116375607376,
+        "small_iou50": 0.2649756362411772,
+        "background_fpr": 0.01210268098796761
+      },
+      "constant_gate": {
+        "f1": 0.47264193130745663,
+        "small_cover50": 0.34757576590631584,
+        "small_iou50": 0.24585472464485267,
+        "background_fpr": 0.012387317475802968
+      },
+      "feature_gate": {
+        "f1": 0.46210984347692885,
+        "small_cover50": 0.36361323592411615,
+        "small_iou50": 0.2584426667033211,
+        "background_fpr": 0.01216148607176915
+      },
+      "feature_gate_no_gsd": {
+        "f1": 0.4652652862145532,
+        "small_cover50": 0.36014629709811247,
+        "small_iou50": 0.25646447152292395,
+        "background_fpr": 0.012271029858555861
+      }
+    }
+  },
+  "comparisons": {
+    "0.02": {
+      "tta5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.012982529159746884,
+              "small_cover50": 0.02326183423480388,
+              "small_iou50": 0.03516880522509273,
+              "background_fpr": -0.001999747622490808
+            },
+            "candidate_macro": {
+              "f1": 0.6470825932244938,
+              "small_cover50": 0.4977510200247876,
+              "small_iou50": 0.29518039719685046,
+              "background_fpr": 0.0316367622670579
+            },
+            "worst_candidate_fpr": 0.06427834998306381,
+            "worst_fpr_increase": 8.607135129638788e-05
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": 0.003537946567729359,
+              "small_cover50": 0.044989679479690015,
+              "small_iou50": 0.060641132256150504,
+              "background_fpr": -0.0008424941869271067
+            },
+            "candidate_macro": {
+              "f1": 0.6545962422405146,
+              "small_cover50": 0.5408962930890314,
+              "small_iou50": 0.32601779115665425,
+              "background_fpr": 0.03820143183084317
+            },
+            "worst_candidate_fpr": 0.07857996571447035,
+            "worst_fpr_increase": -0.00016577895285363985
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.02008160140784676,
+              "small_cover50": 0.028391167192429012,
+              "small_iou50": 0.034700315457413256,
+              "background_fpr": -0.0022675143728483433
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.000277528316404263,
+              "small_cover50": 0.01176470588235301,
+              "small_iou50": 0.041176470588235314,
+              "background_fpr": 8.607135129638788e-05
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.019143514387798155,
+              "small_cover50": 0.029629629629629617,
+              "small_iou50": 0.029629629629629617,
+              "background_fpr": -0.0038177998459204693
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.012915535310993764,
+              "small_cover50": 0.07570977917981075,
+              "small_iou50": 0.07255520504731866,
+              "background_fpr": -0.00016577895285363985
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0014316514732559682,
+              "small_cover50": 0.0,
+              "small_iou50": 0.03529411764705881,
+              "background_fpr": -0.0011803692699322021
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0037333470810616554,
+              "small_cover50": 0.05925925925925929,
+              "small_iou50": 0.07407407407407404,
+              "background_fpr": -0.001181334337995478
+            }
+          }
+        ]
+      },
+      "constant_gate": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.004636094495661418,
+              "small_cover50": -0.012522765853625014,
+              "small_iou50": 0.004723384855753253,
+              "background_fpr": -0.0014109555686248002
+            },
+            "candidate_macro": {
+              "f1": 0.6470825932244938,
+              "small_cover50": 0.4977510200247876,
+              "small_iou50": 0.29518039719685046,
+              "background_fpr": 0.0316367622670579
+            },
+            "worst_candidate_fpr": 0.06427834998306381,
+            "worst_fpr_increase": -0.0001668467721956928
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.0003742286014760676,
+              "small_cover50": 0.006675234645791968,
+              "small_iou50": 0.005623709934961261,
+              "background_fpr": 5.367760648527138e-06
+            },
+            "candidate_macro": {
+              "f1": 0.6545962422405146,
+              "small_cover50": 0.5408962930890314,
+              "small_iou50": 0.32601779115665425,
+              "background_fpr": 0.03820143183084317
+            },
+            "worst_candidate_fpr": 0.07857996571447035,
+            "worst_fpr_increase": 0.0013462532354926067
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0020202481441762288,
+              "small_cover50": -0.009463722397476337,
+              "small_iou50": -0.006309148264984243,
+              "background_fpr": -0.0001668467721956928
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.004133618260353633,
+              "small_cover50": -0.00588235294117645,
+              "small_iou50": 0.03529411764705881,
+              "background_fpr": -0.0032728300286789663
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.016021653603161656,
+              "small_cover50": -0.022222222222222254,
+              "small_iou50": -0.014814814814814808,
+              "background_fpr": -0.0007931899049997415
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.003680069318427237,
+              "small_cover50": 0.012618296529968487,
+              "small_iou50": 0.009463722397476393,
+              "background_fpr": 0.0013462532354926067
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0010373677591258845,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": -0.0007849707238229836
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0058401228819813245,
+              "small_cover50": 0.007407407407407418,
+              "small_iou50": 0.00740740740740739,
+              "background_fpr": -0.0005451792297240417
+            }
+          }
+        ]
+      },
+      "mean_multiscale5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": 0.0005314040516364674,
+              "small_cover50": -0.030268333528060132,
+              "small_iou50": -0.016577665065325115,
+              "background_fpr": -0.0010275573798985017
+            },
+            "candidate_macro": {
+              "f1": 0.6470825932244938,
+              "small_cover50": 0.4977510200247876,
+              "small_iou50": 0.29518039719685046,
+              "background_fpr": 0.0316367622670579
+            },
+            "worst_candidate_fpr": 0.06427834998306381,
+            "worst_fpr_increase": 0.0013046636340729965
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": 0.000892121201871728,
+              "small_cover50": -0.024313358945634578,
+              "small_iou50": -0.010338160267027718,
+              "background_fpr": 0.0008161378383210065
+            },
+            "candidate_macro": {
+              "f1": 0.6545962422405146,
+              "small_cover50": 0.5408962930890314,
+              "small_iou50": 0.32601779115665425,
+              "background_fpr": 0.03820143183084317
+            },
+            "worst_candidate_fpr": 0.07857996571447035,
+            "worst_fpr_increase": 0.0018798959516833106
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.00805201258787347,
+              "small_cover50": -0.031545741324921106,
+              "small_iou50": -0.034700315457413256,
+              "background_fpr": 0.0004901290780020672
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.005169103715743972,
+              "small_cover50": 0.0,
+              "small_iou50": 0.02941176470588236,
+              "background_fpr": -0.004877464851770569
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.01162690414870804,
+              "small_cover50": -0.05925925925925929,
+              "small_iou50": -0.04444444444444445,
+              "background_fpr": 0.0013046636340729965
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.006238748735347466,
+              "small_cover50": -0.031545741324921106,
+              "small_iou50": -0.02208201892744477,
+              "background_fpr": 0.0018798959516833106
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0011704025558060271,
+              "small_cover50": -0.01176470588235301,
+              "small_iou50": 0.00588235294117645,
+              "background_fpr": 0.0008016553242281288
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0023919825739262546,
+              "small_cover50": -0.029629629629629617,
+              "small_iou50": -0.014814814814814836,
+              "background_fpr": -0.00023313776094842018
+            }
+          }
+        ]
+      },
+      "feature_gate_no_gsd": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.0005524916227547619,
+              "small_cover50": -0.0019607843137254832,
+              "small_iou50": 0.008894661965732667,
+              "background_fpr": -0.0010468330949684765
+            },
+            "candidate_macro": {
+              "f1": 0.6470825932244938,
+              "small_cover50": 0.4977510200247876,
+              "small_iou50": 0.29518039719685046,
+              "background_fpr": 0.0316367622670579
+            },
+            "worst_candidate_fpr": 0.06427834998306381,
+            "worst_fpr_increase": -3.5238038287729694e-05
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.0007480390475775126,
+              "small_cover50": 0.0015598761995743726,
+              "small_iou50": 0.0035206605132998467,
+              "background_fpr": -0.0004793558987372549
+            },
+            "candidate_macro": {
+              "f1": 0.6545962422405146,
+              "small_cover50": 0.5408962930890314,
+              "small_iou50": 0.32601779115665425,
+              "background_fpr": 0.03820143183084317
+            },
+            "worst_candidate_fpr": 0.07857996571447035,
+            "worst_fpr_increase": -1.6551199801812314e-05
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0003775339582053894,
+              "small_cover50": 0.0,
+              "small_iou50": 0.003154574132492094,
+              "background_fpr": -3.5238038287729694e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.002977399528271918,
+              "small_cover50": -0.00588235294117645,
+              "small_iou50": 0.02352941176470591,
+              "background_fpr": -0.00180590936766159
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0042573404383308144,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": -0.00129935187895611
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 4.782877571818389e-05,
+              "small_cover50": 0.0031545741324921495,
+              "small_iou50": 0.0031545741324921495,
+              "background_fpr": -1.6551199801812314e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0009740663632645807,
+              "small_cover50": -0.00588235294117645,
+              "small_iou50": 0.0,
+              "background_fpr": -0.0006390466790097415
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0032660122817153026,
+              "small_cover50": 0.007407407407407418,
+              "small_iou50": 0.00740740740740739,
+              "background_fpr": -0.0007824698174002109
+            }
+          }
+        ]
+      }
+    },
+    "0.01": {
+      "tta5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.0072757486492512164,
+              "small_cover50": 0.05591476922583499,
+              "small_iou50": 0.043572068388051555,
+              "background_fpr": -0.00020478269437245434
+            },
+            "candidate_macro": {
+              "f1": 0.5623132042017663,
+              "small_cover50": 0.4372173311432295,
+              "small_iou50": 0.2932493946287476,
+              "background_fpr": 0.018402534484208862
+            },
+            "worst_candidate_fpr": 0.04320543483643927,
+            "worst_fpr_increase": 0.0030967148021802254
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": 0.000783783819775119,
+              "small_cover50": 0.06021639874550122,
+              "small_iou50": 0.06657228144207795,
+              "background_fpr": -0.00021027613807168542
+            },
+            "candidate_macro": {
+              "f1": 0.5814656203810716,
+              "small_cover50": 0.45183123372026684,
+              "small_iou50": 0.29268537418472473,
+              "background_fpr": 0.023571024308966865
+            },
+            "worst_candidate_fpr": 0.05346911243487378,
+            "worst_fpr_increase": 0.0005938542220678706
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.016409632998262758,
+              "small_cover50": 0.08517350157728706,
+              "small_iou50": 0.07886435331230282,
+              "background_fpr": -0.001264565055825595
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.0015148300379310697,
+              "small_cover50": 0.05294117647058827,
+              "small_iou50": 0.0,
+              "background_fpr": 0.0030967148021802254
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.006932442987421961,
+              "small_cover50": 0.029629629629629645,
+              "small_iou50": 0.05185185185185184,
+              "background_fpr": -0.0024464978294719934
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.00616107418996642,
+              "small_cover50": 0.12618296529968456,
+              "small_iou50": 0.12302839116719244,
+              "background_fpr": -0.0011780716891193477
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0051738403534570265,
+              "small_cover50": 0.04705882352941171,
+              "small_iou50": 0.047058823529411764,
+              "background_fpr": -4.661094716357922e-05
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0013641176228159635,
+              "small_cover50": 0.00740740740740739,
+              "small_iou50": 0.029629629629629645,
+              "background_fpr": 0.0005938542220678706
+            }
+          }
+        ]
+      },
+      "constant_gate": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.00625013898322635,
+              "small_cover50": 0.006425526163263538,
+              "small_iou50": 0.000909259602894776,
+              "background_fpr": -0.0002278134326984944
+            },
+            "candidate_macro": {
+              "f1": 0.5623132042017663,
+              "small_cover50": 0.4372173311432295,
+              "small_iou50": 0.2932493946287476,
+              "background_fpr": 0.018402534484208862
+            },
+            "worst_candidate_fpr": 0.04320543483643927,
+            "worst_fpr_increase": 0.0002290822119119032
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.002326313700599362,
+              "small_cover50": 0.012618296529968459,
+              "small_iou50": 0.020426612051527005,
+              "background_fpr": -3.514334049517639e-05
+            },
+            "candidate_macro": {
+              "f1": 0.5814656203810716,
+              "small_cover50": 0.45183123372026684,
+              "small_iou50": 0.29268537418472473,
+              "background_fpr": 0.023571024308966865
+            },
+            "worst_candidate_fpr": 0.05346911243487378,
+            "worst_fpr_increase": 8.756118604829949e-05
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0043321639658145394,
+              "small_cover50": 0.003154574132492094,
+              "small_iou50": -0.0031545741324921217,
+              "background_fpr": -0.000214364732917026
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.0008419976944442631,
+              "small_cover50": 0.02352941176470591,
+              "small_iou50": 0.00588235294117645,
+              "background_fpr": 0.0002290822119119032
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.015260250678308773,
+              "small_cover50": -0.00740740740740739,
+              "small_iou50": 0.0,
+              "background_fpr": -0.0006981577770903604
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.00489507119957433,
+              "small_cover50": 0.03785488958990538,
+              "small_iou50": 0.034700315457413256,
+              "background_fpr": 8.756118604829949e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.003780303734315704,
+              "small_cover50": 0.0,
+              "small_iou50": 0.011764705882352955,
+              "background_fpr": -0.0002698667906800359
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.008093708567056712,
+              "small_cover50": 0.0,
+              "small_iou50": 0.014814814814814808,
+              "background_fpr": 7.687558314620722e-05
+            }
+          }
+        ]
+      },
+      "mean_multiscale5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.0018240737810549985,
+              "small_cover50": -0.010561981539899512,
+              "small_iou50": -0.013065939075712083,
+              "background_fpr": -0.00023462841385585658
+            },
+            "candidate_macro": {
+              "f1": 0.5623132042017663,
+              "small_cover50": 0.4372173311432295,
+              "small_iou50": 0.2932493946287476,
+              "background_fpr": 0.018402534484208862
+            },
+            "worst_candidate_fpr": 0.04320543483643927,
+            "worst_fpr_increase": 0.00018580056551712387
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": 0.0016023845728533326,
+              "small_cover50": -0.009002105340325195,
+              "small_iou50": -0.014884458281501617,
+              "background_fpr": 0.00028814273458783866
+            },
+            "candidate_macro": {
+              "f1": 0.5814656203810716,
+              "small_cover50": 0.45183123372026684,
+              "small_iou50": 0.29268537418472473,
+              "background_fpr": 0.023571024308966865
+            },
+            "worst_candidate_fpr": 0.05346911243487378,
+            "worst_fpr_increase": 0.00045842925875087814
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.004249091673988459,
+              "small_cover50": -0.009463722397476337,
+              "small_iou50": -0.012618296529968459,
+              "background_fpr": 0.00018580056551712387
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0003366314746399146,
+              "small_cover50": 0.0,
+              "small_iou50": -0.011764705882352955,
+              "background_fpr": -0.0005977324303874793
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.00938468154251354,
+              "small_cover50": -0.0222222222222222,
+              "small_iou50": -0.014814814814814836,
+              "background_fpr": -0.0002919533766972144
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0036827513747046403,
+              "small_cover50": -0.006309148264984188,
+              "small_iou50": -0.006309148264984188,
+              "background_fpr": 0.00028991295136723567
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.00013971941698920354,
+              "small_cover50": -0.005882352941176561,
+              "small_iou50": -0.023529411764705854,
+              "background_fpr": 0.00045842925875087814
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0009846829268661539,
+              "small_cover50": -0.014814814814814836,
+              "small_iou50": -0.014814814814814808,
+              "background_fpr": 0.00011608599364540222
+            }
+          }
+        ]
+      },
+      "feature_gate_no_gsd": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.0027042657707870474,
+              "small_cover50": 0.006425526163263538,
+              "small_iou50": 0.007442229140750822,
+              "background_fpr": -0.00029204906791565336
+            },
+            "candidate_macro": {
+              "f1": 0.5623132042017663,
+              "small_cover50": 0.4372173311432295,
+              "small_iou50": 0.2932493946287476,
+              "background_fpr": 0.018402534484208862
+            },
+            "worst_candidate_fpr": 0.04320543483643927,
+            "worst_fpr_increase": -2.242420618310103e-05
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.0027221459708374938,
+              "small_cover50": 0.0021030494216614146,
+              "small_iou50": -0.0009092596028947667,
+              "background_fpr": -0.0002172849227304524
+            },
+            "candidate_macro": {
+              "f1": 0.5814656203810716,
+              "small_cover50": 0.45183123372026684,
+              "small_iou50": 0.29268537418472473,
+              "background_fpr": 0.023571024308966865
+            },
+            "worst_candidate_fpr": 0.05346911243487378,
+            "worst_fpr_increase": -8.542554736419398e-06
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0003247921397482867,
+              "small_cover50": 0.003154574132492094,
+              "small_iou50": 0.0031545741324921217,
+              "background_fpr": -2.242420618310103e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.00020432465548836376,
+              "small_cover50": 0.02352941176470591,
+              "small_iou50": 0.011764705882352955,
+              "background_fpr": -0.000389572177713772
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.007583680517124491,
+              "small_cover50": -0.00740740740740739,
+              "small_iou50": 0.00740740740740739,
+              "background_fpr": -0.0004641508198500871
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 4.7681210628591764e-05,
+              "small_cover50": 0.006309148264984243,
+              "small_iou50": 0.0031545741324921495,
+              "background_fpr": -8.542554736419398e-06
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0008917608196367111,
+              "small_cover50": 0.0,
+              "small_iou50": -0.00588235294117645,
+              "background_fpr": -0.00032760080478037856
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0073223583035043616,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": -0.00031571140867455924
+            }
+          }
+        ]
+      }
+    },
+    "0.005": {
+      "tta5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.011762363219154212,
+              "small_cover50": 0.038582022363800074,
+              "small_iou50": 0.046497781259951125,
+              "background_fpr": 0.00017182718782247146
+            },
+            "candidate_macro": {
+              "f1": 0.4528727086409899,
+              "small_cover50": 0.34924159639320146,
+              "small_iou50": 0.25788654987640575,
+              "background_fpr": 0.010420998001109823
+            },
+            "worst_candidate_fpr": 0.026198265490128676,
+            "worst_fpr_increase": 0.0024727637140132368
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.01326352414430132,
+              "small_cover50": 0.057297558584129986,
+              "small_iou50": 0.057982996914152964,
+              "background_fpr": -0.0005934683277712362
+            },
+            "candidate_macro": {
+              "f1": 0.4713469783128678,
+              "small_cover50": 0.37798487545503073,
+              "small_iou50": 0.2589987835302365,
+              "background_fpr": 0.013901974142428478
+            },
+            "worst_candidate_fpr": 0.035020181745617045,
+            "worst_fpr_increase": -0.0001605115818957229
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.01955328744432472,
+              "small_cover50": 0.03470031545741327,
+              "small_iou50": 0.03470031545741324,
+              "background_fpr": -0.0009706477819256627
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0026929199272470727,
+              "small_cover50": 0.05882352941176472,
+              "small_iou50": 0.05294117647058827,
+              "background_fpr": 0.0024727637140132368
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.013040882285890842,
+              "small_cover50": 0.022222222222222227,
+              "small_iou50": 0.05185185185185186,
+              "background_fpr": -0.0009866343686201597
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.007283971892134977,
+              "small_cover50": 0.07886435331230285,
+              "small_iou50": 0.08832807570977917,
+              "background_fpr": -0.000887624828081086
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.01788882764436872,
+              "small_cover50": 0.04117647058823526,
+              "small_iou50": 0.04117647058823526,
+              "background_fpr": -0.0007322685733369
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.01461777289640026,
+              "small_cover50": 0.05185185185185184,
+              "small_iou50": 0.04444444444444444,
+              "background_fpr": -0.0001605115818957229
+            }
+          }
+        ]
+      },
+      "constant_gate": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.010584963811888745,
+              "small_cover50": 0.009036927073668608,
+              "small_iou50": 0.009545278562412237,
+              "background_fpr": -3.747852033958609e-05
+            },
+            "candidate_macro": {
+              "f1": 0.4528727086409899,
+              "small_cover50": 0.34924159639320146,
+              "small_iou50": 0.25788654987640575,
+              "background_fpr": 0.010420998001109823
+            },
+            "worst_candidate_fpr": 0.026198265490128676,
+            "worst_fpr_increase": 0.0003265414650721124
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.01047921184916678,
+              "small_cover50": 0.02303801296193206,
+              "small_iou50": 0.01563060555452464,
+              "background_fpr": -0.00041418428772804625
+            },
+            "candidate_macro": {
+              "f1": 0.4713469783128678,
+              "small_cover50": 0.37798487545503073,
+              "small_iou50": 0.2589987835302365,
+              "background_fpr": 0.013901974142428478
+            },
+            "worst_candidate_fpr": 0.035020181745617045,
+            "worst_fpr_increase": -0.00016620964647565562
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.004325914551548071,
+              "small_cover50": 0.009463722397476365,
+              "small_iou50": 0.009463722397476337,
+              "background_fpr": -6.30013411810936e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.006929866568647358,
+              "small_cover50": 0.01764705882352946,
+              "small_iou50": 0.011764705882352955,
+              "background_fpr": 0.0003265414650721124
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.020499110315470803,
+              "small_cover50": 0.0,
+              "small_iou50": 0.007407407407407418,
+              "background_fpr": -0.0003759756849097771
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.004289515537247823,
+              "small_cover50": 0.0410094637223975,
+              "small_iou50": 0.04100946372239747,
+              "background_fpr": -0.00024025935196179786
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0057181702629522935,
+              "small_cover50": 0.00588235294117645,
+              "small_iou50": 0.00588235294117645,
+              "background_fpr": -0.0008360838647466853
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.021429949747300225,
+              "small_cover50": 0.022222222222222227,
+              "small_iou50": 0.0,
+              "background_fpr": -0.00016620964647565562
+            }
+          }
+        ]
+      },
+      "mean_multiscale5": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": 0.0006121593434272876,
+              "small_cover50": -0.00667523464579195,
+              "small_iou50": -0.00420609884332282,
+              "background_fpr": 3.181926373525245e-05
+            },
+            "candidate_macro": {
+              "f1": 0.4528727086409899,
+              "small_cover50": 0.34924159639320146,
+              "small_iou50": 0.25788654987640575,
+              "background_fpr": 0.010420998001109823
+            },
+            "worst_candidate_fpr": 0.026198265490128676,
+            "worst_fpr_increase": 6.1132657332502e-05
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": 0.000797512038583729,
+              "small_cover50": -0.003921568627451004,
+              "small_iou50": -0.008859840232389254,
+              "background_fpr": 8.579090386782746e-05
+            },
+            "candidate_macro": {
+              "f1": 0.4713469783128678,
+              "small_cover50": 0.37798487545503073,
+              "small_iou50": 0.2589987835302365,
+              "background_fpr": 0.013901974142428478
+            },
+            "worst_candidate_fpr": 0.035020181745617045,
+            "worst_fpr_increase": 0.00012950427933516862
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": 0.007348049431307124,
+              "small_cover50": -0.012618296529968431,
+              "small_iou50": -0.012618296529968459,
+              "background_fpr": 6.1132657332502e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0012778992658124544,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": 2.833733719603826e-05
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.004233672135212807,
+              "small_cover50": -0.007407407407407418,
+              "small_iou50": 0.0,
+              "background_fpr": 5.987796677217085e-06
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0012537645384649854,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": 0.0
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.0013285840772303548,
+              "small_cover50": -0.01176470588235301,
+              "small_iou50": -0.011764705882352955,
+              "background_fpr": 0.00012950427933516862
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.00018981249994415306,
+              "small_cover50": 0.0,
+              "small_iou50": -0.014814814814814808,
+              "background_fpr": 0.00012786843226831376
+            }
+          }
+        ]
+      },
+      "feature_gate_no_gsd": {
+        "by_seed": [
+          {
+            "seed": 42,
+            "macro_delta": {
+              "f1": -0.0038242708391927707,
+              "small_cover50": 0.006933877652007194,
+              "small_iou50": 0.006933877652007194,
+              "background_fpr": -7.821428571890231e-05
+            },
+            "candidate_macro": {
+              "f1": 0.4528727086409899,
+              "small_cover50": 0.34924159639320146,
+              "small_iou50": 0.25788654987640575,
+              "background_fpr": 0.010420998001109823
+            },
+            "worst_candidate_fpr": 0.026198265490128676,
+            "worst_fpr_increase": -1.0411238585011223e-05
+          },
+          {
+            "seed": 43,
+            "macro_delta": {
+              "f1": -0.0024866146360559283,
+              "small_cover50": 0.0,
+              "small_iou50": -0.002977487291212786,
+              "background_fpr": -0.00014087328785452
+            },
+            "candidate_macro": {
+              "f1": 0.4713469783128678,
+              "small_cover50": 0.37798487545503073,
+              "small_iou50": 0.2589987835302365,
+              "background_fpr": 0.013901974142428478
+            },
+            "worst_candidate_fpr": 0.035020181745617045,
+            "worst_fpr_increase": -1.8686838485918247e-06
+          }
+        ],
+        "regions": [
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.0005304202506904443,
+              "small_cover50": 0.0031545741324921217,
+              "small_iou50": 0.0031545741324921217,
+              "background_fpr": -1.0411238585011223e-05
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 42,
+            "delta": {
+              "f1": -0.005284306027975028,
+              "small_cover50": 0.01764705882352946,
+              "small_iou50": 0.01764705882352946,
+              "background_fpr": -0.00013480097787648554
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 42,
+            "delta": {
+              "f1": -0.005658086238912841,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": -8.943064069521015e-05
+            }
+          },
+          {
+            "region": "Hokkaido_Japan_128",
+            "seed": 43,
+            "delta": {
+              "f1": 0.00013604076407885968,
+              "small_cover50": 0.0,
+              "small_iou50": 0.0,
+              "background_fpr": -1.8686838485918247e-06
+            }
+          },
+          {
+            "region": "Jiuzhaigou_China_128",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0018528180046696319,
+              "small_cover50": 0.0,
+              "small_iou50": 0.00588235294117645,
+              "background_fpr": -0.00032707113492624895
+            }
+          },
+          {
+            "region": "Wenchuan_China_224",
+            "seed": 43,
+            "delta": {
+              "f1": -0.0057430666675770126,
+              "small_cover50": 0.0,
+              "small_iou50": -0.014814814814814808,
+              "background_fpr": -9.368004478871924e-05
+            }
+          }
+        ]
+      }
+    }
+  },
+  "diagnostic_checks": {
+    "small_gain_each_seed": true,
+    "two_regions_positive_both_seeds": true,
+    "f1_preserved_vs_tta": false,
+    "strict_iou_preserved_vs_tta": true,
+    "macro_fpr_delta_bounded": true,
+    "region_fpr_delta_bounded": true,
+    "candidate_macro_fpr_bounded": false,
+    "candidate_region_fpr_bounded": false,
+    "beats_constant_small": false,
+    "f1_preserved_vs_constant": true,
+    "fpr_preserved_vs_constant": true
+  },
+  "diagnostic_gate_passed": false,
+  "regions_positive_both_seeds": 2,
+  "source_budgets_not_target_selected": true,
+  "scope": "Three historically exposed development domains x2 seeds. Not all-six-region stability, new blind data, mine field validation or architecture novelty.",
+  "production_changed": false,
+  "official_test_predictions": 0,
+  "new_mine_predictions": 0,
+  "external_calls": 0
+}

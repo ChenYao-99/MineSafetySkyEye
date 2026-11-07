@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-10-04T03:12:59",
+  "scope": "existing service artifacts; no newly trained candidate promoted",
+  "field_safety_validated": false,
+  "artifacts": {
+    "upload:base": {
+      "path": "Emilia-Romagna_Italy_32_upload_seed42/best_model.pth",
+      "sha256": "4fe11318d19223a6bf8fac3799a6f6e3d85f83986c2c6a9f1496ad0059413d19",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": "minmax",
+        "input_scale": 1.0
+      },
+      "validation_status": "legacy_experimental"
+    },
+    "upload:baige": {
+      "path": "baige_adapted_ps32/best_model.pth",
+      "sha256": "9d14d47c498f2f46b4f6ca8d5591f8b8bfd4447796aa65ff9605382290a2d3f2",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": "minmax",
+        "input_scale": 1.0
+      },
+      "validation_status": "legacy_experimental"
+    },
+    "upload:unified": {
+      "path": "unified_pre_seed42/best_model.pth",
+      "sha256": "f8ab4f0a7bd7ddfc00c5d46baad356889da47d49cc1734066a8a58e9cf538634",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 10.0
+      },
+      "validation_status": "legacy_experimental"
+    },
+    "upload:realfit": {
+      "path": "real_ft_v1_seed42/best_model.pth",
+      "sha256": "dd637280604a6bdcf62f65e4de990041202b815bac87bebf6c389972fa43af61",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": "minmax",
+        "input_scale": 1.0
+      },
+      "validation_status": "legacy_experimental"
+    },
+    "upload:mine": {
+      "path": "real_ft_T1b_ours_seed42/best_model.pth",
+      "sha256": "0d8d8a0540419d4409951ed91e69499fac206b68303f3feec08a32f0841cebef",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.4,
+        "patch_norm": "minmax",
+        "input_scale": 1.0
+      },
+      "validation_status": "development_recall_insufficient"
+    },
+    "upload:rgb_guarded": {
+      "path": "rgb_guarded_20261001/adapter.json",
+      "sha256": "a48f3d80e6b06a2bb0a2c4e6fbc7ffb7c3c988024444203ef823deb7fafda857",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": "minmax",
+        "input_scale": 1.0
+      },
+      "validation_status": "public_reference_regression_only"
+    },
+    "region:Emilia-Romagna_Italy_32": {
+      "path": "Emilia-Romagna_Italy_32_prior1.0_seed42_pre_dice/best_model.pth",
+      "sha256": "442d5c0b996616c1f800ae3cdcc85ac2d989d35f6651f6092f3a25a8cb574626",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "region:Gorkha_Nepal_32": {
+      "path": "Gorkha_Nepal_32_prior1.0_seed42/best_model.pth",
+      "sha256": "f9b33f0e21718a6e77eaa164b9bab4cfcd86ac3dad128a9bcf6b94be21d6e641",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "region:Hokkaido_Japan_128": {
+      "path": "Hokkaido_Japan_128_prior1.0_seed42/best_model.pth",
+      "sha256": "7bc3b090f15416a2beda0f008477a2e6617c2db6320996a603e14a04539d6eb9",
+      "protocol": {
+        "patch_size": 128,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "region:Jiuzhaigou_China_128": {
+      "path": "Jiuzhaigou_China_128_prior0.5_seed42_pre_dice/best_model.pth",
+      "sha256": "2ed42b2bd5d763a03b45670f5bb2fc73093e1570c806104e7542a8351f7d9fb6",
+      "protocol": {
+        "patch_size": 128,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "region:Wenchuan_China_224": {
+      "path": "Wenchuan_China_224_prior1.0_seed42_pre_dice/best_model.pth",
+      "sha256": "7a9007a26e2e076918bbdfaa38c2df2401180dd0b02df2cea17ab74abf17877a",
+      "protocol": {
+        "patch_size": 224,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "region:Taiwan_China_224": {
+      "path": "Taiwan_China_224_prior1.0_seed42/best_model.pth",
+      "sha256": "b48f84230df0d8971da6f336df1f139279d9fd9ae3dff6b14dbcad88b7abe7c8",
+      "protocol": {
+        "patch_size": 224,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "component:fusion32": {
+      "path": "Hokkaido_Japan_32_prior1.0_seed42/best_model.pth",
+      "sha256": "0e972f511ecd1f79eb3b9fab434fdb742c77854978724604de18adbeca6202b2",
+      "protocol": {
+        "patch_size": 32,
+        "threshold": 0.5,
+        "patch_norm": null,
+        "input_scale": 1.0
+      },
+      "validation_status": "source_dataset_only"
+    },
+    "component:nir_synth": {
+      "path": "nir_synth_seed42/best_model.pth",
+      "sha256": "35f8c2089c996d7b16655694520ee64424a8e196baa56ff8a5827403e6923df7",
+      "protocol": {
+        "input": "BGR/minmax/255",
+        "output": "synthetic_NIR"
+      },
+      "validation_status": "experimental_synthetic_not_measured"
+    }
+  }
+}

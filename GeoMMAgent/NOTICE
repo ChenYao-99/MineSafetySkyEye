@@ -1,0 +1,103 @@
+GeoMMAgent 及其改版说明
+=========================
+
+本仓库基于以下第三方开源项目构建，遵循 Apache License 2.0 分发：
+
+  上游项目: GeoMMAgent / GeoMMBench
+  项目主页: https://github.com/Shihao-Cheng/GeoMMAgent
+  论文引用: Xiao, Aoran; Cheng, Shihao; Xu, Yonghao; Ren, Yexian;
+            Chen, Hongruixuan; Yokoya, Naoto.
+            "GeoMMBench and GeoMMAgent: Toward Expert-Level Multimodal
+             Intelligence in Geoscience and Remote Sensing."
+            Proceedings of the IEEE/CVF Conference on Computer Vision
+            and Pattern Recognition (CVPR), 2026.
+  许可证:   Apache License 2.0（全文见本仓库 LICENSE 文件）
+  数据集:   GeoMMBench 数据集依 CC BY 4.0 分发
+
+上游的原始版权、专利、商标与署名声明均予以保留（Apache 2.0 §4(c)）。
+
+
+本团队在上游基础上所作的改动
+------------------------------
+
+依据 Apache 2.0 §4(b)，此处声明本仓库含有经修改的文件。
+
+一、本团队新增的文件（上游没有）
+
+  backend.py                        露天矿滑坡监测预警的 Flask 后端服务
+                                    （多智能体调度、报告质量守卫、几何量注入等）
+  矿安天眼_前端演示(后端版).html        本项目前端演示页
+  kat_demo.html                     同一前端页的副本（演示用）
+  启动矿安天眼演示.bat / start_backend_5100.bat   启动脚本
+  sync_frontend.py                  前端多副本同步工具
+  tests/                            回归测试（记忆故障修复、几何数字校验等）
+  .env（不入库）                     本地 API 凭据
+
+二、本团队修改过的上游文件
+
+  coordinator/coordinator.py        调度健壮性增强（三级恢复、调度统计）
+  configs/GeoMMBench.yaml           智能体启用配置调整
+
+三、未作改动的上游内容
+
+  exec_agents/  toolkit/  run/  geomm_mcp/  assets/  index.html
+  requirements.txt  .env_template  run_benchmark.sh
+
+  ⚠ 上述清单基于文件级检查（新增/修改/未改）整理，非逐行差异比对。
+     若用于正式分发，建议与上游仓库做一次完整 diff 核对。
+
+
+用途说明
+--------
+
+2026-10-01 本团队增补：
+  新增 report_grounding.py、REPAIR_NOTES.md、tests/test_report_contracts.py。
+  更新 backend.py、前端源和副本、requirements.txt、.env_template，完成
+  输入波段、ROI、报告数值与来源校验、超时并发限制、结果缓存和知识来源展示。
+  上文「未作改动」中的 requirements.txt 与 .env_template 已不再适用于本版本。
+
+本仓库为本团队的**私有备份**，用于版本管理与回滚，不对外分发。
+本团队与本仓库不对上游项目的适用性、正确性作任何担保。
+
+2026-10-08 本团队增补：
+  新增 manual_annotations.py、review_packet.py、task_study.py、task_study.html 及配套
+  验收脚本；更新 case_archive.py、archive_recovery.py、backend.py 和规范前端，提供
+  同源定位补记、修订撤回与备份恢复、单/双期离线复核交接及实际任务对照入口。
+  定位补记不作为事故真值；内部演示意见与自动化任务不作为真实用户或专家反馈。
+
+2026-10-03 本团队增补：
+  backend.py 新增原始栅格预览转发和同源 HTTP 演示入口；前端规范源、演示副本
+  增加 GeoTIFF 原文件检测、NIR/地理标签/分辨率预览及同次检测元信息导出。
+  tests/test_raster_frontend.js、tests/browser_raster_smoke.mjs 验证上述流程。
+  配套 D:/LMHLD 项目的 raster_upload.py、upload_utils.py、detector_service.py、
+  detector.py、geo_geometry.py、requirements.txt 增加原始波段、NoData、定标元信息、
+  有效范围、投影多边形与非有限输出保护；其基础分割结构仍来自已有方法。
+  validation/ 下的矿区来源/隔离、三值参考、跨矿对照及失败归档为本项目研究脚本。
+  数据与论文图示各有独立来源和许可，不随本仓库 Apache 2.0 自动重新授权。
+
+2026-10-06 本团队增补：
+  新增 comparison_reporting.py、tests/test_comparison_reporting.py、
+  tests/browser_comparison_report_smoke.mjs；更新 backend.py、前端源与副本、
+  前端回归测试和README。双期HTML/JSON报告导出使用同次缓存，保留请求与权重标识、
+  采集时间、配准和T1/T2区域明细；输入改变后清除旧报告标识。
+  这些工程验收记录不是现场试用、事故边界精度或独立盲测成绩。
+
+2026-10-06 工程核验增补：
+  新增 http_contract.py、start_demo.ps1、tests/test_frontend_async.js、
+  tests/test_request_validation.py、tests/test_demo_launcher.ps1及工程验收脚本。
+  更新前端异步请求与按场景保存的几何、样本报告绑定、启动脚本和健康标识；
+  检测侧 upload_utils.py 在像素解码前检查压缩影像尺寸，detector_service.py
+  返回结构化413错误；两端新增D盘PIP与tiktoken缓存路径。
+
+2026-10-06 案例业务闭环增补：
+  新增 case_archive.py、tests/test_case_archive.py、归档浏览器与重启验收脚本、
+  validation/runtime_environment.py 和 deployment/ 中的现有依赖版本记录。
+  更新后端、前端及报告渲染，实现D盘持久归档、总体/区域人工意见、修订撤回历史、
+  乐观版本冲突检查与一致性数据库备份。人工意见独立于原始模型事实，复核身份与
+  依据未作独立核验；内部验收记录不作为专家反馈或现场试用。
+
+2026-10-07 部署与运行验收增补：
+  新增两端 runtime_identity.py、部署安装脚本、显式CUDA12.4 pip清单和持续运行
+  验收工具；更新服务健康接口和启动器的版本一致性检查。辅助模块或检测服务
+  版本不一致时不向旧服务发送影像。一小时固定工作负载使用已观察开发影像，
+  新依赖环境与源码副本共享明确登记的模型/参考资产，不作为新盲测或现场成绩。

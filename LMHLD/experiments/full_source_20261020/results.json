@@ -1,0 +1,111 @@
+{
+  "completed_at": "2026-10-20T08:17:27+08:00",
+  "status": "completed",
+  "fits": 6,
+  "updates": 28800,
+  "target_macro": {
+    "prior512": {
+      "f1": 0.6557985972113579,
+      "small_cover50": 0.4797517347866826,
+      "small_iou50": 0.26038959105081455,
+      "background_fpr": 0.036086649843227216
+    },
+    "full_source": {
+      "f1": 0.6555617090285129,
+      "small_cover50": 0.4851978996996625,
+      "small_iou50": 0.26269412543613074,
+      "background_fpr": 0.03634021795365949
+    }
+  },
+  "source_choices_and_target_diagnostics": [
+    {
+      "region": "Hokkaido_Japan_128",
+      "seed": 42,
+      "prior512_source_f1": 0.7224631583137754,
+      "full_source_f1": 0.735920378153977,
+      "scale_backbone": "full",
+      "selected_update": 4800,
+      "target_delta": {
+        "f1": 0.003368236726784768,
+        "small_cover50": 0.018927444794952675,
+        "small_iou50": 0.009463722397476337,
+        "background_fpr": -0.0007784403003562243
+      }
+    },
+    {
+      "region": "Hokkaido_Japan_128",
+      "seed": 43,
+      "prior512_source_f1": 0.7282142058204883,
+      "full_source_f1": 0.7299164815364211,
+      "scale_backbone": "full",
+      "selected_update": 3600,
+      "target_delta": {
+        "f1": 0.0029050747319624426,
+        "small_cover50": 0.059936908517350146,
+        "small_iou50": 0.07255520504731858,
+        "background_fpr": -0.004707481569438156
+      }
+    },
+    {
+      "region": "Jiuzhaigou_China_128",
+      "seed": 42,
+      "prior512_source_f1": 0.7259428250158297,
+      "full_source_f1": 0.7287443214211509,
+      "scale_backbone": "full",
+      "selected_update": 4800,
+      "target_delta": {
+        "f1": -0.0031678094712397353,
+        "small_cover50": -0.01176470588235301,
+        "small_iou50": 0.0,
+        "background_fpr": -4.104941369520443e-05
+      }
+    },
+    {
+      "region": "Jiuzhaigou_China_128",
+      "seed": 43,
+      "prior512_source_f1": 0.7271698749965811,
+      "full_source_f1": 0.7287321445217205,
+      "scale_backbone": "full",
+      "selected_update": 4800,
+      "target_delta": {
+        "f1": -0.021866358572162126,
+        "small_cover50": 0.04705882352941171,
+        "small_iou50": 0.00588235294117645,
+        "background_fpr": 0.019138031169481907
+      }
+    },
+    {
+      "region": "Wenchuan_China_224",
+      "seed": 42,
+      "prior512_source_f1": 0.7025429637940717,
+      "full_source_f1": 0.711386190835592,
+      "scale_backbone": "full",
+      "selected_update": 4800,
+      "target_delta": {
+        "f1": -0.01849731528481957,
+        "small_cover50": -0.0888888888888889,
+        "small_iou50": -0.08888888888888885,
+        "background_fpr": -0.009095752884790063
+      }
+    },
+    {
+      "region": "Wenchuan_China_224",
+      "seed": 43,
+      "prior512_source_f1": 0.6970936163816097,
+      "full_source_f1": 0.7065426986587556,
+      "scale_backbone": "full",
+      "selected_update": 4800,
+      "target_delta": {
+        "f1": 0.03583684277240484,
+        "small_cover50": 0.007407407407407363,
+        "small_iou50": 0.014814814814814808,
+        "background_fpr": -0.0029938983386085527
+      }
+    }
+  ],
+  "source_preferred_full_fits": 6,
+  "production_changed": false,
+  "official_test_predictions": 0,
+  "new_mine_predictions": 0,
+  "external_calls": 0
+}

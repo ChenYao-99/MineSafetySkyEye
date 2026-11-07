@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>矿安天眼 · 露天矿滑坡预警多智能体系统</title>
+<style>
+:root {
+  /* 品牌 */
+  --kat-blue: #003466;  --kat-blue-2: #004a82;  --kat-blue-soft: #E8F0FE;
+  --kat-gold: #D4AF37;
+  /* 中性 */
+  --ink: #1A1A1A; --ink-2: #474747; --ink-3: #6B6B6B; --ink-4: #9A9A9A;
+  --line: #E4E7EC; --line-2: #F1F3F6; --bg: #F4F6F9; --card: #FFFFFF;
+  /* 语义 */
+  --ok: #0B8A2F; --ok-bg: #E7F6EC;
+  --warn: #856404; --warn-bg: #FFF3CD;
+  --err: #D92B2B; --err-bg: #FDECEC;
+  /* 四级筛查 */
+  --risk-blue: #1E6FD9; --risk-yellow: #E8A400; --risk-orange: #F57C00; --risk-red: #D92B2B;
+  /* 智能体 */
+  --agent-det: #4285F4; --agent-match: #34A853; --agent-reason: #FBBC04;
+  --agent-cls: #7B57C9; --agent-search: #EA4335;
+  /* 尺度 */
+  --r-xs: 6px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --pill: 999px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+  --sh-1: 0 1px 2px rgba(16,24,40,.06);
+  --sh-2: 0 2px 10px rgba(16,24,40,.07);
+  --sh-3: 0 12px 32px rgba(16,24,40,.10);
+  --fs-xs: 11px; --fs-sm: 12px; --fs-md: 13px; --fs-base: 14px;
+  --fs-lg: 15px; --fs-xl: 17px; --fs-2xl: 22px; --fs-3xl: 32px;
+  --header-h: 64px; --nav-h: 54px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  background: var(--bg); color: var(--ink);
+  min-height: 100vh; -webkit-font-smoothing: antialiased;
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* ══════════ 页头 ══════════ */
+header {
+  background: var(--kat-blue); padding: 0 var(--sp-6);
+  display: flex; align-items: center; gap: var(--sp-4);
+  height: var(--header-h);
+  box-shadow: 0 2px 12px rgba(0,52,109,.28);
+  position: sticky; top: 0; z-index: 100;
+}
+header .brand {
+  display: flex; align-items: center; gap: var(--sp-3);
+  color: #fff; font-size: var(--fs-xl); font-weight: bold; letter-spacing: .5px;
+}
+header .logo-circle {
+  width: 38px; height: 38px; background: var(--kat-gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-md); font-weight: bold; color: var(--kat-blue); flex-shrink: 0;
+}
+header .subtitle {
+  font-size: var(--fs-sm); color: rgba(255,255,255,.72);
+  padding-left: var(--sp-5); border-left: 1px solid rgba(255,255,255,.22);
+}
+header .status-dot {
+  margin-left: auto; display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--fs-sm); color: rgba(255,255,255,.82); white-space: nowrap;
+}
+header .status-dot .dot { width: 8px; height: 8px; border-radius: 50%; background: #aaa; flex-shrink: 0; }
+header .status-dot .dot.live { background: #34A853; box-shadow: 0 0 7px #34A853; }
+header .status-dot .dot.mock { background: var(--kat-gold); }
+header .status-dot .dot.down { background: #E05252; }
+
+/* ══════════ 主容器 ══════════ */
+.wrap { max-width: 1320px; margin: 0 auto; padding: var(--sp-6) var(--sp-6) 0; }
+
+/* ══════════ Hero ══════════ */
+.hero { text-align: center; padding: var(--sp-5) 0 var(--sp-6); }
+.hero h1 {
+  font-size: var(--fs-3xl); color: var(--kat-blue);
+  letter-spacing: 3px; margin-bottom: var(--sp-2);
+}
+.hero .tagline { font-size: var(--fs-lg); color: var(--ink-3); margin-bottom: var(--sp-6); }
+
+/* 系统流程条 */
+.flow {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: var(--sp-1); margin-bottom: var(--sp-6);
+}
+.flow-step {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 0 var(--sp-4); min-width: 92px;
+}
+.flow-step .fi {
+  width: 52px; height: 52px; border-radius: var(--r-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 23px; background: var(--card); border: 1.5px solid var(--line);
+  box-shadow: var(--sh-1); transition: transform .2s, border-color .2s;
+}
+.flow-step:hover .fi { transform: translateY(-3px); border-color: var(--kat-gold); }
+.flow-step .fl { font-size: var(--fs-sm); font-weight: bold; color: var(--kat-blue); }
+.flow-step .fs { font-size: var(--fs-xs); color: var(--ink-4); }
+.flow-arrow { color: var(--line); font-size: 18px; padding-bottom: 26px; }
+
+/* 指标胶囊 */
+.stat-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--sp-3); }
+.stat-pill {
+  display: flex; align-items: baseline; gap: 6px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--pill); padding: 7px 18px; box-shadow: var(--sh-1);
+}
+.stat-pill b { font-size: var(--fs-xl); color: var(--kat-blue); font-variant-numeric: tabular-nums; }
+.stat-pill span { font-size: var(--fs-sm); color: var(--ink-3); }
+
+/* ══════════ 场景导航（吸顶） ══════════ */
+.scene-nav {
+  position: sticky; top: var(--header-h); z-index: 90;
+  background: rgba(244,246,249,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  margin: 0 calc(-1 * var(--sp-6)); padding: var(--sp-2) var(--sp-6);
+  display: flex; gap: var(--sp-2); overflow-x: auto; scrollbar-width: none;
+}
+.scene-nav::-webkit-scrollbar { display: none; }
+.nav-pill {
+  flex-shrink: 0; display: flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: var(--pill); cursor: pointer;
+  font-size: var(--fs-md); color: var(--ink-2); background: transparent;
+  border: 1.5px solid transparent; transition: all .18s; text-decoration: none;
+  white-space: nowrap;
+}
+.nav-pill:hover { background: #fff; border-color: var(--line); }
+.nav-pill.active { background: var(--kat-blue); color: #fff; border-color: var(--kat-blue); }
+.nav-pill .no { font-size: var(--fs-xs); opacity: .65; font-variant-numeric: tabular-nums; }
+
+/* ══════════ 场景区块 ══════════ */
+.scene {
+  background: var(--card); border-radius: var(--r-lg);
+  box-shadow: var(--sh-2); overflow: hidden; margin-top: var(--sp-5);
+  scroll-margin-top: calc(var(--header-h) + var(--nav-h) + 14px);
+}
+.scene-head {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--line-2);
+  background: linear-gradient(180deg, #FBFCFE, #FFF);
+}
+.scene-no {
+  width: 40px; height: 40px; border-radius: var(--r-md); flex-shrink: 0;
+  background: var(--kat-blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-lg); font-weight: bold; font-variant-numeric: tabular-nums;
+}
+.scene-title { font-size: var(--fs-xl); font-weight: bold; color: var(--kat-blue); }
+.scene-sub { font-size: var(--fs-md); color: var(--ink-3); margin-top: 3px; line-height: 1.55; }
+.scene-badge {
+  margin-left: auto; flex-shrink: 0;
+  font-size: var(--fs-sm); padding: 4px 12px; border-radius: var(--pill);
+  background: var(--line-2); color: var(--ink-3); font-weight: bold;
+}
+.scene-badge.on { background: var(--kat-blue-soft); color: var(--kat-blue); }
+.scene-badge.done { background: var(--ok-bg); color: var(--ok); }
+.scene-badge.err { background: var(--err-bg); color: var(--err); }
+.scene-body { padding: var(--sp-5); }
+.scene-body > * + * { margin-top: var(--sp-4); }
+
+/* 步骤小标题 */
+.step-tag {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--fs-md); font-weight: bold; color: var(--kat-blue);
+  margin-bottom: var(--sp-3);
+}
+.step-tag i {
+  font-style: normal; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--kat-blue-soft); color: var(--kat-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-xs); flex-shrink: 0;
+}
+
+/* 两栏 */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+
+/* ══════════ 拖拽上传区 ══════════ */
+.drop {
+  border: 2px dashed #C7CDD6; border-radius: var(--r-md);
+  padding: var(--sp-5); cursor: pointer; position: relative;
+  transition: border-color .2s, background .2s;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: var(--sp-2); min-height: 168px; text-align: center;
+}
+.drop:hover, .drop.dragover { border-color: var(--kat-blue); background: rgba(0,52,109,.04); }
+.drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.drop .di { font-size: 34px; }
+.drop .dt { font-size: var(--fs-base); font-weight: bold; }
+.drop .dh { font-size: var(--fs-sm); color: var(--ink-4); }
+.drop.has-img .d-empty { display: none; }
+.drop .d-filled { display: none; width: 100%; }
+.drop.has-img .d-filled { display: block; }
+.drop .d-filled img {
+  max-width: 100%; max-height: 150px; border-radius: var(--r-sm);
+  object-fit: contain; background: var(--line-2);
+}
+.drop .d-filled .d-name {
+  font-size: var(--fs-sm); color: var(--ink-3); margin-top: var(--sp-2);
+  word-break: break-all;
+}
+
+/* ══════════ 表单控件 ══════════ */
+.field { margin-bottom: var(--sp-3); }
+.field > label {
+  display: block; font-size: var(--fs-sm); color: var(--ink-3);
+  margin-bottom: 5px; font-weight: bold;
+}
+.field select, .field input[type=number], .field input[type=text] {
+  width: 100%; font-size: var(--fs-md); padding: 8px 10px;
+  border: 1.5px solid var(--line); border-radius: var(--r-sm);
+  background: #fff; color: var(--ink); outline: none; font-family: inherit;
+  transition: border-color .2s;
+}
+.field select:focus, .field input:focus { border-color: var(--kat-blue); }
+.field .hint { font-size: var(--fs-sm); color: var(--ink-4); margin-top: 5px; line-height: 1.6; }
+.field .hint b { color: var(--kat-blue); }
+.inline-link { color: var(--kat-blue); text-decoration: underline; cursor: pointer; }
+
+.checkline {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  font-size: var(--fs-md); color: var(--ink-2); line-height: 1.6;
+  cursor: pointer; padding: var(--sp-2) 0;
+}
+.checkline input { margin-top: 3px; flex-shrink: 0; }
+.checkline em { font-style: normal; color: var(--ok); font-weight: bold; }
+
+/* ══════════ 区域 chips ══════════ */
+.region-chips { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.region-chip {
+  padding: 7px 15px; border-radius: var(--pill); cursor: pointer;
+  font-size: var(--fs-md); border: 1.5px solid var(--line);
+  background: #fff; color: var(--ink-2); transition: all .18s;
+}
+.region-chip:hover { border-color: var(--kat-blue); color: var(--kat-blue); }
+.region-chip.active { background: var(--kat-blue); color: #fff; border-color: var(--kat-blue); }
+
+/* ══════════ 按钮 ══════════ */
+.run-btn {
+  width: 100%; background: var(--kat-blue); color: #fff; border: none;
+  border-radius: var(--r-md); padding: 14px; font-size: var(--fs-lg);
+  font-weight: bold; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  transition: background .2s, transform .1s, box-shadow .2s;
+}
+.run-btn:hover:not(:disabled) { background: var(--kat-blue-2); box-shadow: var(--sh-2); }
+.run-btn:active:not(:disabled) { transform: scale(.985); }
+.run-btn:disabled { background: #B6BCC5; cursor: not-allowed; }
+.run-btn .spinner {
+  width: 17px; height: 17px; border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin .8s linear infinite; display: none; flex-shrink: 0;
+}
+.run-btn.running .spinner { display: block; }
+.run-btn.running .btn-text { display: none; }
+.run-btn.ghost {
+  background: #fff; color: var(--kat-blue); border: 1.5px solid var(--kat-blue);
+  font-size: var(--fs-md); padding: 9px 18px; width: auto;
+}
+.run-btn.ghost:hover:not(:disabled) { background: var(--kat-blue-soft); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════ 样本网格 ══════════ */
+.sample-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  gap: var(--sp-3);
+}
+.sample-card {
+  border: 1.5px solid var(--line); border-radius: var(--r-md); overflow: hidden;
+  cursor: pointer; background: #fff; transition: all .18s; position: relative;
+}
+.sample-card:hover { transform: translateY(-2px); box-shadow: var(--sh-3); }
+.sample-card.selected { border-color: var(--kat-blue); box-shadow: 0 0 0 2px rgba(0,52,109,.2); }
+.sample-card img { width: 100%; display: block; aspect-ratio: 1; object-fit: cover; }
+.risk-badge {
+  position: absolute; top: var(--sp-2); left: var(--sp-2); padding: 3px 10px;
+  border-radius: var(--pill); color: #fff; font-size: var(--fs-xs); font-weight: bold;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3); z-index: 1;
+}
+.sample-meta {
+  padding: var(--sp-2) 10px; font-size: var(--fs-xs);
+  color: var(--ink-3); line-height: 1.75; font-variant-numeric: tabular-nums;
+}
+details > summary { cursor: pointer; color: var(--kat-blue); }
+
+/* ══════════ 结果卡 ══════════ */
+.result-card {
+  border: 1px solid var(--line); border-radius: var(--r-md);
+  background: #fff; overflow: hidden;
+}
+.result-card .rc-main { display: flex; gap: var(--sp-4); padding: var(--sp-4); }
+.result-card .rc-main > img {
+  width: 132px; height: 132px; object-fit: cover;
+  border-radius: var(--r-sm); flex-shrink: 0; background: var(--line-2);
+}
+.result-card .rc-info { flex: 1; min-width: 0; font-size: var(--fs-md); line-height: 1.85; }
+.rc-title { font-size: var(--fs-lg); font-weight: bold; margin-bottom: 5px; }
+.result-card .rc-foot { padding: 0 var(--sp-4) var(--sp-4); }
+
+/* 信息块（ROI 口径 / 质量报告 / 提示） */
+.note {
+  margin-top: var(--sp-2); padding: 9px 12px; border-radius: var(--r-sm);
+  font-size: var(--fs-sm); line-height: 1.75;
+}
+.note.roi { background: #F4F8FF; border-left: 3px solid var(--risk-blue); }
+.note.ok { background: var(--ok-bg); color: var(--ok); }
+.note.warn { background: var(--warn-bg); color: var(--warn); }
+.note.err { background: var(--err-bg); color: var(--err); }
+.note .dim { color: var(--ink-4); }
+
+/* ══════════ 报告输出块（三条链路各一份） ══════════ */
+.report-block { display: none; }
+.report-block.show { display: block; }
+.pipeline-steps .step-title {
+  font-size: var(--fs-md); font-weight: bold; color: var(--kat-blue);
+  margin-bottom: var(--sp-3);
+}
+.pipeline-report {
+  display: none; margin-top: var(--sp-4);
+  background: linear-gradient(135deg, var(--kat-blue), #00498a);
+  color: #fff; border-radius: var(--r-md); padding: var(--sp-5);
+}
+.pipeline-report.show { display: block; }
+.pipeline-report .pr-label { font-size: var(--fs-sm); color: rgba(255,255,255,.7); margin-bottom: var(--sp-3); }
+.pipeline-report .pr-text {
+  font-size: var(--fs-base); line-height: 2;
+  white-space: pre-wrap; word-break: break-word;
+}
+.report-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-4); }
+.report-note { font-size: var(--fs-sm); color: var(--ink-4); margin-top: var(--sp-2); }
+
+.kb-ref { display: none; margin-top: var(--sp-4); }
+.kb-ref.show { display: block; }
+.kb-ref .kb-title {
+  font-size: var(--fs-md); font-weight: bold; color: var(--kat-blue); margin-bottom: 6px;
+}
+.kb-ref .kb-item {
+  font-size: var(--fs-sm); color: var(--ink-3); padding: 3px 0; line-height: 1.7;
+}
+
+/* ══════════ 智能体步骤卡 ══════════ */
+.agent-result {
+  background: #fff; border-radius: var(--r-md); border: 1.5px solid var(--line-2);
+  padding: var(--sp-4); margin-bottom: var(--sp-3);
+  opacity: 0; transform: translateY(-8px);
+  transition: opacity .4s, transform .4s, border-color .3s;
+}
+.agent-result:last-child { margin-bottom: 0; }
+/* ⚠ .agent-result 基样式为 opacity:0 —— 必须加 .visible 才可见 */
+.agent-result.visible { opacity: 1; transform: translateY(0); }
+.agent-result.active { border-color: var(--kat-gold); }
+.agent-result .agent-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.agent-result .agent-icon {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; color: #fff;
+}
+.agent-result .agent-name { font-weight: bold; font-size: var(--fs-base); min-width: 0; }
+.agent-result .agent-name small { display:block; font-size:var(--fs-xs); font-weight:normal; color:var(--ink-3); overflow-wrap:anywhere; }
+.agent-result .agent-badge {
+  font-size: var(--fs-xs); padding: 2px 9px; border-radius: var(--pill);
+  color: #fff; margin-left: auto; font-variant-numeric: tabular-nums;
+}
+.agent-result .agent-subtask {
+  font-size: var(--fs-sm); color: var(--ink-3); background: var(--line-2);
+  padding: 9px 13px; border-radius: var(--r-sm); line-height: 1.65; margin-bottom: 9px;
+}
+.agent-result .agent-output {
+  font-size: var(--fs-md); line-height: 1.85; padding: 10px 13px;
+  background: var(--kat-blue-soft); border-radius: var(--r-sm);
+  border-left: 3px solid var(--agent-det);
+  white-space: pre-wrap; word-break: break-word;
+}
+.agent-result .agent-output.det-agent { border-left-color: var(--agent-det); }
+.agent-result .agent-output.match-agent { border-left-color: var(--agent-match); }
+.agent-result .agent-output.reason-agent { border-left-color: var(--agent-reason); }
+.agent-result .agent-output.cls-agent { border-left-color: var(--agent-cls); }
+
+/* ══════════ 问答区 ══════════ */
+.question-input {
+  width: 100%; border: 1.5px solid var(--line); border-radius: var(--r-md);
+  padding: 12px 15px; font-size: var(--fs-base); resize: none;
+  outline: none; font-family: inherit; color: var(--ink);
+  transition: border-color .2s; line-height: 1.6;
+}
+.question-input:focus { border-color: var(--kat-blue); }
+.quick-questions { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+.quick-q {
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: var(--pill);
+  padding: 5px 14px; font-size: var(--fs-sm); cursor: pointer;
+  transition: all .18s; color: var(--ink-2); font-family: inherit;
+}
+.quick-q:hover { border-color: var(--kat-blue); background: var(--kat-blue); color: #fff; }
+
+.final-answer {
+  background: linear-gradient(135deg, var(--kat-blue), #00498a); color: #fff;
+  border-radius: var(--r-lg); padding: var(--sp-5); text-align: center; display: none;
+}
+.final-answer.show { display: block; }
+.final-answer .fa-label { font-size: var(--fs-sm); color: rgba(255,255,255,.7); margin-bottom: 6px; }
+.final-answer .fa-value { font-size: var(--fs-2xl); font-weight: bold; color: var(--kat-gold); }
+.final-answer .fa-desc { font-size: var(--fs-md); color: rgba(255,255,255,.85); margin-top: 9px; }
+
+/* 空态 */
+.empty {
+  text-align: center; padding: var(--sp-6) var(--sp-5);
+  color: var(--ink-4); font-size: var(--fs-base); line-height: 2;
+}
+.empty .ei { font-size: 38px; margin-bottom: var(--sp-3); }
+.empty .et { font-weight: bold; color: var(--kat-blue); font-size: var(--fs-lg); margin-bottom: 6px; }
+
+/* ══════════ 知识库 ══════════ */
+.kb-answer {
+  border: 1.5px solid var(--kat-blue); border-radius: var(--r-md);
+  padding: var(--sp-4); background: #F0F6FF;
+}
+.kb-answer .ka-title { font-weight: bold; color: var(--kat-blue); margin-bottom: var(--sp-2); }
+.kb-answer .ka-text {
+  line-height: 2; white-space: pre-wrap; word-break: break-word;
+  font-size: var(--fs-md);
+}
+.kb-doc {
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  padding: 11px 13px; margin-bottom: var(--sp-2); background: #fff;
+}
+.kb-doc .kd-title { font-weight: bold; color: var(--kat-blue); margin-bottom: 4px; font-size: var(--fs-md); }
+.kb-doc .kd-body { line-height: 1.8; font-size: var(--fs-md); color: var(--ink-2); }
+
+.mock-banner {
+  background: var(--warn-bg); border: 1.5px solid var(--kat-gold);
+  border-radius: var(--r-sm); padding: 10px 15px;
+  font-size: var(--fs-sm); color: var(--warn); display: none;
+}
+.mock-banner.show { display: block; }
+
+footer {
+  text-align: center; padding: var(--sp-6) var(--sp-5) var(--sp-5);
+  color: var(--ink-4); font-size: var(--fs-sm); line-height: 1.9;
+  border-top: 1px solid var(--line); margin-top: var(--sp-6);
+}
+
+/* 案例归档：案例库、分析工作区与复核表单各自分组。 */
+#scene-archive .scene-body { background: #fafbfd; }
+#scene-archive .archive-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 24px; align-items: start; }
+#scene-archive .archive-workspace { display: grid; gap: 20px; min-width: 0; }
+#scene-archive .archive-card { padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: #fff; min-width: 0; }
+#scene-archive .archive-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+#scene-archive h3 { color: var(--kat-blue); font-size: 16px; line-height: 1.5; }
+#scene-archive .archive-card-head p, #scene-archive .archive-library-footer p { font-size: 12px; color: var(--ink-3); line-height: 1.7; margin-top: 5px; }
+#scene-archive .archive-tag { flex-shrink: 0; border-radius: 6px; padding: 4px 8px; background: var(--kat-blue-soft); color: var(--kat-blue); font-size: 11px; line-height: 1.7; }
+#scene-archive .run-btn { width: auto; min-height: 42px; padding: 10px 18px; font-size: 13px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
+#scene-archive .run-btn:focus-visible { outline: 3px solid #93b7d9; outline-offset: 3px; }
+#scene-archive .run-btn.ghost { border-color: #d4dde8; }
+#scene-archive .run-btn.ghost:disabled { background: #f6f8fa; border-color: var(--line); color: #8b939e; }
+#scene-archive .question-input { min-width: 0; padding: 10px 12px; border-radius: 8px; font-size: 13px; background: #fff; min-height: 44px; }
+#scene-archive textarea.question-input { resize: vertical; }
+#scene-archive .archive-search { display: flex; gap: 8px; margin-bottom: 18px; }
+#scene-archive .archive-search input { flex: 1; width: 0; }
+#scene-archive .archive-search .run-btn { padding: 10px 14px; }
+#scene-archive .archive-count { color: var(--ink-3); font-size: 12px; margin: 0 0 12px; line-height: 1.7; }
+#scene-archive .archive-empty { padding: 24px 16px; color: var(--ink-3); text-align: center; font-size: 13px; line-height: 1.9; background: #f7f9fc; border: 1px dashed #dce3ed; border-radius: 10px; }
+#scene-archive .archive-case-list { display: grid; gap: 10px; max-height: 470px; overflow-y: auto; padding: 2px; }
+#scene-archive .archive-case-item { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 15px; min-width: 0; }
+#scene-archive .archive-case-item.active { border-color: #779bbc; background: #f2f7fc; box-shadow: inset 3px 0 var(--kat-blue); }
+#scene-archive .archive-case-item h4 { color: var(--kat-blue); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+#scene-archive .archive-case-title { font-size: 13px; color: var(--ink-2); line-height: 1.7; margin-top: 3px; overflow-wrap: anywhere; }
+#scene-archive .archive-item-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--ink-3); font-size: 12px; line-height: 1.8; margin-top: 8px; overflow-wrap: anywhere; }
+#scene-archive .archive-case-item .run-btn { margin-top: 12px; width: 100%; min-height: 38px; background: #fff; }
+#scene-archive .archive-pager { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+#scene-archive .archive-pager .run-btn { min-height: 38px; padding: 8px 13px; font-size: 12px; }
+#scene-archive .archive-library-footer { border-top: 1px solid var(--line-2); margin-top: 20px; padding-top: 18px; }
+#scene-archive .archive-library-footer .run-btn { width: 100%; }
+#scene-archive .archive-library-footer p { margin-top: 10px; }
+#scene-archive .archive-editor { padding: 0; overflow: hidden; }
+#scene-archive .archive-editor summary { padding: 18px 22px; display: flex; align-items: center; gap: 12px; cursor: pointer; list-style: none; font-size: 15px; font-weight: bold; color: var(--kat-blue); }
+#scene-archive .archive-editor summary::-webkit-details-marker { display: none; }
+#scene-archive .archive-summary-hint { margin-left: auto; color: var(--ink-3); font-size: 12px; font-weight: normal; }
+#scene-archive .archive-editor summary::after { content: '+'; font-size: 20px; font-weight: normal; width: 16px; text-align: center; }
+#scene-archive .archive-editor[open] summary::after { content: '−'; }
+#scene-archive .archive-editor[open] summary { border-bottom: 1px solid var(--line-2); }
+#scene-archive .archive-editor-body { padding: 20px 22px; }
+#scene-archive .archive-form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+#scene-archive .archive-field { display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: bold; color: var(--ink-2); min-width: 0; }
+#scene-archive .archive-field .question-input { font-weight: normal; }
+#scene-archive .archive-field-wide { grid-column: 1 / -1; }
+#scene-archive .archive-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
+#scene-archive .archive-status { color: #52647a; font-size: 12px; line-height: 1.8; padding: 11px 14px; border-radius: 8px; background: #f3f6fa; margin-bottom: 18px; overflow-wrap: anywhere; }
+#scene-archive .archive-report-list { display: grid; gap: 12px; max-height: 460px; overflow-y: auto; padding: 2px; }
+#scene-archive .archive-report-item { display: flex; align-items: center; gap: 20px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+#scene-archive .archive-report-item.active { border-color: #779bbc; background: #f7fafe; }
+#scene-archive .archive-report-info { flex: 1; min-width: 0; }
+#scene-archive .archive-report-info strong { color: var(--kat-blue); font-size: 14px; line-height: 1.6; }
+#scene-archive .archive-report-kind { display: inline-block; color: var(--ink-3); font-size: 11px; background: #f0f3f7; border-radius: 4px; padding: 3px 7px; margin-left: 8px; }
+#scene-archive #archiveImages:empty { display: none; }
+#scene-archive #archiveImages { margin-top: 20px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+#scene-archive #archiveImages figure { margin: 0; background: #f6f8fb; padding: 10px; border-radius: 8px; }
+#scene-archive #archiveImages figcaption { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+#scene-archive #archiveImages img { display: block; width: 100%; border-radius: 5px; }
+#scene-archive .archive-review { margin-top: 24px; padding: 26px; }
+#scene-archive .archive-review-notice { padding: 12px 16px; background: #f7f9fc; border-left: 3px solid #a3b7cd; color: var(--ink-3); font-size: 12px; line-height: 1.8; margin-bottom: 24px; border-radius: 0 8px 8px 0; }
+#scene-archive .archive-review-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); gap: 28px; }
+#scene-archive .archive-field-stack { display: grid; gap: 18px; align-content: start; min-width: 0; }
+#scene-archive .archive-review-toolbar { padding-top: 22px; margin-top: 24px; border-top: 1px solid var(--line-2); }
+#scene-archive #archiveReviewMessage { margin-top: 16px; margin-bottom: 0; }
+#scene-archive .archive-history { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+#scene-archive .archive-history-list { list-style: none; margin-top: 18px; padding-left: 14px; }
+#scene-archive .archive-history-item { position: relative; padding: 0 0 24px 24px; border-left: 1px solid #dce4ee; overflow-wrap: anywhere; }
+#scene-archive .archive-history-item:last-child { padding-bottom: 0; }
+#scene-archive .archive-history-item::before { content: ''; position: absolute; left: -5px; top: 5px; width: 9px; height: 9px; background: var(--kat-blue); border: 2px solid #fff; border-radius: 50%; }
+#scene-archive .archive-history-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--kat-blue); }
+#scene-archive .archive-history-item p { font-size: 13px; color: var(--ink-2); line-height: 1.9; margin-top: 8px; white-space: pre-wrap; }
+#scene-archive .archive-history-item .archive-history-evidence { color: var(--ink-3); font-size: 12px; background: #f7f9fc; border-radius: 6px; padding: 10px 12px; }
+@media (max-width: 1100px) {
+  #scene-archive .archive-layout { grid-template-columns: 280px minmax(0, 1fr); gap: 18px; }
+  #scene-archive .archive-report-item { align-items: flex-start; flex-direction: column; gap: 12px; }
+}
+@media (max-width: 760px) {
+  #scene-archive .scene-body { padding: 16px; }
+  #scene-archive .archive-layout, #scene-archive .archive-review-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  #scene-archive .archive-card { padding: 18px; }
+  #scene-archive .archive-editor { padding: 0; }
+  #scene-archive .archive-editor summary, #scene-archive .archive-editor-body { padding: 18px; }
+  #scene-archive .archive-form-grid { grid-template-columns: minmax(0, 1fr); }
+  #scene-archive .archive-case-list { max-height: 310px; }
+  #scene-archive .archive-tag { white-space: nowrap; }
+  #scene-archive .archive-report-kind { display: table; margin: 6px 0 0; }
+  #scene-archive .archive-report-item .run-btn { align-self: flex-end; }
+  #scene-archive .archive-toolbar { gap: 10px; }
+  #scene-archive .archive-toolbar .run-btn { flex: 1; padding: 10px 12px; }
+}
+@media (max-width: 980px) {
+  .cols, .cols-3 { grid-template-columns: 1fr; }
+  .wrap { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+  .scene-nav { margin: 0 calc(-1 * var(--sp-4)); padding-left: var(--sp-4); padding-right: var(--sp-4); }
+  header .subtitle { display: none; }
+  .hero h1 { font-size: 26px; }
+  .flow-arrow { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-circle">矿</div>
+    矿安天眼
+  </div>
+  <div class="subtitle">露天矿多尺度滑坡智能监测系统</div>
+  <div class="status-dot">
+    <div class="dot" id="statusDot"></div>
+    <span id="statusText">连接中…</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ══════════ Hero ══════════ -->
+  <div class="hero">
+    <h1>矿安天眼</h1>
+    <p class="tagline">看得见影像 · 量得到变化 · 留得下依据</p>
+
+    <div class="flow">
+      <div class="flow-step"><div class="fi">🛰️</div><div class="fl">影像输入</div><div class="fs">光学遥感</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fi">🔍</div><div class="fl">滑坡检测</div><div class="fs">多尺度分割</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fi">📐</div><div class="fl">几何量测</div><div class="fs">区域/对象/像素</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fi">🧠</div><div class="fl">多智能体评估</div><div class="fs">RAG 知识注入</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fi">🚨</div><div class="fl">分级筛查</div><div class="fs">蓝黄橙红</div></div>
+    </div>
+
+    <!-- 数字均可在仓库中复核：25,365 = F:\LMHLD 各区域 npy 实际计数（70/20/10 划分）；
+         6 = detector_service.WEIGHTS；5 = detector_service.UPLOAD_MODELS；4 = 预警等级 -->
+    <div class="stat-pills">
+      <div class="stat-pill"><b>25,365</b><span>图块基准</span></div>
+      <div class="stat-pill"><b>6</b><span>区域专用模型</span></div>
+      <div class="stat-pill"><b>5</b><span>条部署通道</span></div>
+      <div class="stat-pill"><b>4</b><span>级筛查 · 蓝黄橙红</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ 场景导航 ══════════ -->
+  <nav class="scene-nav" id="sceneNav">
+    <a class="nav-pill active" data-target="scene-mine"><span class="no">01</span>单幅影像检测</a>
+    <a class="nav-pill" data-target="scene-bench"><span class="no">02</span>标准测试集评测</a>
+    <a class="nav-pill" data-target="scene-compare"><span class="no">03</span>多期变化对比</a>
+    <a class="nav-pill" data-target="scene-qa"><span class="no">04</span>多智能体影像问答</a>
+    <a class="nav-pill" data-target="scene-kb"><span class="no">05</span>安全知识库</a>
+    <a class="nav-pill" data-target="scene-archive" onclick="loadArchiveCases()"><span class="no">06</span>案例归档与复核</a>
+  </nav>
+  <div class="note" id="activeCaseLabel">分析结果会自动归档。可在“案例归档与复核”中选择案例，归集后续分析。</div>
+  <div class="note" id="localOriginNotice" style="display:none">当前是直接文件预览。请运行项目启动脚本，并从 <a href="http://127.0.0.1:5100/">本地系统网址</a> 使用分析、归档和复核功能。</div>
+
+
+
+  <!-- ══════════ 01 单幅影像智能检测 ══════════ -->
+  <section class="scene" id="scene-mine">
+    <div class="scene-head">
+      <div class="scene-no">01</div>
+      <div>
+        <div class="scene-title">单幅影像智能检测</div>
+        <div class="scene-sub">上传任意矿区影像 → 圈定监测范围 → 输出筛查分级、实例几何与多智能体复核报告</div>
+      </div>
+      <span class="scene-badge" id="mineBadge">待运行</span>
+    </div>
+    <div class="scene-body">
+
+      <div class="cols">
+        <div>
+          <div class="step-tag"><i>1</i>上传影像</div>
+          <div class="drop" id="mineDrop">
+            <input type="file" id="mineFile" accept="image/*,.tif,.tiff">
+            <div class="d-empty">
+              <div class="di">📡</div>
+              <div class="dt">点击或拖拽上传矿区影像</div>
+              <div class="dh">支持 JPG / PNG / GeoTIFF · 建议覆盖采场或排土场</div>
+            </div>
+            <div class="d-filled">
+              <img id="mineThumb" alt="影像预览">
+              <div class="d-name" id="mineName"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="step-tag"><i>2</i>检测设置</div>
+          <div class="field">
+            <label for="uploadModel">检测模型</label>
+            <select id="uploadModel">
+              <option value="mine">矿区场景适配（既有版）</option>
+              <option value="rgb_guarded">RGB联合适配（验证版）</option>
+              <option value="realfit">真实影像域适配（通用）</option>
+              <option value="base">通用基座模型</option>
+              <option value="baige">白格场景适配</option>
+              <option value="unified">跨域统一模型（6 区域）</option>
+            </select>
+            <div class="hint">RGB验证版可用于对照；所有模型输出的疑似区域均需人工复核。</div>
+          </div>
+          <div class="field">
+            <label for="uploadGrid">空间尺度</label>
+            <select id="uploadGrid">
+              <option value="native">原图尺度分析</option>
+              <option value="reference_10m">约10米参考尺度（矿区模型）</option>
+            </select>
+            <div class="hint">高分辨率影像可按已核验的10米输入尺度处理；需提供分辨率和至少约320米的范围，真实高分辨率效果仍待验收。</div>
+          </div>
+          <div class="field">
+            <label for="gsdInput">影像分辨率（可选）</label>
+            <input type="number" id="gsdInput" step="0.001" min="0" placeholder="如 0.5（米/像素）">
+            <div class="hint" id="gsdHint">
+              <span id="gsdStatus">留空则几何量以像素输出。</span>
+              <label style="display:inline;cursor:pointer">
+                <input type="file" id="metaJson" accept=".json" style="display:none" onchange="loadMetaJson(this)">
+                <span class="inline-link">载入影像元数据</span>
+              </label>
+              可自动填入分辨率与经纬度。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:12px">
+        <label for="uploadBands">输入影像：</label>
+        <select id="uploadBands">
+          <option value="auto">自动识别：普通RGB / 带波段描述的GeoTIFF</option>
+          <option value="BGRN">四波段影像：蓝、绿、红、真实近红外</option>
+          <option value="RGBN">四波段影像：红、绿、蓝、真实近红外</option>
+        </select>
+      </div>
+      <!-- 监测范围：拖拽画框。服务端 _parse_roi 按 unit:'fraction' 解析，
+           风险等级改为按范围内计；范围外单独报出仅作参考。 -->
+      <div id="roiWrap" style="display:none">
+        <div class="step-tag"><i>3</i>圈定监测范围（可选）</div>
+        <div class="cols">
+          <div>
+            <canvas id="roiCanvas" style="max-width:100%;border:1px solid var(--line);border-radius:var(--r-sm);cursor:crosshair;touch-action:none;display:block"></canvas>
+          </div>
+          <div style="font-size:var(--fs-md);color:var(--ink-3);line-height:1.9">
+            在左侧预览图上<b>按住拖动</b>即可画框<span id="roiInfo" style="color:var(--ink-4)"></span>
+            <a class="inline-link" onclick="clearRoi()">清除</a>
+            <div class="note roi" style="margin-top:10px">
+              <b>为什么要圈范围？</b><br>
+              矿区外的天然戈壁、山体本身就长得像滑坡，整幅统计会把它们算进来。
+              圈定矿区后，风险等级按<b>范围内</b>计，范围外单独列出仅作参考。<br>
+              <span class="dim">历史影像示例：整幅预测占比24.24%，矿区范围内12.80%；这不是经真值核验的误报率。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="run-btn" id="uploadBtn" onclick="runUploadDetect()">
+        <div class="spinner"></div>
+        <span class="btn-text">🔎 开始检测</span>
+      </button>
+
+      <div id="uploadResult"></div>
+
+      <!-- 报告输出（本场景私有） -->
+      <div class="report-block" id="rp-upload">
+        <div class="mock-banner" id="rp-upload-mock"></div>
+        <div class="pipeline-steps" id="rp-upload-steps"></div>
+        <div class="pipeline-report" id="rp-upload-report">
+          <div class="pr-label">📋 多智能体影像复核报告</div>
+          <div id="rp-upload-quality"></div>
+          <div class="pr-text" id="rp-upload-text"></div>
+          <div class="report-actions" id="rp-upload-actions"></div>
+          <div class="report-note" id="rp-upload-note"></div>
+        </div>
+        <div class="kb-ref" id="rp-upload-kb">
+          <div class="kb-title">📚 知识库检索依据（RAG 注入）</div>
+          <div id="rp-upload-kblist"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ 02 标准测试集评测 ══════════ -->
+  <section class="scene" id="scene-bench">
+    <div class="scene-head">
+      <div class="scene-no">02</div>
+      <div>
+        <div class="scene-title">标准测试集评测</div>
+        <div class="scene-sub">在 LMHLD 官方测试集上逐区域复现检测效果，可选多尺度融合与 D-S 证据冲突拒绝</div>
+      </div>
+      <span class="scene-badge" id="detectBadge">待运行</span>
+    </div>
+    <div class="scene-body">
+
+      <div class="step-tag"><i>1</i>选择区域与开关</div>
+      <!-- ⚠ 父容器 id 必须是 regionChips：JS 用 querySelectorAll("#regionChips .region-chip") -->
+      <div class="region-chips" id="regionChips">
+        <div class="region-chip active" data-region="Emilia-Romagna_Italy_32">🇮🇹 Emilia-Romagna（意大利）</div>
+        <div class="region-chip" data-region="Gorkha_Nepal_32">🇳🇵 Gorkha-Nepal（尼泊尔）</div>
+        <div class="region-chip" data-region="Hokkaido_Japan_128">🇯🇵 Hokkaido（日本·多尺度）</div>
+        <div class="region-chip" data-region="Jiuzhaigou_China_128">🇨🇳 中国·九寨沟（λ0.5 校准）</div>
+        <div class="region-chip" data-region="Wenchuan_China_224">🇨🇳 中国·汶川</div>
+        <div class="region-chip" data-region="Taiwan_China_224">🇨🇳 中国·台湾</div>
+      </div>
+
+      <label class="checkline">
+        <input type="checkbox" id="fuseCheck">
+        <span>Hokkaido 区域启用「128px + 32px 多尺度融合」<em>（小区召回 +8.5pp）</em></span>
+      </label>
+      <label class="checkline">
+        <input type="checkbox" id="dsCheck">
+        <span>D-S 证据冲突拒绝<em>（冲突像素标为待复核，不计为正常背景）</em></span>
+      </label>
+
+      <button class="run-btn" id="detectBtn" onclick="runDetect()">
+        <div class="spinner"></div>
+        <span class="btn-text">🔎 开始滑坡检测（6 样本）</span>
+      </button>
+
+      <div id="sampleGrid" class="sample-grid"></div>
+
+      <button class="run-btn" id="pipelineBtn" onclick="runPipeline()" style="display:none">
+        <div class="spinner"></div>
+        <span class="btn-text">🧠 对选中样本生成影像复核报告</span>
+      </button>
+
+      <!-- 报告输出（本场景私有） -->
+      <div class="report-block" id="rp-dataset">
+        <div class="mock-banner" id="rp-dataset-mock"></div>
+        <div class="pipeline-steps" id="rp-dataset-steps"></div>
+        <div class="pipeline-report" id="rp-dataset-report">
+          <div class="pr-label">📋 多智能体影像复核报告</div>
+          <div id="rp-dataset-quality"></div>
+          <div class="pr-text" id="rp-dataset-text"></div>
+          <div class="report-actions" id="rp-dataset-actions"></div>
+          <div class="report-note" id="rp-dataset-note"></div>
+        </div>
+        <div class="kb-ref" id="rp-dataset-kb">
+          <div class="kb-title">📚 知识库检索依据（RAG 注入）</div>
+          <div id="rp-dataset-kblist"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ 03 多期影像变化对比 ══════════ -->
+  <section class="scene" id="scene-compare">
+    <div class="scene-head">
+      <div class="scene-no">03</div>
+      <div>
+        <div class="scene-title">多期影像变化对比</div>
+        <div class="scene-sub">T1 → T2 两期比对，逐实例回答「哪一处滑坡扩大了、扩大了几倍」</div>
+      </div>
+    </div>
+    <div class="scene-body">
+
+      <div class="cols">
+        <div>
+          <div class="step-tag"><i>1</i>T1 前期影像</div>
+          <input type="file" id="cmpT1" accept="image/*,.tif,.tiff" style="width:100%;font-size:var(--fs-sm)">
+          <img id="cmpT1Prev" style="display:none;width:100%;max-height:170px;object-fit:cover;border-radius:var(--r-sm);margin-top:var(--sp-2)">
+        </div>
+        <div>
+          <div class="step-tag"><i>2</i>T2 后期影像</div>
+          <input type="file" id="cmpT2" accept="image/*,.tif,.tiff" style="width:100%;font-size:var(--fs-sm)">
+          <img id="cmpT2Prev" style="display:none;width:100%;max-height:170px;object-fit:cover;border-radius:var(--r-sm);margin-top:var(--sp-2)">
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 0">
+        <label for="cmpRegistration">两期影像的位置对应：</label>
+        <select id="cmpRegistration">
+          <option value="auto">自动对齐并检查质量</option>
+          <option value="prealigned">已确认相同范围、分辨率和位置（同尺寸正射影像）</option>
+        </select>
+        <label for="cmpModel" style="margin-left:12px">检测模型：</label>
+        <select id="cmpModel">
+          <option value="mine">矿区场景适配</option><option value="rgb_guarded">RGB联合适配（验证版）</option><option value="realfit">真实影像域适配</option>
+          <option value="base">通用基座</option><option value="baige">白格场景适配</option>
+          <option value="unified">跨域统一</option>
+        </select>
+      </div>
+      <button class="run-btn" id="cmpBtn" onclick="runCompare()">
+        <div class="spinner"></div>
+        <span class="btn-text">📊 开始变化对比分析</span>
+      </button>
+
+      <div id="cmpResult" style="font-size:var(--fs-md)"></div>
+
+      <button class="run-btn" id="cmpReportBtn" onclick="runCompareReport()" style="display:none">
+        <div class="spinner"></div>
+        <span class="btn-text">🧠 生成变化趋势报告</span>
+      </button>
+
+      <!-- 同次双期报告与复核记录 -->
+      <div class="report-block" id="rp-compare">
+        <div class="mock-banner" id="rp-compare-mock"></div>
+        <div class="pipeline-steps" id="rp-compare-steps"></div>
+        <div class="pipeline-report" id="rp-compare-report">
+          <div class="pr-label">📋 多智能体变化趋势报告</div>
+          <div id="rp-compare-quality"></div>
+          <div class="pr-text" id="rp-compare-text"></div>
+          <div class="report-actions" id="rp-compare-actions"></div>
+          <div class="report-note" id="rp-compare-note"></div>
+        </div>
+        <div class="kb-ref" id="rp-compare-kb">
+          <div class="kb-title">📚 知识库检索依据（RAG 注入）</div>
+          <div id="rp-compare-kblist"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ 04 多智能体影像问答 ══════════ -->
+  <section class="scene" id="scene-qa">
+    <div class="scene-head">
+      <div class="scene-no">04</div>
+      <div>
+        <div class="scene-title">多智能体影像问答</div>
+        <div class="scene-sub">面向影像的自由提问：Coordinator 调度 → 多 Agent 协作 → 输出结论</div>
+      </div>
+      <span class="scene-badge" id="qaBadge">待运行</span>
+    </div>
+    <div class="scene-body">
+
+      <div class="cols">
+        <div>
+          <div class="step-tag"><i>1</i>上传影像并提问</div>
+          <div class="drop" id="qaDrop">
+            <input type="file" id="qaFile" accept="image/*">
+            <div class="d-empty">
+              <div class="di">🖼️</div>
+              <div class="dt">点击或拖拽上传遥感影像</div>
+              <div class="dh">支持 JPG / PNG / TIFF</div>
+            </div>
+            <div class="d-filled"><img id="qaPreview" alt="遥感影像预览"></div>
+          </div>
+          <textarea class="question-input" id="questionInput" rows="3" style="margin-top:var(--sp-3)"
+            placeholder="输入你想问的问题…">这张影像里有哪些地物？是否存在裸露边坡？</textarea>
+          <div class="quick-questions" style="margin-top:var(--sp-3)">
+            <button class="quick-q" data-q="这张影像里有哪些地物？是否存在裸露边坡？">地物与裸露边坡</button>
+            <button class="quick-q" data-q="区分一下图中的采矿设施与自然地貌。">采矿设施 vs 自然地物</button>
+            <button class="quick-q" data-q="影像中有哪些可能的边坡变形迹象？">边坡变形迹象</button>
+            <button class="quick-q" data-q="图中水体分布在哪些位置？与边坡稳定性有何关系？">水体与边坡稳定性</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="step-tag"><i>2</i>协作分析结果</div>
+          <div id="qaPanel">
+            <div class="empty">
+              <div class="ei">🔬</div>
+              <div class="et">等待分析</div>
+              <div>上传影像并输入问题后开始</div>
+              <div style="margin-top:6px;font-size:var(--fs-sm)">Coordinator 调度 → 多 Agent 协作 → 输出结果</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="run-btn" id="qaRunBtn" onclick="runAgent()">
+        <div class="spinner"></div>
+        <span class="btn-text">🚀 启动多智能体分析</span>
+      </button>
+
+      <div class="mock-banner" id="qaMock">
+        ⚠️ 多智能体不可用（API Key 未配置），当前为演示模式，返回模拟结果
+      </div>
+
+      <div class="final-answer" id="qaFinal">
+        <div class="fa-label">最终答案</div>
+        <div class="fa-value" id="qaValue">-</div>
+        <div class="fa-desc" id="qaDesc">-</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ 05 露天矿安全知识库 ══════════ -->
+  <section class="scene" id="scene-kb">
+    <div class="scene-head">
+      <div class="scene-no">05</div>
+      <div>
+        <div class="scene-title">露天矿安全知识库</div>
+        <div class="scene-sub">法规、规程、处置措施与典型案例的检索增强问答</div>
+      </div>
+    </div>
+    <div class="scene-body">
+      <div style="display:flex;gap:var(--sp-2)">
+        <input type="text" id="kbQuery" class="question-input" style="flex:1"
+          placeholder="输入问题，如：边坡红色预警如何处置？">
+        <button class="run-btn" id="kbBtn" onclick="runKnowledgeQuery()" style="width:auto;padding:0 24px;white-space:nowrap">
+          <span class="btn-text">检索</span>
+        </button>
+      </div>
+      <div id="kbResults" style="font-size:var(--fs-md);color:var(--ink-3)">
+        <div style="padding:var(--sp-3) 0">输入关键词即可查询法规、规范、处置措施与典型案例。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" id="scene-archive">
+    <div class="scene-head"><div class="scene-no">06</div><div>
+      <div class="scene-title">案例归档与人工复核</div>
+      <div class="scene-sub">按矿区归集分析，保存同次结果与来源，记录人工意见及修改历史</div>
+    </div></div>
+    <div class="scene-body">
+      <div class="archive-layout">
+        <aside class="archive-card archive-library" aria-labelledby="archiveLibraryHeading">
+          <div class="archive-card-head"><div><h3 id="archiveLibraryHeading">案例库</h3><p>按矿区查找，归集每一次分析</p></div><span class="archive-tag">持久归档</span></div>
+          <form class="archive-search" onsubmit="event.preventDefault();loadArchiveCases(0)">
+            <input id="archiveSearch" class="question-input" aria-label="查找矿区或案例" placeholder="搜索矿区或案例标题">
+            <button class="run-btn ghost" type="submit">查询</button>
+          </form>
+          <div id="archiveCases"><div class="archive-empty">查询案例库，或在右侧填写信息新建案例。</div></div>
+          <div class="archive-pager" aria-label="案例分页"><button id="archiveCasePrev" class="run-btn ghost" onclick="loadArchiveCases(Math.max(0,archiveCaseOffset-50))" disabled>上一页</button>
+            <button id="archiveCaseNext" class="run-btn ghost" onclick="loadArchiveCases(archiveCaseOffset+50)" disabled>下一页</button></div>
+          <div class="archive-library-footer"><button class="run-btn ghost" onclick="backupCaseArchive()">下载数据库备份</button><p>归档保留结果与来源标识，原始影像请另行保留。</p></div>
+        </aside>
+        <div class="archive-workspace">
+          <details class="archive-card archive-editor" open>
+            <summary><span>案例信息</span><span class="archive-summary-hint">新建 / 编辑</span></summary>
+            <div class="archive-editor-body">
+              <div class="archive-form-grid">
+                <label class="archive-field" for="archiveMine">矿区名称<input id="archiveMine" class="question-input" maxlength="120" placeholder="例如：某矿北侧采场"></label>
+                <label class="archive-field" for="archiveTitle">案例标题<input id="archiveTitle" class="question-input" maxlength="200" placeholder="例如：边坡变化复核"></label>
+                <label class="archive-field archive-field-wide" for="archiveCaseNotes">案例备注<textarea id="archiveCaseNotes" class="question-input" maxlength="4000" rows="2" placeholder="记录影像来源、核查背景或待办事项"></textarea></label>
+              </div>
+              <div class="archive-toolbar"><button class="run-btn" onclick="createArchiveCase()">新建案例</button><button class="run-btn ghost" onclick="editArchiveCase()">保存案例信息</button></div>
+            </div>
+          </details>
+          <div class="archive-card">
+            <div class="archive-card-head"><div><h3>历史分析</h3><p>选择一次分析，查看结果并补充复核意见</p></div></div>
+            <div id="archiveStatus" class="archive-status" role="status" aria-live="polite">请先从案例库选择案例。</div>
+            <div id="archiveReports"><div class="archive-empty">选中案例后，在这里查看历次分析。</div></div>
+            <div class="archive-pager" aria-label="历史分析分页"><button id="archiveReportPrev" class="run-btn ghost" onclick="pageArchiveReports(-1)" disabled>上一页分析</button><button id="archiveReportNext" class="run-btn ghost" onclick="pageArchiveReports(1)" disabled>下一页分析</button></div>
+            <div id="archiveImages" class="cols-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="report-block" id="rp-archive">
+        <div class="pipeline-steps" id="rp-archive-steps"></div>
+        <div class="mock-banner" id="rp-archive-mock"></div>
+        <div id="rp-archive-quality" class="note"></div>
+        <div id="rp-archive-note" class="dim"></div>
+        <div class="kb-block" id="rp-archive-kb"><div id="rp-archive-kblist"></div></div>
+        <div class="pipeline-report" id="rp-archive-report"><div class="pr-label">本次归档分析</div><div class="pr-text" id="rp-archive-text"></div><div class="report-actions" id="rp-archive-actions"></div></div>
+      </div>
+      <div id="archiveReviewPanel" class="archive-card archive-review" style="display:none">
+        <div class="archive-card-head"><div><h3>人工复核</h3><p>补充核查依据，保留每次判断的修改记录</p></div><span class="archive-tag">原始量测保留</span></div>
+        <div class="archive-review-notice">复核人身份由本人填写。意见用于辅助核查，不自动成为事故真值、专家背书或现场试用证明。</div>
+        <details id="archiveManualPanel" class="archive-manual" style="display:none">
+          <summary>人工补记核查位置</summary>
+          <p class="archive-summary-hint">模型可能漏检。在原图显示上拖动定位框，填写下方复核人、依据和说明后保存。定位框不代表事故边界，不计入模型面积或识别成绩。</p>
+          <canvas id="archiveManualCanvas" style="display:block;width:100%;max-width:760px;height:auto;touch-action:none;border:1px solid #d9e2ee;border-radius:12px"></canvas>
+          <div class="archive-toolbar"><button id="archiveManualSave" class="run-btn" onclick="saveManualAnnotation()">保存补记位置</button><button class="run-btn ghost" onclick="clearManualAnnotation()">清除当前定位框</button></div>
+          <div id="archiveManualMessage" class="archive-status" role="status"></div>
+        </details>
+        <div class="archive-review-grid">
+          <div class="archive-field-stack"><label class="archive-field" for="archiveReviewTarget">复核对象<select id="archiveReviewTarget" class="question-input"></select></label>
+            <label class="archive-field" for="archiveReviewStatus">判断<select id="archiveReviewStatus" class="question-input">
+              <option value="needs_followup">疑似异常需跟进</option><option value="likely_work_change">可能为作业变化</option>
+              <option value="observation_issue">观测条件可能影响结果</option><option value="insufficient_evidence">证据不足，暂无法判断</option>
+              <option value="withdrawn">撤回此前意见</option></select></label>
+            <label class="archive-field" for="archiveReviewer">复核人<input id="archiveReviewer" class="question-input" maxlength="80" placeholder="填写姓名或可追溯的身份标识"></label></div>
+          <div class="archive-field-stack"><label class="archive-field" for="archiveReviewEvidence">复核依据<textarea id="archiveReviewEvidence" class="question-input" rows="3" maxlength="2000" placeholder="说明对照的原图、作业记录或公开资料及日期"></textarea></label>
+            <label class="archive-field" for="archiveReviewNote">判断说明<textarea id="archiveReviewNote" class="question-input" rows="3" maxlength="4000" placeholder="说明判断理由，以及需要进一步确认的问题"></textarea></label></div>
+        </div>
+        <div class="archive-toolbar archive-review-toolbar"><button id="archiveReviewSave" class="run-btn" onclick="saveArchiveReview()">保存复核意见</button>
+          <button class="run-btn ghost" onclick="refreshArchivedReport()">刷新当前记录</button></div>
+        <div id="archiveReviewMessage" class="archive-status" role="status" aria-live="polite"></div><div id="archiveReviewHistory" class="archive-history"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    矿安天眼 · 露天矿多尺度影像异常筛查与复核系统<br>
+    检测：LMHLD 多尺度分割模型　|　评估：GeoMMAgent 多智能体协同　|　输出：蓝 / 黄 / 橙 / 红 四级筛查
+  </footer>
+
+</div>
+
+<script>
+const API_BASE = window.location && /^https?:$/.test(window.location.protocol)
+    ? window.location.origin + "/api" : "http://localhost:5100/api";
+if (window.location?.protocol === 'file:') document.getElementById('localOriginNotice').style.display = '';
+
+// ── 健康检查 ──
+async function checkHealth() {
+  const dot = document.getElementById("statusDot");
+  const text = document.getElementById("statusText");
+  try {
+    const res = await fetch(`${API_BASE}/health`);
+    const data = await res.json();
+    if (data.status === "ok") {
+      if (window.location && window.location.protocol === "file:") {
+        window.location.replace("http://localhost:5100/"); return;
+      }
+      const detectorOnline = data.detector_online || data.detector_loaded;
+      if (detectorOnline && data.detector_runtime_compatible === false) {
+        dot.className = 'dot mock'; text.textContent = '检测服务版本不一致，请停止旧服务后重启'; return;
+      }
+      if (data.geomm_loaded && detectorOnline) {
+        dot.className = "dot live"; text.textContent = "检测 + 多智能体 全部就绪";
+      } else if (data.geomm_loaded) {
+        dot.className = "dot live"; text.textContent = "多智能体就绪（检测器离线）";
+      } else if (detectorOnline) {
+        dot.className = "dot live"; text.textContent = "检测器就绪（多智能体离线）";
+      } else {
+        dot.className = "dot mock"; text.textContent = "演示模式";
+      }
+      return;
+    }
+    dot.className = "dot down"; text.textContent = "后端异常";
+  } catch {
+    dot.className = "dot down"; text.textContent = "后端未启动";
+  }
+}
+checkHealth();
+setInterval(checkHealth, 8000);
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function escapeHtml(s) {
+  const div = document.createElement("div");
+  div.textContent = s == null ? "" : s;
+  return div.innerHTML;
+}
+
+function cleanMd(s) {
+  // 清理 Markdown 纯样式符号, 保留内容与换行结构
+  if (!s) return "";
+  return s
+    .replace(/\*\*|__/g, "")           // 粗体/强调
+    .replace(/^#{1,6}\s*/gm, "")       // 标题 #
+    .replace(/`([^`]*)`/g, "$1")       // 行内代码反引号
+    .replace(/^\s*[-*+]\s+/gm, "· ")   // 无序列表符 → 圆点
+    .trim();
+}
+
+function setBadge(id, text, cls) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = "scene-badge" + (cls ? " " + cls : "");
+}
+
+// ── 智能体外观 ──
+const AGENT_COLORS = {
+  EvidenceAuditAgent: "#00A38C", ReportReviewAgent: "#7B57C9",
+  DetAgent: "#4285F4", ClsAgent: "#7B57C9", ScaleAgent: "#00ACC1",
+  ReasoningAgent: "#FBBC04", MatchingAgent: "#34A853",
+  SearchAgent: "#EA4335", RetrievalAgent: "#E91E63",
+};
+const AGENT_ICONS = {
+  EvidenceAuditAgent: "🧾", ReportReviewAgent: "✅",
+  DetAgent: "🔍", ClsAgent: "🏷️", ScaleAgent: "📏",
+  ReasoningAgent: "🧠", MatchingAgent: "📋", SearchAgent: "🔎", RetrievalAgent: "📂",
+};
+function getAgentOutputClass(name) {
+  if (name === "DetAgent") return "det-agent";
+  if (name === "MatchingAgent") return "match-agent";
+  if (name === "ReasoningAgent") return "reason-agent";
+  if (name === "ClsAgent") return "cls-agent";
+  return "";
+}
+
+function workflowSummary(data) {
+  const steps = Array.isArray(data.agents) ? data.agents : [];
+  const workflow = data.workflow || data.quality?.workflow || {};
+  const planned = Number.isInteger(workflow.planned_steps) ? workflow.planned_steps : steps.length;
+  const completed = steps.filter(a => !a.status || a.status === 'complete').length;
+  const interrupted = Boolean(workflow.interrupted) || steps.some(a => a.status && a.status !== 'complete') || planned > steps.length;
+  const title = interrupted ? '协作未完整执行' : steps.length > 1 ? '多智能体协作过程' : steps.length === 1 ? '按需单角色分析' : '检测事实汇总';
+  const detail = interrupted ? `计划${planned}步，已完成${completed}步；未完成的输出不作为有效结论。` : steps.length === 1 ? '本次计划只需一个执行角色；不是后续步骤被隐藏。' : steps.length > 1 ? `本次${steps.length}个步骤已完成，前序证据传递给后续角色。` : '本次未获得有效的智能体分析。';
+  return {title, detail, interrupted, planned};
+}
+
+function agentOutputText(agent) {
+  if (agent.name !== 'EvidenceAuditAgent') return cleanMd(agent.output || '');
+  try {
+    const evidence = JSON.parse(agent.output);
+    const decision = {continue:'可继续分析',needs_review:'保留疑点，需人工复核',block:'证据未通过，停止后续分析'};
+    const sections = [['checks','核查记录'],['unknowns','待确认条件'],['issues','核查意见']];
+    const rows = sections.filter(([key]) => Array.isArray(evidence[key]) && evidence[key].length).map(([key,label]) =>
+      label + '：\n' + evidence[key].map(item => '· ' + item).join('\n'));
+    const sources = Array.isArray(evidence.source_ids) && evidence.source_ids.length ? evidence.source_ids.join('、') : '本次工具字段（未列外部资料编号）';
+    return '核查建议：' + (decision[evidence.decision] || '待复核') + '\n' + rows.join('\n') + '\n来源：' + sources;
+  } catch (_) { return cleanMd(agent.output || ''); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   场景导航：滚动高亮 + 点击跳转
+   ══════════════════════════════════════════════════════════════ */
+(function bindSceneNav() {
+  const pills = Array.from(document.querySelectorAll("#sceneNav .nav-pill"));
+  const secs = pills.map(p => document.getElementById(p.dataset.target)).filter(Boolean);
+  if (!pills.length || !secs.length) return;
+
+  const nav = document.getElementById('sceneNav');
+  let pending = false;
+  function updateActiveScene() {
+    pending = false;
+    const anchor = nav.getBoundingClientRect().bottom + 24;
+    let index = 0;
+    secs.forEach((section, i) => { if (section.getBoundingClientRect().top <= anchor) index = i; });
+    pills.forEach((pill, i) => pill.classList.toggle('active', i === index));
+    const selected = pills[index].getBoundingClientRect(), bounds = nav.getBoundingClientRect();
+    if (selected.left < bounds.left || selected.right > bounds.right) {
+      nav.scrollLeft += selected.left - bounds.left - (bounds.width - selected.width) / 2;
+    }
+  }
+  function queueActiveScene() {
+    if (!pending) { pending = true; window.requestAnimationFrame(updateActiveScene); }
+  }
+
+  pills.forEach(p => p.addEventListener("click", e => {
+    e.preventDefault();
+    const t = document.getElementById(p.dataset.target);
+    if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+  }));
+
+  window.addEventListener('scroll', queueActiveScene, {passive:true});
+  window.addEventListener('resize', queueActiveScene);
+  updateActiveScene();
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   报告输出：三条链路各有一份私有 DOM（rp-{slot}-*）
+   —— 之前是单例 DOM 被三条链路共用, 导致"上传检测的报告渲染在测试集那一侧"。
+      这里刻意用新 id（不再叫 pipelineSteps）, 漏改的引用会直接报 null 而不是静默串台。
+   ══════════════════════════════════════════════════════════════ */
+const REPORT_ACTIONS = {
+  dataset: [
+    { label: "📋 导出复核记录(JSON)", call: "exportReviewRecord('dataset')" },
+    { label: "📥 导出筛查报告(PNG)", call: "exportReport('dataset')" },
+    { label: "🗺️ 导出矢量(GeoJSON)", call: "exportVector('geojson','dataset')" },
+    { label: "📄 实例表(CSV)", call: "exportVector('csv','dataset')" },
+  ],
+  upload: [
+    { label: "📋 导出复核记录(JSON)", call: "exportReviewRecord('upload')" },
+    { label: "📥 导出筛查报告(PNG)", call: "exportReport('upload')" },
+    { label: "🗺️ 导出矢量(GeoJSON)", call: "exportVector('geojson','upload')" },
+    { label: "📄 实例表(CSV)", call: "exportVector('csv','upload')" },
+  ],
+  compare: [
+    { label: "📥 导出双期报告(HTML)", call: "exportCompareReport('html')" },
+    { label: "📄 导出双期报告(JSON)", call: "exportCompareReport('json')" },
+    { label: "📋 导出复核记录(JSON)", call: "exportReviewRecord('compare')" },
+  ],
+  archive: [
+    {label:'📋 导出复核记录(JSON)',call:"exportReviewRecord('archive')"},
+    {label:'离线复核(HTML)',call:"exportReviewRecord('archive','html')"},
+    {label:'📥 导出当前归档报告',call:"exportArchivedReport()"},
+  ],
+};
+
+const reportParams = { dataset: null, upload: null, compare: null };
+const reportResults = {};
+let activeCaseId = null;
+
+const sceneJobs = Object.fromEntries(['upload','dataset','compare'].map(slot => [slot,{version:0,controller:null}]));
+const sceneButtons = {upload:['uploadBtn'],dataset:['detectBtn','pipelineBtn'],compare:['cmpBtn','cmpReportBtn']};
+function idleScene(slot) {
+  (sceneButtons[slot] || []).forEach(id => {
+    const button = document.getElementById(id);
+    if (button) { button.disabled = false; button.classList.remove('running'); }
+  });
+}
+function cancelSceneJob(slot) {
+  const state = sceneJobs[slot];
+  if (state.controller) state.controller.abort();
+  state.version++; state.controller = null; idleScene(slot);
+}
+function beginSceneJob(slot, sameInputs) {
+  cancelSceneJob(slot);
+  const state = sceneJobs[slot], controller = new AbortController(), version = state.version;
+  state.controller = controller;
+  return {slot,version,signal:controller.signal,
+    current:() => state.version === version && !controller.signal.aborted && sameInputs()};
+}
+function finishSceneJob(job) {
+  if (sceneJobs[job.slot].version === job.version) {
+    sceneJobs[job.slot].controller = null; idleScene(job.slot);
+  }
+}
+function invalidateScene(slot) {
+  cancelSceneJob(slot); hideReport(slot);
+  const note = '<div class="note">输入条件已变化，请重新分析。</div>';
+  if (slot === 'upload') {
+    setBadge('mineBadge','待重新分析','off');
+    lastGeomStats = null; lastGeomMeta = null; lastDetectedFile = null;
+    lastUploadRequest = null; uploadImgB64 = null;
+    document.getElementById('uploadResult').innerHTML = note;
+  } else if (slot === 'compare') {
+    cmpImages = {t1:null,t2:null}; lastCompareSelection = null;
+    document.getElementById('cmpResult').innerHTML = note;
+    document.getElementById('cmpReportBtn').style.display = 'none';
+  } else {
+    setBadge('detectBadge','待重新分析','off');
+    selectedSample = null; datasetGeomStats = null; datasetGeomMeta = null;
+    document.getElementById('sampleGrid').innerHTML = note;
+    document.getElementById('pipelineBtn').style.display = 'none';
+  }
+}
+async function scenePost(path, payload, signal) {
+  const body = JSON.stringify(payload);
+  if (new Blob([body]).size > 48 * 1024 * 1024) throw new Error('请求超过48 MiB限制，请缩小影像或共同分析范围。');
+  const response = await fetch(`${API_BASE}/${path}`, {
+    method:'POST',headers:{'Content-Type':'application/json'},body,signal,
+  });
+  let data;
+  try { data = await response.json(); }
+  catch { throw new Error(`服务返回 HTTP ${response.status}，未提供有效结果，请检查服务状态。`); }
+  if (!response.ok || data.error) throw new Error(data.error || `服务返回 HTTP ${response.status}`);
+  return data;
+}
+function uploadSelection() {
+  return {file:mineFileObj,model:(document.getElementById('uploadModel') || {}).value || 'mine',
+    bands:(document.getElementById('uploadBands') || {}).value || 'auto',gsd:currentGsd(),grid:(document.getElementById('uploadGrid') || {}).value || 'native',
+    roi:JSON.stringify(roiFrac || null),case_id:activeCaseId};
+}
+function sameUploadSelection(a) {
+  const b = uploadSelection();
+  return a.file === b.file && a.model === b.model && a.bands === b.bands && a.gsd === b.gsd && a.grid === b.grid && a.roi === b.roi && a.case_id === b.case_id;
+}
+function datasetSelection() {
+  return {region:currentRegion,fuse:!!document.getElementById('fuseCheck').checked,
+    ds_reject:!!document.getElementById('dsCheck').checked,...(activeCaseId?{case_id:activeCaseId}:{})};
+}
+function compareSelection() {
+  return {t1:document.getElementById('cmpT1').files[0],t2:document.getElementById('cmpT2').files[0],
+    model:(document.getElementById('cmpModel') || {}).value || 'mine',
+    registration:(document.getElementById('cmpRegistration') || {}).value || 'auto',case_id:activeCaseId};
+}
+function sameCompareSelection(a) {
+  const b = compareSelection();
+  return a && a.t1 === b.t1 && a.t2 === b.t2 && a.model === b.model && a.registration === b.registration && a.case_id === b.case_id;
+}
+
+// part 为空时取报告块本身（id 是 rp-{slot}），否则取其内部部件（id 是 rp-{slot}-{part}）
+function rp(slot, part) {
+  return document.getElementById(part ? `rp-${slot}-${part}` : `rp-${slot}`);
+}
+
+// 只隐藏、不清内容 —— 用于「重新跑了一次检测」时收起上一次的报告。
+// 报告内容依赖那一次检测的结果, 检测变了报告就过期了。
+// 注意：渲染某个 slot 的报告**不**隐藏其它 slot —— 三个场景各自保留自己的最近结果。
+function hideReport(slot) {
+  reportParams[slot] = null;
+  const b = rp(slot, "");
+  if (b) b.classList.remove("show");
+}
+
+function resetReport(slot) {
+  if (reportParams[slot]) delete reportParams[slot].report_id;
+  const block = rp(slot, "");
+  const steps = rp(slot, "steps"), report = rp(slot, "report"), kb = rp(slot, "kb");
+  const mock = rp(slot, "mock"), quality = rp(slot, "quality"), note = rp(slot, "note");
+  const actions = rp(slot, "actions"), text = rp(slot, "text"), list = rp(slot, "kblist");
+  if (steps) steps.innerHTML = "";
+  if (report) report.classList.remove("show");
+  if (kb) kb.classList.remove("show");
+  if (mock) mock.classList.remove("show");
+  if (quality) { quality.innerHTML = ""; quality.classList.remove("show"); }
+  if (note) note.textContent = "";
+  if (actions) actions.innerHTML = "";
+  if (text) text.textContent = "";
+  if (list) list.innerHTML = "";
+  if (block) block.classList.add("show");
+}
+
+
+function knowledgeSource(d) {
+  const url = d.source_url || "";
+  const title = d.source_title || d.title || "";
+  const link = /^https?:\/\//i.test(url)
+    ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>`
+    : escapeHtml(title);
+  return `<div class="dim" style="margin-top:5px">[${escapeHtml(d.id || "")}] ${link}<br>
+    ${escapeHtml(d.evidence_type || "")} · ${escapeHtml(d.publisher || "")} · ${escapeHtml(d.locator || "")}<br>
+    适用范围：${escapeHtml(d.scope || "")} · 核对日期：${escapeHtml(d.checked_at || "")}</div>`;
+}
+
+function renderPipelineResult(data, slot) {
+  // 统一渲染: 智能体步骤 + 质量报告 + 知识依据 + 最终报告
+  resetReport(slot);
+  reportResults[slot] = data;
+  if (data.report_id) reportParams[slot] = { ...(reportParams[slot] || {}), report_id: data.report_id };
+  else reportParams[slot] = null;
+  if (data.detection && data.detection.stats && slot !== 'compare') {
+    const det = data.detection;
+    const captured = {meters_per_pixel:(det.scale_meta || {}).meters_per_pixel || null,
+      georeference:(det.band_meta || {}).georeference || null};
+    if (slot === 'upload') { lastGeomStats = det.stats; lastGeomMeta = captured; }
+    else if (slot === 'dataset') { datasetGeomStats = det.stats; datasetGeomMeta = captured; }
+  }
+  if (rp(slot, "mock") && (data.is_mock || (data.generation && data.generation.status === "fallback"))) {
+    rp(slot, "mock").textContent = data.is_mock ? "演示模拟结果" :
+      "自动分析未完成，当前仅展示检测事实汇总，请按报告中的来源说明复核。";
+    rp(slot, "mock").classList.add("show");
+  }
+
+  // 智能体步骤（.agent-result 基样式 opacity:0，必须带 visible 才可见）
+  const workflowView = workflowSummary(data);
+  let html = `<div class="step-title">🤖 ${escapeHtml(workflowView.title)}</div><div class="note">${escapeHtml(workflowView.detail)}${data.quality?.workflow?.reason ? '<br>' + escapeHtml(data.quality.workflow.reason) : ''}</div>`;
+  (data.agents || []).forEach((a, i, arr) => {
+    const color = AGENT_COLORS[a.name] || "#666";
+    const icon = AGENT_ICONS[a.name] || "🤖";
+    const cls = getAgentOutputClass(a.name);
+    const label = {EvidenceAuditAgent:'证据核查',ReasoningAgent:'报告推理',ReportReviewAgent:'报告复核'}[a.name];
+    const complete = !a.status || a.status === 'complete';
+    const status = {invalid:'核查未通过',incomplete:'输出不完整',failed:'调用失败'}[a.status] || (complete ? '完成' : '未完成');
+    const issueLabels = {audit_numeric_claim_inconsistent:'量测数值或单位与工具结果不一致',audit_provided_condition_called_unknown:'已提供条件被重复列为未知',audit_case_id_mismatch:'案例归属不一致',audit_request_id_mismatch:'请求归属不一致',audit_unprovided_source:'引用了未提供的来源',audit_blocked_input:'核查角色要求停止后续分析'};
+    const issues = (a.validation_errors || []).map(code => issueLabels[code] || '角色输出未满足核查要求');
+    html += `
+      <div class="agent-result visible">
+        <div class="agent-header">
+          <div class="agent-icon" style="background:${color}">${icon}</div>
+          <div class="agent-name">${escapeHtml(label || a.name)}${label ? '<small>'+escapeHtml(a.name)+'</small>' : ''}</div>
+          <div class="agent-badge" style="background:${complete ? color : '#B45309'}">步骤 ${i + 1}/${workflowView.planned || arr.length} · ${status}</div>
+        </div>
+        <div class="agent-subtask">📌 ${escapeHtml(cleanMd(a.subtask || ""))}</div>
+        ${complete ? '' : '<div class="note warn">以下为未通过检查的原始记录，后续角色未采用。'+(issues.length ? '<br>'+escapeHtml(issues.join('；')) : '')+'</div>'}
+        <div class="agent-output ${cls}">${escapeHtml(agentOutputText(a))}</div>
+      </div>`;
+  });
+  (data.quality?.workflow?.roles || []).filter(a => a.status === 'not_executed').forEach(a => {
+    html += `<div class="note warn">尚未执行：${escapeHtml(a.name)}；前序输出未通过检查。</div>`;
+  });
+  if (data.objective_facts) {
+    const f = data.objective_facts;
+    const finiteValue = value => typeof value === 'number' && Number.isFinite(value) ? String(value) : '不可得';
+    const percentValue = value => typeof value === 'number' && Number.isFinite(value) ? value.toFixed(2) + '%' : '不可计算';
+    const scopes = {whole_image:'本次整幅影像',whole:'本次整幅影像',roi:'圈定监测范围',common_valid_pixels:'两期共同有效范围'};
+    html += `<div class="step-title">📏 本次检测事实</div><div class="note">范围：${escapeHtml(scopes[f.analysis_scope] || '范围未声明')}`;
+    const captureTimes = Array.isArray(f.capture_times) ? f.capture_times : [];
+    html += `<br>采集时间：${captureTimes.length ? captureTimes.map(t => escapeHtml(t || '未提供')).join(' / ') : '未提供'}`;
+    if (f.kind === 'paired_mask_change') {
+      html += `<br>T1掩膜占比：${percentValue(f.change?.t1_percent)}；T2：${percentValue(f.change?.t2_percent)}`;
+      html += `<br>净变化：${finiteValue(f.change?.net_percentage_points)} 个百分点`;
+    } else {
+      html += `<br>疑似区域：${finiteValue(f.reported_regions)} 处；掩膜占比：${percentValue(f.area_percent)}`;
+      html += `<br>最大返回区域面积：${finiteValue(f.largest_area_px)} 像素；${finiteValue(f.largest_area_m2)} 平方米`;
+    }
+    html += `<br>以上数值来自同次检测。掩膜占比不是失稳概率，变化量不是地面位移。</div>`;
+  }
+  if (data.detection?.work_context?.status === 'matched_public_expected_work_reference') {
+    const work = data.detection.work_context;
+    html += `<div class="step-title">🏗️ 公开采矿作业参考</div><div class="note warn">${escapeHtml(work.note)}`;
+    html += `<br>本次疑似掩膜与作业参考重叠：${Number(work.predicted_pixels_overlapping_work_reference || 0)} 像素`;
+    html += `<br>来源时间范围：${escapeHtml(work.source_period || '待核查')}；具体作业日期尚未确认。</div>`;
+  }
+  if (data.review_handoff) {
+    const record = data.review_handoff;
+    html += `<div class="step-title">📋 人工复核交接</div><div class="note warn">${(record.accepted_human_review_decisions || []).length ? '已记录人工意见，独立核查条件仍需确认。' : '尚未记录有效人工意见。'}`;
+    html += `<br>任务：${escapeHtml(record.task_contract?.purpose || "影像辅助核查")}`;
+    const pending = record.pending_checks || [];
+    html += pending.slice(0, 5).map(item => `<br>· ${item.epoch ? '['+escapeHtml({t1:'T1',t2:'T2',image:'本期'}[item.epoch] || item.epoch)+'] ' : ''}${escapeHtml(item.task || "")}`).join("");
+    if (pending.length > 5) html += `<br>另有${pending.length - 5}项待核查，详见复核记录。`;
+    if (record.review_items_truncated) html += `<br>当前列出的区域不完整，复核时请一并检查原始影像。`;
+    html += `</div>`;
+    (record.accepted_human_review_decisions || []).forEach(item => {
+      html += `<div class="note"><b>${escapeHtml(item.status_label || item.status)}</b> · ${escapeHtml(item.reviewer)} · ${escapeHtml(item.target_key)}<br>${escapeHtml(item.note)}<br>依据：${escapeHtml(item.evidence)}</div>`;
+    });
+  }
+  if (data.archive && slot !== 'archive') html += `<div class="note">本次结果已归档：${escapeHtml(data.case_context?.mine_name || '')} · ${escapeHtml(data.case_context?.title || '')}<br><button class="run-btn ghost" onclick="viewReportArchive('${slot}')">查看案例与复核</button></div>`;
+  if (rp(slot, "steps")) rp(slot, "steps").innerHTML = html;
+
+  // 知识库检索依据
+  if (data.knowledge && data.knowledge.length && rp(slot, "kb")) {
+    rp(slot, "kblist").innerHTML = data.knowledge.map(k =>
+      `<div class="kb-item">📄 [${escapeHtml(k.category)}] ${escapeHtml(k.title)}${knowledgeSource(k)}</div>`).join("");
+    rp(slot, "kb").classList.add("show");
+  }
+
+  // 质量控制标识（守卫校验 + 自评估 + 几何数字一致性软告警）
+  const q = data.quality, qDiv = rp(slot, "quality");
+  if (qDiv && q) {
+    const parts = [];
+    parts.push(q.guard_pass ? "✅ 质量守卫通过" : `⚠️ 缺失项: ${(q.missing || []).join("、")}`);
+    if (q.repaired) parts.push("🔧 已自动修复");
+    if (q.degraded) parts.push("⚠️ 降级输出");
+    if (q.self_eval && q.self_eval.overall_pass !== null && q.self_eval.overall_pass !== undefined) {
+      parts.push(q.self_eval.overall_pass ? "🧪 自评估通过" : "🧪 自评估建议复核");
+    }
+    if (q.warnings && q.warnings.length) parts.push("🔎 " + q.warnings.join("；"));
+    qDiv.className = "note " + (q.degraded ? "warn" : "ok");
+    qDiv.textContent = "质量报告: " + parts.join(" | ");
+    qDiv.classList.add("show");
+  }
+
+  // 最终报告（清理 Markdown 符号后展示）
+  if (rp(slot, "text")) {
+    rp(slot, "text").textContent = cleanMd(data.final_answer) || "（无报告内容）";
+  }
+  // 导出按钮按 slot 配置
+  const actions = REPORT_ACTIONS[slot] || [];
+  if (rp(slot, "actions")) {
+    rp(slot, "actions").innerHTML = actions.map(a =>
+      `<button class="run-btn ghost" onclick="${a.call}"><span class="btn-text">${a.label}</span></button>`
+    ).join("");
+  }
+  if (rp(slot, "report")) rp(slot, "report").classList.add("show");
+}
+
+/* ══════════════════════════════════════════════════════════════
+   01 · 单幅影像检测
+   ══════════════════════════════════════════════════════════════ */
+let mineFileObj = null;   // 当前选中的影像文件（不依赖 input 元素，拖拽也能用）
+let lastMeta = null;      // fetch_mine_imagery.py 产出的元数据（分辨率 + 经纬度）
+let minePreviewToken = 0;
+
+function isTiffFile(file) {
+  return /\.tiff?$/i.test(file.name || "") || /image\/(tiff|x-tiff)/i.test(file.type || "");
+}
+
+async function rasterPreview(file, channelOrder = "auto") {
+  const image = await fileToB64(file);
+  const resp = await fetch(`${API_BASE}/inspect_upload`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image, channel_order: channelOrder }),
+  });
+  const info = await resp.json();
+  if (!resp.ok || info.error) throw new Error(info.error || "栅格预览读取失败");
+  return { url: "data:image/png;base64," + info.preview_b64, info };
+}
+
+async function handleMineFile(file, preserveBands = false) {
+  if (!file) return;
+  invalidateScene('upload');
+  mineFileObj = file;
+  const token = ++minePreviewToken;
+  if (!preserveBands) document.getElementById("uploadBands").value = "auto";
+  lastMeta = null;
+  const drop = document.getElementById("mineDrop");
+  drop.classList.add("has-img");
+  document.getElementById("mineName").textContent = file.name;
+  const hint = document.getElementById("gsdStatus");
+  document.getElementById("gsdInput").value = "";
+  roiFrac = null; roiImg = null; lastDetectedFile = null; hideReport("upload");
+  lastGeomStats = null; lastGeomMeta = null;
+  if (!isTiffFile(file)) {
+    document.getElementById("mineThumb").src = URL.createObjectURL(file);
+    showRoiEditor(file);
+    hint.textContent = "留空则几何量以像素输出；可载入该影像的元数据。";
+    return;
+  }
+  hint.textContent = "正在读取栅格波段与地理标签…";
+  try {
+    const preview = await rasterPreview(file, document.getElementById("uploadBands").value || "auto");
+    if (mineFileObj !== file || token !== minePreviewToken) return;
+    const bands = preview.info.band_meta || {};
+    lastMeta = { georeference: bands.georeference || null,
+                 meters_per_pixel: (preview.info.scale_meta || {}).meters_per_pixel || null };
+    if (lastMeta.meters_per_pixel) document.getElementById("gsdInput").value = lastMeta.meters_per_pixel;
+    document.getElementById("mineThumb").src = preview.url;
+    showRoiEditor(file, preview.url);
+    hint.textContent = `${bands.nir_source === "measured" ? "已识别真实NIR" : "无真实NIR"}` +
+      (lastMeta.meters_per_pixel ? ` · ${lastMeta.meters_per_pixel} 米/像素（文件标签）` : " · 米制尺度未确定") +
+      (bands.nodata_pixels ? ` · 排除 ${bands.nodata_pixels} 个NoData像元` : "");
+  } catch (err) {
+    if (mineFileObj !== file || token !== minePreviewToken) return;
+    document.getElementById("mineThumb").src = "";
+    document.getElementById("roiWrap").style.display = "none";
+    hint.textContent = "栅格读取失败：" + err.message;
+  }
+}
+
+(function bindMineDrop() {
+  const drop = document.getElementById("mineDrop");
+  const input = document.getElementById("mineFile");
+  if (!drop || !input) return;
+  input.addEventListener("change", e => { if (e.target.files[0]) handleMineFile(e.target.files[0]); });
+  document.getElementById("uploadBands").addEventListener("change", () => {
+    invalidateScene('upload');
+    if (mineFileObj && isTiffFile(mineFileObj)) handleMineFile(mineFileObj, true);
+  });
+  document.getElementById('uploadModel').addEventListener('change', () => invalidateScene('upload'));
+  document.getElementById('uploadGrid').addEventListener('change', () => invalidateScene('upload'));
+  document.getElementById('gsdInput').addEventListener('input', () => invalidateScene('upload'));
+  drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("dragover"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+  drop.addEventListener("drop", e => {
+    e.preventDefault();
+    drop.classList.remove("dragover");
+    const f = e.dataTransfer.files[0];
+    if (f) handleMineFile(f);
+  });
+})();
+
+function currentGsd() {
+  const v = parseFloat(document.getElementById("gsdInput").value);
+  return (isFinite(v) && v > 0) ? v : null;
+}
+
+// 读取 fetch_mine_imagery.py 的 <name>_meta.json → 自动填分辨率并记住该景经纬度
+function loadMetaJson(input) {
+  const f = input.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  const imageFile = mineFileObj, revision = minePreviewToken;
+  r.onload = e => {
+    if (mineFileObj !== imageFile || minePreviewToken !== revision) return;
+    const hint = document.getElementById("gsdStatus");
+    try {
+      const mm = JSON.parse(e.target.result);
+      invalidateScene('upload');
+      lastMeta = mm;
+      // 只把**校验过的有限数**放进 innerHTML —— 元数据来自用户选择的文件,
+      // 直接内插会造成注入。
+      const g = Number(mm.meters_per_pixel);
+      if (isFinite(g) && g > 0) {
+        document.getElementById("gsdInput").value = g;
+        hint.innerHTML = `已载入 <b>${g}</b> 米/像素` +
+          (mm.bbox ? "（含经纬度，矢量可定位）" : "");
+      } else {
+        hint.textContent = "该元数据不含可用的 meters_per_pixel";
+      }
+    } catch (err) {
+      hint.textContent = "元数据解析失败";
+    }
+  };
+  r.readAsText(f);
+}
+
+/* ── 监测范围（roi）画框交互 ──
+   坐标一律用**比例**(0~1)保存, 与服务端 _parse_roi 的 unit:'fraction' 对齐 ——
+   这样画布怎么缩放都不影响; 且服务端对越界会自动裁剪、面积<1%图幅判为非法并回退整幅。
+   ⚠ 本段已在 node vm 中跑真实代码验证过（等比缩放/正反向拖拽/误触清除/clearRoi）。 */
+let roiFrac = null;      // {x0,y0,x1,y1} 0~1
+let roiImg = null;
+
+function showRoiEditor(file, previewUrl) {
+  const wrap = document.getElementById("roiWrap");
+  const cv = document.getElementById("roiCanvas");
+  if (!file || !cv) return;
+  const img = new Image();
+  const revision = minePreviewToken;
+  img.onload = () => {
+    if (revision !== minePreviewToken || (mineFileObj && mineFileObj !== file)) return;
+    roiImg = img;
+    const scale = Math.min(1, 320 / img.width);      // 画布限宽 320
+    cv.width = Math.round(img.width * scale);
+    cv.height = Math.round(img.height * scale);
+    wrap.style.display = "block";
+    roiFrac = null;
+    updateRoiInfo(); drawRoi();
+  };
+  img.src = previewUrl || URL.createObjectURL(file);
+}
+
+function drawRoi() {
+  const cv = document.getElementById("roiCanvas");
+  if (!cv || !roiImg) return;
+  const ctx = cv.getContext("2d");
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  ctx.drawImage(roiImg, 0, 0, cv.width, cv.height);
+  if (!roiFrac) return;
+  const x = roiFrac.x0 * cv.width, y = roiFrac.y0 * cv.height;
+  const w = (roiFrac.x1 - roiFrac.x0) * cv.width, h = (roiFrac.y1 - roiFrac.y0) * cv.height;
+  ctx.fillStyle = "rgba(30,111,217,0.15)"; ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = "#1E6FD9"; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+}
+
+function updateRoiInfo() {
+  invalidateScene('upload');
+  const el = document.getElementById("roiInfo");
+  if (!el) return;
+  el.textContent = roiFrac
+    ? `（已圈定图幅的 ${((roiFrac.x1 - roiFrac.x0) * (roiFrac.y1 - roiFrac.y0) * 100).toFixed(0)}%，风险等级将按范围内计）`
+    : "（未圈定：按整幅统计）";
+}
+
+function clearRoi() { roiFrac = null; updateRoiInfo(); drawRoi(); }
+
+(function bindRoiDrag() {
+  const cv = document.getElementById("roiCanvas");
+  if (!cv) return;
+  let sx = 0, sy = 0, drawing = false;
+  const pos = e => {
+    const r = cv.getBoundingClientRect();
+    const t = (e.touches && e.touches[0]) ? e.touches[0] : e;
+    return [(t.clientX - r.left) / r.width, (t.clientY - r.top) / r.height];
+  };
+  const start = e => { drawing = true; [sx, sy] = pos(e); e.preventDefault(); };
+  const move = e => {
+    if (!drawing) return;
+    const [x, y] = pos(e);
+    roiFrac = { x0: Math.min(sx, x), y0: Math.min(sy, y),
+                x1: Math.max(sx, x), y1: Math.max(sy, y) };
+    drawRoi(); e.preventDefault();
+  };
+  const end = () => {
+    if (!drawing) return;
+    drawing = false;
+    // 面积 <1% 图幅视为误触, 清掉（与服务端的非法判据一致）
+    if (roiFrac && (roiFrac.x1 - roiFrac.x0) * (roiFrac.y1 - roiFrac.y0) < 0.01) roiFrac = null;
+    updateRoiInfo(); drawRoi();
+  };
+  cv.addEventListener("mousedown", start); cv.addEventListener("mousemove", move);
+  window.addEventListener("mouseup", end);
+  cv.addEventListener("touchstart", start); cv.addEventListener("touchmove", move);
+  window.addEventListener("touchend", end);
+})();
+
+// ── 几何形态: 实例级量测的前端呈现（多粒度输出的区域级/对象级）──
+function geomDetails(stats) {
+  const regs = (stats && stats.regions) || [];
+  if (!regs.length) return "";
+  const r = regs[0], m = v => (v === undefined || v === null) ? "-" : v;
+  const size = r.area_m2
+    ? `面积 ${m(r.area_m2)} 平方米 · 长轴 ${m(r.major_axis_m)} m · 周长 ${m(r.perimeter_m)} m`
+    : `面积 ${m(r.area_px)} px · 长轴 ${m(r.major_axis_px)} px · 周长 ${m(r.perimeter_px)} px`;
+  const total = stats.num_regions_total;
+  return `<details style="margin-top:6px;font-size:var(--fs-xs);line-height:1.75">
+    <summary>实例几何（最大实例）</summary>
+    <div style="margin-top:3px;color:var(--ink-3)">
+      外接框 ${r.bbox[2]}×${r.bbox[3]} px${r.touches_border ? "（贴边，几何量被图幅裁剪）" : ""}<br>
+      ${size}<br>
+      紧致度 ${m(r.circularity)} · 长宽比 ${m(r.aspect_ratio)} · 空洞 ${m(r.n_holes)} 个
+      ${total ? `<br>共 ${total} 处实例${stats.region_areas_truncated ? `（响应仅含前 ${regs.length} 处）` : ""}` : ""}
+    </div></details>`;
+}
+
+// ── 监测范围结果展示 ──
+// 服务端在给定 roi 时已把风险等级改为按**范围内**计（stats.pred_ratio 即范围内占比，
+// 整幅值保留在 pred_ratio_whole）。此处把两个口径都摆出来, 并说明为何区外不作准。
+function roiDetails(roi, areaAvailable = true) {
+  if (!roi) return "";
+  if (roi.error) return `<div class="note err">⚠ 监测范围未生效：${escapeHtml(roi.error)}</div>`;
+  if (!areaAvailable) return '<div class="note roi">监测范围已限定；存在待复核证据，当前掩膜面积占比不可计算。</div>';
+  const pct = v => (v * 100).toFixed(2) + "%";
+  const outside = roi.outside_available === false || roi.risk_outside == null
+    ? '范围外没有可用观测，不计算范围外占比和等级'
+    : `范围外 ${pct(roi.risk_outside)}（${escapeHtml(roi.level_outside)}）—— 仅作范围外参考`;
+  return `<div class="note roi">
+    <b>监测范围口径</b>（画框占图幅 ${(roi.area_ratio * 100).toFixed(0)}%）<br>
+    范围内风险区 ${pct(roi.risk_inside)} · 平均激活 ${roi.mean_prob_inside.toFixed(3)} · <b>${escapeHtml(roi.level_inside_name)}</b><br>
+    <span class="dim">${outside}</span>
+  </div>`;
+}
+
+async function runUploadDetect() {
+  const box = document.getElementById("uploadResult");
+  const btn = document.getElementById("uploadBtn");
+  if (!mineFileObj) { box.innerHTML = '<div class="note err">请先选择影像文件</div>'; return; }
+  const selection = uploadSelection();
+  const job = beginSceneJob('upload', () => sameUploadSelection(selection));
+  lastGeomStats = null; lastGeomMeta = null; lastDetectedFile = null; lastUploadRequest = null; uploadImgB64 = null;
+  btn.classList.add("running"); btn.disabled = true;
+  setBadge("mineBadge", "检测中…", "on");
+  hideReport("upload");           // 上一次的报告已随上一次检测过期
+  box.innerHTML = '<div class="note">⏳ 检测中…（大图约需数秒）</div>';
+  try {
+    const b64 = await fileToB64(selection.file);
+    if (!job.current()) return;
+    const gsd = selection.gsd;
+    const reqBody = { image: b64,
+                      model_tag: selection.model, channel_order: selection.bands,analysis_grid:selection.grid };
+    if (gsd) reqBody.meters_per_pixel = gsd;
+    // 监测范围：圈定后风险等级按**范围内**计（服务端 _parse_roi 支持 unit:'fraction'）
+    if (selection.roi !== 'null') reqBody.roi = Object.assign({unit:'fraction'}, JSON.parse(selection.roi));
+    const data = await scenePost('detect_upload', reqBody, job.signal);
+    if (!job.current()) return;
+    if ((data.band_meta || {}).georeference) {
+      lastMeta = Object.assign({}, lastMeta || {}, { georeference: data.band_meta.georeference });
+    }
+
+    uploadImgB64 = b64;                       // 供报告生成复用
+    lastGeomStats = data.stats;               // 供矢量导出
+    lastGeomMeta = { meters_per_pixel: (data.scale_meta || {}).meters_per_pixel || null,
+                     georeference: (data.band_meta || {}).georeference || null,
+                     spatial_input_contract: (data.band_meta || {}).spatial_input_contract || null,
+                     origin_latlon: lastMeta && lastMeta.bbox ? lastMeta.bbox[0] : null };
+    lastUploadRequest = Object.assign({}, reqBody);
+    lastDetectedFile = selection.file;
+    reportParams.upload = null;
+    const nTotal = data.stats.num_regions_total || data.stats.num_regions;
+    box.innerHTML = `
+      <div class="result-card">
+        <div class="rc-main">
+          <img src="data:image/png;base64,${data.overlay_b64}" alt="检测叠加图">
+          <div class="rc-info">
+            <div class="rc-title"><span style="color:${data.risk_color}">●</span> ${escapeHtml(data.risk_name)}</div>
+            风险区域 <b>${data.stats.num_regions}</b> 处${nTotal !== data.stats.num_regions ? `（共 ${nTotal}）` : ""}<br>
+            掩膜占比 <span class="num">${data.stats.area_ratio_available === false || !Number.isFinite(data.stats.area_ratio) ? '不可计算' : (data.stats.area_ratio * 100).toFixed(1) + '%'}</span> · 最大 <span class="num">${data.stats.max_region_area}px</span>
+            ${data.stats.unverified_pixels ? `<div class="note">待复核 ${data.stats.unverified_pixels} 像素，未判定为正常或事故。</div>` : ''}
+            ${roiDetails(data.roi, data.stats.area_ratio_available !== false && Number.isFinite(data.stats.area_ratio))}
+            <div class="note">${escapeHtml((data.band_meta || {}).note || "")}<br>${escapeHtml(data.risk_basis || "")}</div>
+            ${(data.model_info || {}).validation_note ? `<div class="note">${escapeHtml(data.model_info.validation_note)}</div>` : ""}
+            ${geomDetails(data.stats)}
+          </div>
+        </div>
+        <div class="rc-foot">
+          <button class="run-btn" onclick="runUploadPipeline()">
+            <div class="spinner"></div>
+            <span class="btn-text">🧠 对上传影像生成影像复核报告</span>
+          </button>
+        </div>
+      </div>`;
+    setBadge("mineBadge", "检测完成", "done");
+  } catch (err) {
+    if (!job.current()) return;
+    box.innerHTML = `<div class="note err">请求失败: ${escapeHtml(err.message)}</div>`;
+    setBadge("mineBadge", "失败", "err");
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+async function runUploadPipeline() {
+  if (!uploadImgB64) { alert("请先上传并检测影像"); return; }
+  const nowRoi = roiFrac ? Object.assign({ unit: "fraction" }, roiFrac) : null;
+  if (!lastUploadRequest || mineFileObj !== lastDetectedFile ||
+      lastUploadRequest.model_tag !== ((document.getElementById("uploadModel") || {}).value || "mine") ||
+      lastUploadRequest.channel_order !== ((document.getElementById("uploadBands") || {}).value || "auto") ||
+      (lastUploadRequest.analysis_grid || 'native') !== ((document.getElementById('uploadGrid') || {}).value || 'native') ||
+      (lastUploadRequest.meters_per_pixel || null) !== (currentGsd() || null) ||
+      JSON.stringify(lastUploadRequest.roi || null) !== JSON.stringify(nowRoi)) {
+    alert("影像、模型、波段、分辨率或监测范围已变化，请重新检测后生成报告。");
+    return;
+  }
+  const selection = uploadSelection();
+  const job = beginSceneJob('upload', () => sameUploadSelection(selection));
+  resetReport("upload");
+  rp("upload", "steps").innerHTML = '<div style="font-size:var(--fs-md);color:var(--ink-3);padding:6px 0">🧠 多智能体协同评估中（约 30–90 秒）…</div>';
+  try {
+    const p = Object.assign({}, lastUploadRequest || { image: uploadImgB64, model_tag: "mine" });
+    if (activeCaseId) p.case_id = activeCaseId;
+    reportParams.upload = p;
+    const data = await scenePost('pipeline_upload', p, job.signal);
+    if (!job.current()) return;
+    renderPipelineResult(data, "upload");
+    rp("upload", "steps").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (e) {
+    if (!job.current()) return;
+    rp("upload", "steps").innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   02 · 标准测试集评测
+   ══════════════════════════════════════════════════════════════ */
+let currentRegion = "Emilia-Romagna_Italy_32";
+let selectedSample = null;
+let lastGeomStats = null;   // 最近一次检测的 stats, 供矢量导出（上传检测会写, 点选样本会清）
+let lastGeomMeta = null;    // 与同一次检测绑定的尺度/坐标，禁止借用下一张影像的元数据
+let datasetGeomStats = null;
+let datasetGeomMeta = null;
+let lastUploadRequest = null;
+let lastDetectedFile = null;
+let uploadImgB64 = null;    // 上传影像 base64, 供报告生成
+
+document.querySelectorAll("#regionChips .region-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll("#regionChips .region-chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    currentRegion = chip.dataset.region;
+    invalidateScene('dataset');
+    document.getElementById("sampleGrid").innerHTML = "";
+    document.getElementById("pipelineBtn").style.display = "none";
+    hideReport("dataset");
+    selectedSample = null;
+  });
+});
+['fuseCheck','dsCheck'].forEach(id => document.getElementById(id).addEventListener('change', () => invalidateScene('dataset')));
+
+async function runDetect() {
+  const btn = document.getElementById("detectBtn");
+  const grid = document.getElementById("sampleGrid");
+  const selection = datasetSelection();
+  const job = beginSceneJob('dataset', () => JSON.stringify(datasetSelection()) === JSON.stringify(selection));
+  datasetGeomStats = null; datasetGeomMeta = null;
+  btn.classList.add("running"); btn.disabled = true;
+  setBadge("detectBadge", "检测中…", "on");
+  hideReport("dataset");          // 换了样本, 上一次的报告与选中态都过期
+  selectedSample = null;
+  document.getElementById("pipelineBtn").style.display = "none";
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--ink-3)">⏳ 模型推理中（GPU）…</div>';
+  try {
+    const data = await scenePost('detect', {...selection,num:6}, job.signal);
+    if (!job.current()) return;
+    renderSamples(data.samples);
+    if (data.ds_rejected_px > 0) {
+      const note = document.createElement("div");
+      note.className = "note warn";
+      note.style.gridColumn = "1/-1";
+      note.textContent = `🛡️ D-S 冲突区域 ${data.ds_rejected_px} 像素进入待复核，未判定为事故或安全区域。`;
+      grid.appendChild(note);
+    }
+    setBadge("detectBadge", "检测完成", "done");
+  } catch (e) {
+    if (!job.current()) return;
+    grid.innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+    setBadge("detectBadge", "失败", "err");
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+function renderSamples(samples) {
+  const grid = document.getElementById("sampleGrid");
+  grid.innerHTML = "";
+  samples.forEach(s => {
+    const card = document.createElement("div");
+    card.className = "sample-card";
+    card.innerHTML = `
+      <div class="risk-badge" style="background:${s.risk_color}">${escapeHtml(s.risk_name)}</div>
+      <img src="data:image/png;base64,${s.overlay_b64}" alt="样本${s.index}">
+      <div class="sample-meta">
+        样本 #${s.index}<br>
+        疑似异常占比 ${s.stats.area_ratio_available === false ? "不可计算" : (s.stats.area_ratio * 100).toFixed(1) + "%"} · ${s.stats.num_regions} 处区域<br>
+        最大区域 ${s.stats.max_region_area}px · IoU ${s.stats.iou == null ? "—" : s.stats.iou}
+        ${s.stats.unverified_pixels ? `<br>待复核 ${s.stats.unverified_pixels} 像素` : ""}
+        ${geomDetails(s.stats)}
+      </div>`;
+    card.addEventListener("click", () => {
+      cancelSceneJob('dataset');
+      document.querySelectorAll(".sample-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      selectedSample = s;
+      datasetGeomStats = s.stats;
+      datasetGeomMeta = {meters_per_pixel:(s.scale_meta || {}).meters_per_pixel || null,
+        georeference:(s.band_meta || {}).georeference || null};
+      document.getElementById("pipelineBtn").style.display = "";
+      hideReport("dataset");
+    });
+    grid.appendChild(card);
+  });
+}
+
+async function runPipeline() {
+  if (!selectedSample) { alert("请先点击选择一个样本"); return; }
+  const btn = document.getElementById("pipelineBtn");
+  const sample = selectedSample, selection = datasetSelection();
+  const job = beginSceneJob('dataset', () => selectedSample === sample && JSON.stringify(datasetSelection()) === JSON.stringify(selection));
+  resetReport("dataset");
+  rp("dataset", "steps").innerHTML = '<div style="font-size:var(--fs-md);color:var(--ink-3);padding:6px 0">🧠 多智能体协同评估中（约 30–90 秒）…</div>';
+  btn.classList.add("running"); btn.disabled = true;
+  try {
+    const p = {...selection,sample_index:sample.index};
+    reportParams.dataset = p;
+    const data = await scenePost('pipeline', p, job.signal);
+    if (!job.current()) return;
+    renderPipelineResult(data, "dataset");
+  } catch (e) {
+    if (!job.current()) return;
+    rp("dataset", "steps").innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   03 · 多期影像变化对比
+   ══════════════════════════════════════════════════════════════ */
+let cmpImages = { t1: null, t2: null };
+let lastCompareSelection = null;
+['cmpModel','cmpRegistration'].forEach(id => document.getElementById(id).addEventListener('change', () => invalidateScene('compare')));
+
+function bindComparePreview(inputId, imgId) {
+  const input = document.getElementById(inputId);
+  const img = document.getElementById(imgId);
+  input.addEventListener("change", async () => {
+    invalidateScene('compare');
+    const f = input.files[0];
+    if (!f) return;
+    if (isTiffFile(f)) {
+      try {
+        const preview = await rasterPreview(f);
+        if (input.files[0] !== f) return;
+        img.src = preview.url; img.style.display = "";
+      } catch (err) { if (input.files[0] === f) { img.style.display = "none"; alert("栅格预览失败：" + err.message); } }
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => { if (input.files[0] === f) { img.src = e.target.result; img.style.display = ""; } };
+    reader.readAsDataURL(f);
+  });
+}
+bindComparePreview("cmpT1", "cmpT1Prev");
+bindComparePreview("cmpT2", "cmpT2Prev");
+
+function fileToB64(file) {
+  return new Promise((res, reject) => {
+    if (!file || file.size > 32 * 1024 * 1024) { reject(new Error('影像文件须不超过32 MiB，请裁剪分析范围后上传。')); return; }
+    const r = new FileReader();
+    r.onload = e => res(e.target.result.split(",")[1]);
+    r.onerror = () => reject(new Error('影像文件读取失败，请重新选择文件。'));
+    r.onabort = () => reject(new Error('影像文件读取已取消。'));
+    r.readAsDataURL(file);
+  });
+}
+
+async function readFileB64(inputId) {
+  const f = document.getElementById(inputId).files[0];
+  if (!f) return null;
+  return fileToB64(f);
+}
+
+// 模型区域的匹配与面积变化，不表示已经确认同一事故或现场稳定。
+function instanceChangeBlock(ci) {
+  if (!ci || !ci.summary) return "";
+  const s = ci.summary;
+  const insts = (ci.instances || []).filter(x => x.change === "expanded").slice(0, 3);
+  const exps = (s.expansion_ratios_top || []);
+  if (!insts.length && !exps.length) {
+    return `<div style="margin-top:6px;color:var(--ink-3);font-size:var(--fs-sm)">
+      匹配区域: 掩膜变化低于扩大阈值 ${s.n_stable} 处 · 新增 ${s.n_added} · 消退 ${s.n_removed}（无扩大区域）</div>`;
+  }
+  const rows = insts.map(x =>
+    `#${x.id} 面积 ${x.area_px}px → 扩大 ${x.expansion_ratio}× （包含度 ${x.matched_containment}）`
+  ).join("<br>");
+  return `<div style="margin-top:6px;font-size:var(--fs-sm)">
+    <b>模型区域匹配与面积变化:</b><br>
+    ${rows || `最大扩大倍数 ${s.max_expansion_ratio}×`}
+    <div style="color:var(--ink-3);margin-top:3px">
+      掩膜变化低于扩大阈值 ${s.n_stable} · 新增 ${s.n_added} · 扩大 ${s.n_expanded} · 消退 ${s.n_removed}
+      （匹配用包含度 ≥ ${s.match_containment_threshold}，扩大阈值 ${s.expand_ratio_threshold}×）
+    </div></div>`;
+}
+
+async function runCompare() {
+  const box = document.getElementById("cmpResult");
+  const btn = document.getElementById("cmpBtn");
+  const reportBtn = document.getElementById("cmpReportBtn");
+  const selection = compareSelection();
+  if (!selection.t1 || !selection.t2) { invalidateScene('compare'); box.innerHTML = '<div class="note err">请先选择 T1（前期）和 T2（后期）两张影像</div>'; return; }
+  const job = beginSceneJob('compare', () => sameCompareSelection(selection));
+  cmpImages = {t1:null,t2:null}; lastCompareSelection = null;
+  btn.classList.add("running"); btn.disabled = true;
+  reportBtn.style.display = "none";
+  hideReport("compare");
+  box.innerHTML = '<div class="note">⏳ 两期检测与变化分析中…</div>';
+  try {
+    const [t1,t2] = await Promise.all([fileToB64(selection.t1),fileToB64(selection.t2)]);
+    if (!job.current()) return;
+    const data = await scenePost('compare', {image_t1:t1,image_t2:t2,model_tag:selection.model,registration:selection.registration}, job.signal);
+    if (!job.current()) return;
+    cmpImages = {t1,t2,model_tag:selection.model,registration:selection.registration};
+    lastCompareSelection = selection;
+    const st = data.stats;
+    box.innerHTML = `
+      <div class="cols-3">
+        <div><img src="data:image/png;base64,${data.t1_overlay_b64}" style="width:100%;border-radius:var(--r-sm)">
+          <div style="text-align:center;margin-top:5px;color:var(--ink-3);font-size:var(--fs-sm)">T1 检测（占比 ${(st.t1_ratio * 100).toFixed(1)}%）</div></div>
+        <div><img src="data:image/png;base64,${data.t2_overlay_b64}" style="width:100%;border-radius:var(--r-sm)">
+          <div style="text-align:center;margin-top:5px;color:var(--ink-3);font-size:var(--fs-sm)">T2 检测（占比 ${(st.t2_ratio * 100).toFixed(1)}%）</div></div>
+        <div><img src="data:image/png;base64,${data.change_overlay_b64}" style="width:100%;border-radius:var(--r-sm)">
+          <div style="text-align:center;margin-top:5px;color:var(--ink-3);font-size:var(--fs-sm)">
+            <span style="color:#E53935">■新增 ${st.n_added_regions}</span> ·
+            <span style="color:#FB8C00">■扩大 ${st.n_expanded_regions}</span> ·
+            <span style="color:#43A047">■消退 ${st.n_removed_regions}</span>
+          </div></div>
+      </div>
+      <div class="note" style="background:var(--bg);margin-top:var(--sp-3)">
+        模型掩膜占比: ${(st.t1_ratio * 100).toFixed(1)}% → ${(st.t2_ratio * 100).toFixed(1)}%
+        <b>（净变化 ${(st.net_ratio * 100).toFixed(1)} 个百分点）</b>
+        ${instanceChangeBlock(data.change_instances)}
+        <div>位置对应：${escapeHtml((data.registration || {}).status || "未知")} · 共同有效范围 ${(((data.registration || {}).valid_ratio || 0) * 100).toFixed(1)}%</div>
+      </div>`;
+    reportBtn.style.display = "";
+  } catch (e) {
+    if (!job.current()) return;
+    box.innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+async function runCompareReport() {
+  if (!cmpImages.t1 || !cmpImages.t2) { alert("请先完成变化对比分析"); return; }
+  if (!sameCompareSelection(lastCompareSelection)) { invalidateScene('compare'); alert('影像或对比条件已变化，请重新分析。'); return; }
+  const images = cmpImages, selection = lastCompareSelection;
+  const job = beginSceneJob('compare', () => cmpImages === images && sameCompareSelection(selection));
+  resetReport("compare");
+  rp("compare", "steps").innerHTML = '<div style="font-size:var(--fs-md);color:var(--ink-3);padding:6px 0">🧠 多智能体变化趋势评估中（约 30–90 秒）…</div>';
+  try {
+    const data = await scenePost('pipeline_compare', {image_t1:images.t1,image_t2:images.t2,model_tag:images.model_tag,registration:images.registration,...(activeCaseId?{case_id:activeCaseId}:{})}, job.signal);
+    if (!job.current()) return;
+    renderPipelineResult(data, "compare");
+    rp("compare", "steps").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (e) {
+    if (!job.current()) return;
+    rp("compare", "steps").innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+  } finally {
+    finishSceneJob(job);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   导出：报告 PNG / 矢量 / 实例表
+   —— 几何由检测接口一次算好, 此处只做格式化下载, 不在前端复写几何/大地计算
+   ══════════════════════════════════════════════════════════════ */
+async function exportCompareReport(format = 'html') {
+  const reportId = reportParams.compare?.report_id;
+  if (!reportId) { alert("请先生成双期变化报告"); return; }
+  try {
+    const resp = await fetch(`${API_BASE}/report_compare`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ report_id: reportId, format }),
+    });
+    const data = await resp.json();
+    if (!resp.ok || data.error) { alert("双期报告导出失败: " + (data.error || resp.status)); return; }
+    const bin = atob(data.content_b64);
+    const bytes = Uint8Array.from(bin, ch => ch.charCodeAt(0));
+    const url = URL.createObjectURL(new Blob([bytes], { type: `${data.mime_type};charset=utf-8` }));
+    const a = document.createElement("a");
+    a.href = url; a.download = data.filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) { alert("双期报告导出失败: " + e.message); }
+}
+
+async function exportReviewRecord(slot, format='json') {
+  const reportId = reportParams[slot]?.report_id;
+  if (!reportId) { alert("请先生成本场景的影像复核报告"); return; }
+  try {
+    const resp = await fetch(`${API_BASE}/review_record`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ report_id: reportId,format }),
+    });
+    const data = await resp.json();
+    if (!resp.ok || data.error) { alert("复核记录导出失败: " + (data.error || resp.status)); return; }
+    const a = document.createElement("a");
+    a.href = `data:${data.mime_type || 'application/json;charset=utf-8'};base64,${data.content_b64}`;
+    a.download = data.filename || "矿安天眼_复核记录.json";
+    a.click();
+  } catch (e) { alert("复核记录导出失败: " + e.message); }
+}
+
+async function exportReport(slot) {
+  const reportId = reportParams[slot]?.report_id;
+  if (!reportId) { alert("请先生成本场景的影像复核报告，再导出同次结果"); return; }
+  const endpoint = slot === "upload" ? `${API_BASE}/report_upload` : `${API_BASE}/report`;
+  try {
+    const resp = await fetch(endpoint, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ report_id: reportId }),
+    });
+    const data = await resp.json();
+    if (data.error) { alert("导出失败: " + data.error); return; }
+    const a = document.createElement("a");
+    a.href = `data:image/png;base64,${data.report_b64}`;
+    a.download = `矿安天眼预警报告_${Date.now()}.png`;
+    a.click();
+  } catch (e) {
+    alert("导出失败: " + e.message);
+  }
+}
+
+async function exportVector(format, slot) {
+  const stats = slot === 'upload' ? lastGeomStats : slot === 'dataset' ? datasetGeomStats : null;
+  const regs = (stats && stats.regions) || [];
+  if (!regs.length) { alert("请先执行一次检测（数据集样本或上传影像）"); return; }
+  const body = { regions: regs, format: format || "geojson", name: "landslide_" + Date.now() };
+  const captured = slot === 'upload' ? lastGeomMeta : datasetGeomMeta;
+  const gsd = captured && captured.meters_per_pixel;
+  if (gsd) body.meters_per_pixel = gsd;
+  if (captured && captured.origin_latlon) body.origin_latlon = captured.origin_latlon;
+  if (captured && captured.georeference) body.georeference = captured.georeference;
+  const savedContract = (reportResults[slot]?.detection?.band_meta || {}).spatial_input_contract || captured?.spatial_input_contract;
+  if (savedContract) body.spatial_input_contract = savedContract;
+  const note = rp(slot, "note");
+  try {
+    const resp = await fetch(`${API_BASE}/geometry_export`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    if (data.error) { alert("导出失败: " + data.error); return; }
+    const bin = atob(data.content_b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([bytes], { type: "application/octet-stream" }));
+    const a = document.createElement("a");
+    a.href = url; a.download = data.filename; a.click();
+    URL.revokeObjectURL(url);
+    if (note) note.textContent = `已导出 ${data.n_features} 个要素 · ${data.note || ""}`;
+  } catch (e) {
+    alert("导出失败: " + e.message);
+  }
+}
+
+let archiveCases = [], archiveReports = [], archiveCaseOffset = 0, archiveCaseTotal = 0;
+let archiveCase = null, archiveReport = null, archiveLoadVersion = 0, archiveReportVersion = 0;
+let archiveReportOffset = 0;
+let archiveReportTotal = 0;
+async function archiveRequest(path, method = 'GET', data) {
+  const response = await fetch(`${API_BASE}/${path}`, {method,
+    ...(data === undefined ? {} : {headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})});
+  let result;
+  try { result = await response.json(); } catch { throw new Error(`服务返回 HTTP ${response.status}，未提供有效归档结果`); }
+  if (!response.ok || result.error) { const error = new Error(result.error || `HTTP ${response.status}`);error.status=response.status;throw error; }
+  return result;
+}
+function archiveMessage(message) { document.getElementById('archiveStatus').textContent = message; }
+function archiveDisplayTime(value) {
+  const date = new Date(value);
+  return value && !Number.isNaN(date.getTime()) ? date.toLocaleString('zh-CN', {hour12:false}) : (value || '未提供');
+}
+function renderArchiveCaseList() {
+  const start = archiveCases.length ? archiveCaseOffset + 1 : 0;
+  document.getElementById('archiveCases').innerHTML = `<p class="archive-count">共 ${archiveCaseTotal} 个案例 · 当前 ${start}–${archiveCaseOffset+archiveCases.length}</p>` +
+    (archiveCases.length ? `<div class="archive-case-list">${archiveCases.map((row,index) =>
+      `<article class="archive-case-item${row.case_id===activeCaseId?' active':''}"><h4>${escapeHtml(row.mine_name)}</h4><p class="archive-case-title">${escapeHtml(row.title)}</p><div class="archive-item-meta"><span>${row.report_count} 次分析</span><span>${escapeHtml(archiveDisplayTime(row.updated_at))}</span></div><button class="run-btn ghost" onclick="selectArchiveCaseAt(${index})"${row.case_id===activeCaseId?' aria-current="true"':''}>${row.case_id===activeCaseId?'当前案例':'打开案例 →'}</button></article>`).join('')}</div>` :
+      '<div class="archive-empty">没有找到匹配的案例。可更换关键词，或填写案例信息后新建。</div>');
+  document.getElementById('archiveCasePrev').disabled = archiveCaseOffset === 0;
+  document.getElementById('archiveCaseNext').disabled = archiveCaseOffset + archiveCases.length >= archiveCaseTotal;
+}
+async function loadArchiveCases(offset = archiveCaseOffset) {
+  const version = ++archiveLoadVersion;
+  const query = document.getElementById('archiveSearch').value || '';
+  try {
+    const data = await archiveRequest(`cases?q=${encodeURIComponent(query)}&limit=50&offset=${offset}`);
+    if (version !== archiveLoadVersion) return;
+    archiveCases = data.cases; archiveCaseOffset = offset; archiveCaseTotal = data.total;
+    renderArchiveCaseList();
+  } catch (error) { if (version === archiveLoadVersion) archiveMessage(error.message); }
+}
+async function selectArchiveCaseAt(index) { return selectArchiveCase(archiveCases[index]?.case_id); }
+async function selectArchiveCase(caseId,offset=0) {
+  if (!caseId) return;
+  const version = ++archiveReportVersion;
+  try {
+    const data = await archiveRequest(`cases/${encodeURIComponent(caseId)}?limit=50&offset=${offset}`);
+    if (version !== archiveReportVersion) return;
+    if (activeCaseId !== caseId) ['upload','dataset','compare'].forEach(invalidateScene);
+    activeCaseId = caseId; archiveCase = data.case; archiveReports = data.reports; archiveReport = null;
+    archiveReportOffset=offset;
+    archiveReportTotal=data.total;
+    reportParams.archive = null; hideReport('archive');
+    document.getElementById('archiveReviewPanel').style.display = 'none';
+    document.getElementById('archiveImages').innerHTML = '';
+    document.getElementById('activeCaseLabel').textContent = `后续分析归入：${archiveCase.mine_name} · ${archiveCase.title}`;
+    document.getElementById('archiveMine').value = archiveCase.mine_name;
+    document.getElementById('archiveTitle').value = archiveCase.title;
+    document.getElementById('archiveCaseNotes').value = archiveCase.notes;
+    renderArchiveCaseList();
+    renderArchiveReportList();
+    archiveMessage(`已选择 ${archiveCase.mine_name}。矿区名称为归档标签，影像位置与日期仍需依据来源核查。`);
+  } catch (error) { if (version === archiveReportVersion) archiveMessage(error.message); }
+}
+async function createArchiveCase() {
+  try {
+    const row = await archiveRequest('cases','POST',{mine_name:document.getElementById('archiveMine').value,
+      title:document.getElementById('archiveTitle').value,notes:document.getElementById('archiveCaseNotes').value});
+    await loadArchiveCases(0); await selectArchiveCase(row.case_id);
+  } catch (error) { archiveMessage(error.message); }
+}
+async function editArchiveCase() {
+  if (!archiveCase) { archiveMessage('请先选择要修改的案例。');return; }
+  const caseId = archiveCase.case_id;
+  try {
+    const row = await archiveRequest(`cases/${caseId}`,'PATCH',{expected_revision:archiveCase.revision,
+      mine_name:document.getElementById('archiveMine').value,title:document.getElementById('archiveTitle').value,
+      notes:document.getElementById('archiveCaseNotes').value});
+    if (activeCaseId !== caseId) return;
+    archiveCase = row;await loadArchiveCases();await selectArchiveCase(caseId);
+  } catch (error) { archiveMessage(error.message); }
+}
+async function openArchivedReportAt(index) { return openArchivedReport(archiveReports[index]?.report_id); }
+function renderArchiveReportList() {
+  document.getElementById('archiveReports').innerHTML=`<p class="archive-count">共 ${archiveReportTotal} 次历史分析（当前列出 ${archiveReports.length} 次）</p>`+
+    (archiveReports.length ? `<div class="archive-report-list">${archiveReports.map((row,index)=>
+      `<article class="archive-report-item${row.report_id===archiveReport?.report_id?' active':''}"><div class="archive-report-info"><strong>${escapeHtml(archiveDisplayTime(row.created_at))}</strong><span class="archive-report-kind">${row.kind==='paired_mask_change'?'双期变化':'单期筛查'}</span><div class="archive-item-meta"><span>采集时间：${escapeHtml(archiveDisplayTime(row.capture_t1))}${row.capture_t2?' → '+escapeHtml(archiveDisplayTime(row.capture_t2)):''}</span><span>复核版本 ${row.review_revision}</span></div></div><button class="run-btn ghost" onclick="openArchivedReportAt(${index})">${row.report_id===archiveReport?.report_id?'正在查看':'查看与复核'}</button></article>`).join('')}</div>` : '<div class="archive-empty">此案例还没有分析记录。选中案例后执行影像分析，结果将归入此处。</div>');
+  document.getElementById('archiveReportPrev').disabled = archiveReportOffset === 0;
+  document.getElementById('archiveReportNext').disabled = archiveReportOffset + archiveReports.length >= archiveReportTotal;
+}
+async function pageArchiveReports(direction) { if (activeCaseId) await selectArchiveCase(activeCaseId,Math.max(0,archiveReportOffset+direction*50)); }
+async function openArchivedReport(reportId, keepDraft = false) {
+  if (!reportId) return;
+  const version = ++archiveReportVersion;
+  try {
+    const data = await archiveRequest(`archive/reports/${encodeURIComponent(reportId)}`);
+    if (version !== archiveReportVersion) return;
+    if (data.case_context.case_id !== activeCaseId) { archiveMessage('该分析属于另一案例，请先选择对应案例。');return; }
+    archiveReport = data;renderPipelineResult(data,'archive');
+    const listed=archiveReports.find(row=>row.report_id===data.report_id);if(listed)listed.review_revision=data.archive.review_revision;
+    renderArchiveReportList();
+    document.getElementById('archiveReviewSave').disabled=false;
+    document.getElementById('archiveReviewPanel').style.display = '';
+    const select = document.getElementById('archiveReviewTarget'),previous = select.value;
+    select.innerHTML = '';
+    const manualTargets=(data.review_handoff.manual_annotations || []).map((row,index)=>({review_item_key:row.target_key,manual_label:`人工补记 ${index+1}`}));
+    const targets = [{review_item_key:'report'},...(data.review_handoff.review_items || []),...manualTargets];
+    targets.forEach(item => {const option=document.createElement('option');option.value=item.review_item_key;
+      option.textContent=item.review_item_key==='report'?'本次分析的总体意见':item.manual_label || `${item.review_item_key} · ${item.area_px ?? '未知'} 像素`;select.appendChild(option);});
+    select.value = keepDraft && targets.some(item=>item.review_item_key===previous) ? previous : 'report';
+    if (!keepDraft) { document.getElementById('archiveReviewEvidence').value='';document.getElementById('archiveReviewNote').value=''; }
+    renderArchiveHistory(data.review_handoff);
+    const images=document.getElementById('archiveImages');images.innerHTML='';
+    [['rgb_b64','原图显示'],['t2_rgb_b64','T2原图显示'],['t1_overlay_b64','T1模型叠加'],['t2_overlay_b64','T2模型叠加'],['overlay_b64','模型叠加结果']].forEach(([key,label])=>{
+      const value=data.detection[key];if (!value) return;
+      const figure=document.createElement('figure'),caption=document.createElement('figcaption'),picture=document.createElement('img');
+      caption.textContent=label;picture.alt=label;picture.src='data:image/png;base64,'+value;
+      figure.appendChild(caption);figure.appendChild(picture);images.appendChild(figure);
+    });
+    prepareManualAnnotation(data);
+    document.getElementById('archiveReviewMessage').textContent=`当前复核版本 ${data.archive.review_revision}。每次保存保留旧意见，模型量测不会被改写。`;
+  } catch (error) { if (version === archiveReportVersion) archiveMessage(error.message); }
+}
+function renderArchiveHistory(record) {
+  const rows = record.review_history || [];
+  document.getElementById('archiveReviewHistory').innerHTML = `<h3>修改历史 <span class="archive-summary-hint">${rows.length} 条记录</span></h3>` +
+    (rows.length ? `<ol class="archive-history-list">${rows.slice().reverse().map(row =>
+      `<li class="archive-history-item"><div class="archive-history-heading"><b>版本 ${row.revision} · ${escapeHtml(row.status_label)}</b><span class="archive-tag">${row.target_key==='report'?'本次分析':escapeHtml(row.target_key)}</span></div><div class="archive-item-meta"><span>${escapeHtml(row.reviewer)}</span><span>${escapeHtml(archiveDisplayTime(row.created_at))}</span></div><p>${escapeHtml(row.note)}</p><p class="archive-history-evidence">依据：${escapeHtml(row.evidence)}</p></li>`).join('')}</ol>` : '<div class="archive-empty">尚未添加人工意见。保存后将在这里保留修改记录。</div>');
+}
+async function refreshArchivedReport() { if (archiveReport) await openArchivedReport(archiveReport.report_id,true); }
+async function saveArchiveReview() {
+  if (!archiveReport) return;
+  const reportId=archiveReport.report_id,version=archiveReportVersion,button=document.getElementById('archiveReviewSave');button.disabled=true;
+  try {
+    const result=await archiveRequest(`archive/reports/${reportId}/reviews`,'POST',{
+      expected_revision:archiveReport.archive.review_revision,target_key:document.getElementById('archiveReviewTarget').value,
+      status:document.getElementById('archiveReviewStatus').value,reviewer:document.getElementById('archiveReviewer').value,
+      evidence:document.getElementById('archiveReviewEvidence').value,note:document.getElementById('archiveReviewNote').value});
+    if (version!==archiveReportVersion || archiveReport?.report_id!==reportId) return;
+    archiveReport=result;renderPipelineResult(result,'archive');renderArchiveHistory(result.review_handoff);prepareManualAnnotation(result);
+    const listed=archiveReports.find(row=>row.report_id===reportId);if(listed)listed.review_revision=result.archive.review_revision;
+    renderArchiveReportList();
+    document.getElementById('archiveReviewMessage').textContent=`意见已保存，复核版本 ${result.archive.review_revision}。原始量测保持不变。`;
+  } catch (error) {
+    if (version===archiveReportVersion) document.getElementById('archiveReviewMessage').textContent=error.status===409?error.message+'；输入已保留，请刷新记录后核对。':error.message;
+  } finally {if(version===archiveReportVersion)button.disabled=false;}
+}
+async function viewReportArchive(slot) {
+  const data=reportResults[slot];if (!data?.archive) return;
+  document.querySelectorAll('#sceneNav .nav-pill').forEach(item=>{if(item.dataset.target==='scene-archive')item.click();});
+  await selectArchiveCase(data.archive.case_id);await openArchivedReport(data.report_id);
+}
+
+let manualAnnotationImage=null,manualAnnotationBox=null,manualAnnotationReportId=null,manualAnnotationShape=null;
+let manualAnnotationStart=null;
+function prepareManualAnnotation(data) {
+  const panel=document.getElementById('archiveManualPanel'),canvas=document.getElementById('archiveManualCanvas');
+  const det=data.detection || {},source=det.rgb_b64 || det.t2_rgb_b64,shape=det.size;
+  manualAnnotationImage=null;manualAnnotationBox=null;manualAnnotationStart=null;manualAnnotationReportId=data.report_id;
+  manualAnnotationShape=shape;
+  const meta=det.band_meta || {},epoch='t1_ratio' in (det.stats || {}) ? meta.t2 : meta;
+  if(!source || !Array.isArray(shape) || shape.length!==2 || !epoch?.input_sha256){panel.style.display='none';return;}
+  panel.style.display='';document.getElementById('archiveManualSave').disabled=true;
+  document.getElementById('archiveManualMessage').textContent='正在载入原图显示…';
+  const picture=new Image(),reportId=data.report_id;
+  picture.onload=()=>{
+    if(archiveReport?.report_id!==reportId || manualAnnotationReportId!==reportId)return;
+    if(picture.naturalHeight!==shape[0] || picture.naturalWidth!==shape[1]){
+      document.getElementById('archiveManualMessage').textContent='显示尺寸与原图格网不一致，不能补记';return;
+    }
+    const ratio=Math.min(1,1400/Math.max(...shape));canvas.width=Math.round(shape[1]*ratio);canvas.height=Math.round(shape[0]*ratio);
+    manualAnnotationImage=picture;document.getElementById('archiveManualSave').disabled=false;drawManualAnnotations();
+    document.getElementById('archiveManualMessage').textContent=`已有 ${(data.review_handoff.manual_annotations || []).length} 处人工补记。定位框随复核JSON导出。`;
+  };
+  picture.onerror=()=>{if(manualAnnotationReportId===reportId)document.getElementById('archiveManualMessage').textContent='原图显示无法载入，未创建补记';};
+  picture.src='data:image/png;base64,'+source;
+}
+function drawManualAnnotations() {
+  if(!manualAnnotationImage || !manualAnnotationShape)return;
+  const canvas=document.getElementById('archiveManualCanvas'),ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(manualAnnotationImage,0,0,canvas.width,canvas.height);
+  const sx=canvas.width/manualAnnotationShape[1],sy=canvas.height/manualAnnotationShape[0];
+  const boxes=(archiveReport?.review_handoff?.manual_annotations || []).map(row=>row.manual_annotation.box_px);
+  if(manualAnnotationBox)boxes.push(manualAnnotationBox);
+  boxes.forEach((box,index)=>{ctx.strokeStyle=index===boxes.length-1 && manualAnnotationBox?'#29c8db':'#ffb340';ctx.lineWidth=2;
+    ctx.strokeRect(box[0]*sx,box[1]*sy,(box[2]-box[0])*sx,(box[3]-box[1])*sy);});
+}
+function manualPoint(event) {
+  const rectangle=document.getElementById('archiveManualCanvas').getBoundingClientRect();
+  return [Math.max(0,Math.min(manualAnnotationShape[1],(event.clientX-rectangle.left)/rectangle.width*manualAnnotationShape[1])),
+    Math.max(0,Math.min(manualAnnotationShape[0],(event.clientY-rectangle.top)/rectangle.height*manualAnnotationShape[0]))];
+}
+(function bindManualAnnotation(){
+  const canvas=document.getElementById('archiveManualCanvas');if(!canvas)return;
+  canvas.addEventListener('pointerdown',event=>{
+    if(!manualAnnotationImage || archiveReport?.report_id!==manualAnnotationReportId || (event.button!==undefined && event.button!==0))return;
+    manualAnnotationStart=manualPoint(event);manualAnnotationBox=null;canvas.setPointerCapture?.(event.pointerId);event.preventDefault();
+  });
+  canvas.addEventListener('pointermove',event=>{
+    if(!manualAnnotationStart)return;const end=manualPoint(event);
+    manualAnnotationBox=[Math.min(manualAnnotationStart[0],end[0]),Math.min(manualAnnotationStart[1],end[1]),Math.max(manualAnnotationStart[0],end[0]),Math.max(manualAnnotationStart[1],end[1])];drawManualAnnotations();
+  });
+  canvas.addEventListener('pointerup',event=>{if(!manualAnnotationStart)return;manualAnnotationStart=null;canvas.releasePointerCapture?.(event.pointerId);});
+  canvas.addEventListener('pointercancel',()=>{manualAnnotationStart=null;manualAnnotationBox=null;drawManualAnnotations();});
+})();
+function clearManualAnnotation(){manualAnnotationStart=null;manualAnnotationBox=null;drawManualAnnotations();}
+async function saveManualAnnotation(){
+  const message=document.getElementById('archiveManualMessage');
+  if(!manualAnnotationBox || archiveReport?.report_id!==manualAnnotationReportId){message.textContent='请先在当前原图上框选核查位置';return;}
+  const reportId=archiveReport.report_id,version=archiveReportVersion,box=manualAnnotationBox.slice(),button=document.getElementById('archiveManualSave');
+  button.disabled=true;
+  try{
+    const result=await archiveRequest(`archive/reports/${reportId}/manual_annotations`,'POST',{
+      expected_revision:archiveReport.archive.review_revision,box_px:box,
+      reviewer:document.getElementById('archiveReviewer').value,evidence:document.getElementById('archiveReviewEvidence').value,
+      note:document.getElementById('archiveReviewNote').value});
+    if(version!==archiveReportVersion || archiveReport?.report_id!==reportId)return;
+    await openArchivedReport(reportId,true);
+    message.textContent='人工核查位置已保存，并随复核JSON导出。模型量测与识别成绩未改写。';
+  }catch(error){if(version===archiveReportVersion)message.textContent=error.status===409?error.message+'；当前定位框已保留，请刷新后核对。':error.message;}
+  finally{if(version===archiveReportVersion)button.disabled=false;}
+}
+async function exportArchivedReport() {
+  if (!archiveReport) return;
+  if (archiveReport.region==='compare') {
+    try {const data=await archiveRequest('report_compare','POST',{report_id:archiveReport.report_id,format:'html'});
+      downloadArchiveBytes(data.content_b64,data.mime_type,data.filename);
+    } catch(error){archiveMessage(error.message);}
+  } else await exportReport('archive');
+}
+function downloadArchiveBytes(encoded,mime,filename) {
+  const bytes=Uint8Array.from(atob(encoded),letter=>letter.charCodeAt(0));
+  const url=URL.createObjectURL(new Blob([bytes],{type:mime}));const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function backupCaseArchive() {
+  try {const response=await fetch(`${API_BASE}/case_archive/backup`,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    if(!response.ok){const error=await response.json();throw new Error(error.error || '备份失败');}
+    const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='矿安天眼_案例数据库备份.sqlite3';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(error){archiveMessage(error.message);}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   04 · 多智能体影像问答
+   ══════════════════════════════════════════════════════════════ */
+let qaImg = null;
+
+(function bindQa() {
+  const drop = document.getElementById("qaDrop");
+  const input = document.getElementById("qaFile");
+  const preview = document.getElementById("qaPreview");
+  if (!drop || !input) return;
+
+  let qaSelectedFile = null;
+  const load = async file => {
+    qaSelectedFile = file;
+    if (isTiffFile(file)) {
+      try {
+        const raster = await rasterPreview(file);
+        if (qaSelectedFile !== file) return;
+        preview.src = raster.url; qaImg = raster.url; drop.classList.add("has-img");
+      } catch (err) {
+        if (qaSelectedFile !== file) return;
+        qaImg = null; preview.src = ""; alert("栅格预览失败：" + err.message);
+      }
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      drop.classList.add("has-img");
+      qaImg = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  input.addEventListener("change", e => { if (e.target.files[0]) load(e.target.files[0]); });
+  drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("dragover"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+  drop.addEventListener("drop", e => {
+    e.preventDefault();
+    drop.classList.remove("dragover");
+    const f = e.dataTransfer.files[0];
+    if (f) load(f);
+  });
+  document.querySelectorAll(".quick-q").forEach(btn => {
+    btn.addEventListener("click", () => { document.getElementById("questionInput").value = btn.dataset.q; });
+  });
+})();
+
+async function showAgentResult(agent, index, total) {
+  const panel = document.getElementById("qaPanel");
+  const color = AGENT_COLORS[agent.name] || "#666";
+  const icon = AGENT_ICONS[agent.name] || "🤖";
+  const div = document.createElement("div");
+  div.className = "agent-result";
+  div.innerHTML = `
+    <div class="agent-header">
+      <div class="agent-icon" style="background:${color}">${icon}</div>
+      <div class="agent-name">${escapeHtml(agent.name)}</div>
+      <div class="agent-badge" style="background:${color}">步骤 ${index + 1}/${total}</div>
+    </div>
+    <div class="agent-subtask">📌 ${escapeHtml(cleanMd(agent.subtask || ""))}</div>
+    <div class="agent-output ${getAgentOutputClass(agent.name)}">${escapeHtml(cleanMd(agent.output || ""))}</div>`;
+  panel.appendChild(div);
+  await sleep(60);
+  div.classList.add("visible", "active");
+  panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+async function runAgent() {
+  const question = document.getElementById("questionInput").value.trim();
+  if (!qaImg) { alert("请先上传遥感图像"); return; }
+  if (!question) { alert("请输入问题"); return; }
+
+  const btn = document.getElementById("qaRunBtn");
+  const panel = document.getElementById("qaPanel");
+  const finalAnswer = document.getElementById("qaFinal");
+  const mockBanner = document.getElementById("qaMock");
+
+  btn.classList.add("running"); btn.disabled = true;
+  setBadge("qaBadge", "分析中…", "on");
+  panel.innerHTML = "";
+  finalAnswer.classList.remove("show");
+  mockBanner.classList.remove("show");
+
+  try {
+    const resp = await fetch(`${API_BASE}/analyze`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, image: qaImg.split(",")[1] }),
+    });
+    const data = await resp.json();
+    if (data.error) {
+      panel.innerHTML = `<div class="note err">错误: ${escapeHtml(data.error)}</div>`;
+      setBadge("qaBadge", "失败", "err"); return;
+    }
+    if (data.is_mock) mockBanner.classList.add("show");
+
+    // 逐步展示每个智能体
+    for (let i = 0; i < data.agents.length; i++) {
+      await showAgentResult(data.agents[i], i, data.agents.length);
+      await sleep(700);
+    }
+
+    finalAnswer.classList.add("show");
+    document.getElementById("qaValue").textContent =
+      data.final_answer || data.agents[data.agents.length - 1].output;
+    document.getElementById("qaDesc").textContent = data.is_mock
+      ? "⚠️ 演示模式：多智能体后端未连接，以上为模拟结果"
+      : `✅ ${workflowSummary(data).title}：${workflowSummary(data).detail}`;
+    setBadge("qaBadge", "完成", "done");
+  } catch (e) {
+    panel.innerHTML = `<div class="note err">后端连接失败。请确认后端已启动。</div>`;
+    mockBanner.classList.add("show");
+    setBadge("qaBadge", "连接失败", "err");
+  } finally {
+    btn.classList.remove("running"); btn.disabled = false;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   05 · 露天矿安全知识库
+   ══════════════════════════════════════════════════════════════ */
+async function runKnowledgeQuery() {
+  const q = document.getElementById("kbQuery").value.trim();
+  const box = document.getElementById("kbResults");
+  if (!q) { box.innerHTML = '<div class="note err">请输入查询内容</div>'; return; }
+  box.innerHTML = '<div class="note">🔍 检索中…（生成回答约 10–30 秒）</div>';
+  try {
+    const resp = await fetch(`${API_BASE}/knowledge`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: q }),
+    });
+    const data = await resp.json();
+    if (data.error) { box.innerHTML = `<div class="note err">错误: ${escapeHtml(data.error)}</div>`; return; }
+    if (!data.docs || !data.docs.length) { box.innerHTML = '<div class="note">未检索到相关知识</div>'; return; }
+
+    let html = "";
+    if (data.answer) {
+      html += `<div class="kb-answer">
+        <div class="ka-title">🧠 AI 回答（基于知识库检索增强生成）</div>
+        <div class="ka-text">${escapeHtml(data.answer)}</div>
+      </div>`;
+    }
+    if (data.answer_note) {
+      html += `<div class="note warn" style="margin-top:var(--sp-3)">⚠️ ${escapeHtml(data.answer_note)}</div>`;
+    }
+    html += '<div style="font-weight:bold;color:var(--ink-3);margin:var(--sp-4) 0 var(--sp-2)">📚 参考依据（检索到的知识条目）</div>';
+    html += data.docs.map((d, i) => `
+      <div class="kb-doc">
+        <div class="kd-title">${i + 1}. [${escapeHtml(d.category)}] ${escapeHtml(d.title)}</div>
+        <div class="kd-body">${escapeHtml(d.content)}</div>${knowledgeSource(d)}
+      </div>`).join("");
+    box.innerHTML = html;
+  } catch (e) {
+    box.innerHTML = `<div class="note err">请求失败: ${escapeHtml(e.message)}</div>`;
+  }
+}
+</script>
+
+</body>
+</html>

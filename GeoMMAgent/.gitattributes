@@ -1,0 +1,5 @@
+# .bat 必须 CRLF —— cmd.exe 按 512 字节分块读 .bat，纯 LF 行尾会让它吃掉
+# 行首字符，把注释/echo 的内容当成命令执行（实测报 "tarting 不是内部或外部命令"）。
+# 2026-10-01：两个启动 bat 正是因此损坏，已在本次一并转为 CRLF。
+*.bat text eol=crlf
+*.cmd text eol=crlf

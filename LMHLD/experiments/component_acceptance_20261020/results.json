@@ -1,0 +1,136 @@
+{
+  "completed_at": "2026-10-20T10:29:39+08:00",
+  "status": "completed",
+  "different_validation_parents": 682,
+  "validation_parent_seed_predictions": 1364,
+  "target_macro": {
+    "tta5": {
+      "f1": 0.63777539587555,
+      "small_cover50": 0.48963956956889004,
+      "small_iou50": 0.2626180348146137,
+      "background_fpr": 0.03471532865161521,
+      "false_components_per_mpix": 38.68032148030146
+    },
+    "multiscale_raw": {
+      "f1": 0.6348959572968719,
+      "small_cover50": 0.5258163917549099,
+      "small_iou50": 0.2964036620961173,
+      "background_fpr": 0.03411580495930597,
+      "false_components_per_mpix": 47.37222013641261
+    },
+    "area_guard": {
+      "f1": 0.634209240705798,
+      "small_cover50": 0.5258163917549099,
+      "small_iou50": 0.2964036620961173,
+      "background_fpr": 0.033865410048519735,
+      "false_components_per_mpix": 37.05270693674896
+    },
+    "confidence_guard": {
+      "f1": 0.6343835473978402,
+      "small_cover50": 0.5258163917549099,
+      "small_iou50": 0.2964036620961173,
+      "background_fpr": 0.033917962548375945,
+      "false_components_per_mpix": 37.87514203757138
+    }
+  },
+  "by_seed": [
+    {
+      "seed": 42,
+      "means": {
+        "tta5": {
+          "f1": 0.6424182073584966,
+          "small_cover50": 0.4869374490904154,
+          "small_iou50": 0.2639953276314599,
+          "background_fpr": 0.032260979454983005,
+          "false_components_per_mpix": 39.37266250302316
+        },
+        "multiscale_raw": {
+          "f1": 0.6313209521134376,
+          "small_cover50": 0.5124436223489305,
+          "small_iou50": 0.2891277868283706,
+          "background_fpr": 0.03196316565956366,
+          "false_components_per_mpix": 48.98011042609833
+        },
+        "area_guard": {
+          "f1": 0.6308497163692584,
+          "small_cover50": 0.5124436223489305,
+          "small_iou50": 0.2891277868283706,
+          "background_fpr": 0.031689854811579564,
+          "false_components_per_mpix": 37.53374045083603
+        },
+        "confidence_guard": {
+          "f1": 0.6309572422145282,
+          "small_cover50": 0.5124436223489305,
+          "small_iou50": 0.2891277868283706,
+          "background_fpr": 0.031795713155242634,
+          "false_components_per_mpix": 38.82631537831059
+        }
+      },
+      "false_component_reduction": 0.23369424600486954,
+      "worst_region_cover_loss": 0.0,
+      "checks": {
+        "false_components_reduced": true,
+        "coverage_preserved": true,
+        "region_coverage_preserved": true,
+        "iou_preserved": true,
+        "f1_preserved": true,
+        "near_tta_candidate_count": true,
+        "coverage_gain_vs_tta": true,
+        "iou_gain_vs_tta": true
+      }
+    },
+    {
+      "seed": 43,
+      "means": {
+        "tta5": {
+          "f1": 0.6331325843926033,
+          "small_cover50": 0.4923416900473647,
+          "small_iou50": 0.26124074199776753,
+          "background_fpr": 0.03716967784824743,
+          "false_components_per_mpix": 37.987980457579766
+        },
+        "multiscale_raw": {
+          "f1": 0.6384709624803061,
+          "small_cover50": 0.5391891611608894,
+          "small_iou50": 0.303679537363864,
+          "background_fpr": 0.03626844425904827,
+          "false_components_per_mpix": 45.76432984672689
+        },
+        "area_guard": {
+          "f1": 0.6375687650423375,
+          "small_cover50": 0.5391891611608894,
+          "small_iou50": 0.303679537363864,
+          "background_fpr": 0.036040965285459914,
+          "false_components_per_mpix": 36.571673422661895
+        },
+        "confidence_guard": {
+          "f1": 0.6378098525811522,
+          "small_cover50": 0.5391891611608894,
+          "small_iou50": 0.303679537363864,
+          "background_fpr": 0.03604021194150925,
+          "false_components_per_mpix": 36.92396869683217
+        }
+      },
+      "false_component_reduction": 0.20086946438094644,
+      "worst_region_cover_loss": 0.0,
+      "checks": {
+        "false_components_reduced": true,
+        "coverage_preserved": true,
+        "region_coverage_preserved": true,
+        "iou_preserved": true,
+        "f1_preserved": true,
+        "near_tta_candidate_count": true,
+        "coverage_gain_vs_tta": true,
+        "iou_gain_vs_tta": true
+      }
+    }
+  ],
+  "acceptance_passed": true,
+  "primary_method": "area_guard",
+  "scope": "Additional parents unused by the current training/selection/calibration runners, but same three regions/events. Earlier project-wide exposure and geographic adjacency not independently established. Not new-region or field blind validation.",
+  "official_test_predictions": 0,
+  "new_mine_predictions": 0,
+  "new_cnn_training_updates": 0,
+  "external_calls": 0,
+  "production_changed": false
+}

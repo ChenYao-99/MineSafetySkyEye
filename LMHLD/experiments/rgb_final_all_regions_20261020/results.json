@@ -1,0 +1,35 @@
+{
+  "completed_at": "2026-10-20T18:50:24+08:00",
+  "fits": 2,
+  "source_regions": 7,
+  "source_train_parents": 17753,
+  "source_validation_parents": 2210,
+  "by_seed": [
+    {
+      "seed": 42,
+      "macro_core_gain": 0.1182494810077181,
+      "macro_normal_change": 0.02996939034196279,
+      "worst_core_loss": -0.03516483516483518,
+      "checks": {
+        "core_gain": true,
+        "normal_control": false,
+        "no_large_case_loss": true
+      }
+    },
+    {
+      "seed": 43,
+      "macro_core_gain": 0.026016264946366573,
+      "macro_normal_change": 0.026202274227298768,
+      "worst_core_loss": 0.017333104513471774,
+      "checks": {
+        "core_gain": false,
+        "normal_control": false,
+        "no_large_case_loss": true
+      }
+    }
+  ],
+  "mine_development_gate_passed": false,
+  "independent_geographic_test_in_this_stage": false,
+  "production_changed": false,
+  "official_test_files_opened": 0
+}

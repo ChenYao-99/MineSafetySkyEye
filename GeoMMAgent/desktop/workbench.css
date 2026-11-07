@@ -1,0 +1,324 @@
+/* Loaded only by the desktop host. The browser frontend keeps its own styles. */
+body.kat-workbench {
+  --kat-blue:#0d786e; --kat-blue-2:#09685f; --kat-blue-soft:#e8f4f0;
+  --ink:#1c2b35; --ink-2:#455762; --ink-3:#6e7e88; --ink-4:#89969f;
+  --line:#e1e7eb; --line-2:#edf1f4; --bg:#f3f6f8; --card:#fff;
+  --r-md:10px; --r-lg:12px; --sh-1:0 1px 2px #18354704; --sh-2:0 3px 14px #20394b04;
+  --sp-5:20px; --sp-6:24px;
+  margin:0; height:100vh; min-height:0; overflow:hidden;
+  font-family:"Segoe UI Variable Text","Microsoft YaHei UI","Microsoft YaHei",sans-serif;
+  font-size:13px; background:var(--bg); color:var(--ink);
+}
+body.kat-workbench [hidden] {display:none!important}
+.kat-workbench * {scrollbar-width:thin;scrollbar-color:#c9d4dc transparent}
+.kat-workbench button,.kat-workbench input,.kat-workbench select,.kat-workbench textarea {font-family:inherit}
+.kat-workbench button:focus-visible,.kat-workbench a:focus-visible,.kat-workbench summary:focus-visible {outline:3px solid #7bc7bb;outline-offset:3px}
+.kat-workbench svg {width:19px;height:19px;flex-shrink:0}
+.desk-shell {display:grid;grid-template-columns:208px minmax(0,1fr);height:100vh;overflow:hidden}
+.desk-sidebar {background:#142a35;color:#b7c8d0;display:flex;flex-direction:column;padding:29px 14px 18px;min-width:0;border-right:1px solid #193442}
+.desk-brand {display:flex;align-items:center;gap:11px;padding:0 10px 32px}
+.desk-brand-mark {display:grid;place-items:center;width:37px;height:39px;background:#1c494c;border:1px solid #327071;border-radius:11px;color:#8cdacf}
+.desk-brand-mark svg {width:25px;height:25px}
+.desk-brand strong {display:block;color:#f2f8f9;font-size:18px;font-weight:650;letter-spacing:1px}
+.desk-brand small {display:block;margin-top:5px;font-size:10px;color:#91acb8;letter-spacing:.35px;white-space:nowrap}
+.desk-nav-heading {font-size:10px;letter-spacing:1.3px;color:#73909d;font-weight:600;padding:0 13px;margin-bottom:12px}
+.kat-workbench #sceneNav {position:static;display:flex;flex-direction:column;background:transparent;backdrop-filter:none;border:0;margin:0;padding:0;overflow:visible;gap:5px}
+.kat-workbench #sceneNav>.desk-nav-heading {margin:27px 0 7px}
+.kat-workbench #sceneNav .nav-pill {position:relative;gap:12px;padding:13px 14px;min-height:46px;border:0;border-radius:8px;color:#a9c0cb;font-size:13px;font-weight:500;transition:background .15s,color .15s}
+.kat-workbench #sceneNav .nav-pill:hover {background:#ffffff08;color:#f0f7f8}
+.kat-workbench #sceneNav .nav-pill.active {background:#23605e;color:#e9fffa;box-shadow:inset 0 0 0 1px #4a8a801f}
+.kat-workbench #sceneNav .nav-pill.active:before {content:"";position:absolute;left:0;top:13px;bottom:13px;width:3px;background:#8ed9c8;border-radius:4px}
+.kat-workbench #sceneNav .nav-pill svg {width:18px;height:18px;opacity:.9}
+.desk-sidebar-foot {margin: auto 12px 0;padding-top:30px;display:flex;align-items:center;gap:8px;color:#a8bcc5;font-size:11px}
+.desk-live-dot {width:6px;height:6px;border-radius:50%;background:#73bca8}
+.desk-sidebar-caption {padding:9px 12px 0;color:#688692;font-size:10px;letter-spacing:2px}
+.desk-workspace {min-width:0;display:grid;grid-template-rows:81px 37px minmax(0,1fr) 27px;height:100vh;overflow:hidden}
+.desk-topbar {padding:0 27px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff;border-bottom:1px solid var(--line)}
+.desk-heading {min-width:0}
+.desk-title-line {display:flex;align-items:center;gap:13px}
+.desk-page-title {font-size:21px;font-weight:650;letter-spacing:.2px;line-height:1.4}
+.desk-page-subtitle {font-size:11px;color:var(--ink-3);margin-top:4px;line-height:1.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.desk-scene-badges {display:flex;align-items:center}
+.desk-scene-badges .scene-badge {font-size:10px;padding:3px 8px;font-weight:500;background:#f0f3f5;color:#74828c;white-space:nowrap}
+.desk-scene-badges .scene-badge.done {background:#e9f5ed;color:#2d7b51}
+.desk-scene-badges .scene-badge.on {background:#e7f4f1;color:#0f7c6e}
+.desk-scene-badges .scene-badge.err {background:#fff0ec;color:#b65141}
+.desk-utilities {display:flex;align-items:center;gap:17px;flex-shrink:0}
+.desk-utilities .status-dot {display:flex;align-items:center;gap:7px;color:#72838d;font-size:10px;white-space:nowrap}
+.desk-utilities .dot {width:6px;height:6px;border-radius:50%;background:#a9b3b8}
+.desk-utilities .dot.live {background:#3a9c74;box-shadow:0 0 0 3px #eef7f2}
+.desk-utilities .dot.down {background:#d36656}
+.desk-utilities .dot.mock {background:#bd913d}
+.desk-context {display:flex;align-items:center;gap:8px;padding:0 27px;background:#fafcfd;border-bottom:1px solid var(--line-2);min-width:0;overflow:hidden}
+.desk-context>svg {width:13px;height:13px;color:#83949f}
+.kat-workbench #activeCaseLabel {margin:0;padding:0;background:transparent;border:0;font-size:10px;line-height:1.6;color:#7d8d97;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.desk-stage {min-height:0;overflow:hidden;padding:20px 24px}
+.desk-statusbar {display:flex;justify-content:space-between;align-items:center;gap:15px;border-top:1px solid var(--line);padding:0 24px;color:#8a969f;background:#f8fafb;font-size:10px;white-space:nowrap;overflow:hidden}
+.kat-workbench .desk-scene {height:100%;min-height:0;max-width:none;margin:0;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden;scroll-margin:0}
+.kat-workbench .desk-scene>.scene-head {display:none}
+.kat-workbench .desk-scene>.scene-body {height:100%;padding:0;min-width:0;background:transparent;overflow:hidden}
+.kat-workbench .desk-scene>.scene-body>*+* {margin-top:0}
+.desk-analysis-layout {display:grid;grid-template-columns:minmax(0,1fr) 337px;gap:19px;height:100%;min-height:0}
+.desk-analysis-main {display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0}
+.desk-flow {display:flex;justify-content:space-between;gap:10px;min-height:34px;align-items:center;padding:0 4px}
+.desk-flow-step {display:flex;align-items:center;gap:8px;color:#8b979f;font-size:11px;white-space:nowrap}
+.desk-flow-step>span {border-radius:50%;width:21px;height:21px;background:#e5ebef;display:grid;place-items:center;font-size:10px;color:#87959f;font-weight:600}
+.desk-flow-step>b {font-weight:500}
+.desk-flow-step.done {color:#297b6e}
+.desk-flow-step.done>span {background:#dbefe7;color:#0c7765}
+.desk-panel {background:#fff;border:1px solid var(--line);border-radius:12px;min-width:0;overflow:hidden;box-shadow:0 2px 7px #1e344201}
+.desk-panel-head {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line-2);min-height:54px;flex-shrink:0}
+.desk-panel-head h2 {font-size:13px;font-weight:600;white-space:nowrap}
+.desk-muted {font-size:10px;color:#94a1aa}
+.desk-viewer {display:flex;flex-direction:column;flex:1;min-height:0}
+.desk-viewer-tools {display:flex;align-items:center;gap:12px}
+.desk-button {border:1px solid transparent;border-radius:6px;background:transparent;color:#657985;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 10px;font-size:11px;font-weight:500;line-height:1.5;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.desk-button svg {width:15px;height:15px}
+.desk-button:hover:not(:disabled) {background:#eff4f5;color:#1d5b5a}
+.desk-button:disabled {opacity:.4;cursor:not-allowed}
+.desk-button.desk-web-link {border-color:var(--line)}
+.desk-button.desk-help {padding:7px 3px;color:#72858e}
+.desk-button.desk-help>span {display:none}
+.desk-view-modes {display:flex;align-items:center;gap:2px;background:#f1f5f6;padding:3px;border-radius:7px}
+.desk-view-modes .desk-button {padding:5px 8px;font-size:10px}
+.desk-view-modes .desk-button.active {background:white;color:#18766a;box-shadow:0 1px 4px #123c3b12}
+.desk-canvas-area {position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-height:230px;padding:20px;background-color:#f5f8f9;background-image:radial-gradient(#dce5e9 .65px,transparent .65px);background-size:18px 18px;overflow:hidden}
+.desk-canvas-area.dragover {box-shadow:inset 0 0 0 2px #169b84;background-color:#eef8f3}
+.kat-workbench #mineDrop {height:100%;min-height:240px;width:100%;border:0;background:transparent;border-radius:0;padding:0;display:flex;align-items:center;justify-content:center}
+.kat-workbench #mineDrop:before {content:"";width:310px;height:235px;position:absolute;border:1px dashed #cbdadf;border-radius:18px;background:#ffffff70;pointer-events:none}
+.kat-workbench #mineDrop .d-empty {position:relative;z-index:1;line-height:1.9;max-width:300px}
+.kat-workbench #mineDrop .di {display:grid;place-items:center;width:44px;height:44px;margin:0 auto 13px;border-radius:12px;background:#e7f2ef;color:#639b8e;font-size:30px}
+.kat-workbench #mineDrop .di svg {width:24px;height:24px;stroke-width:1.4}
+.desk-choose-file {display:inline-flex;margin-top:15px;padding:5px 20px;background:#0d786e;color:white;border-radius:6px;font-size:11px;box-shadow:0 2px 3px #1a614615}
+.kat-workbench #mineDrop .dt {font-size:14px;font-weight:500;color:#3c626d}
+.kat-workbench #mineDrop .dh {font-size:10px;margin-top:5px;color:#95a5ae}
+.kat-workbench #mineDrop input {z-index:2}
+.kat-workbench .desk-canvas-area.has-image #mineDrop {display:none}
+.kat-workbench #roiWrap {width:100%;height:100%;margin:0!important;min-height:0}
+.kat-workbench #roiWrap>.step-tag {display:none}
+.kat-workbench #roiWrap>.cols {display:flex;height:100%;align-items:center;justify-content:center;gap:0}
+.kat-workbench #roiWrap>.cols>div {display:flex;align-items:center;justify-content:center;min-width:0}
+.kat-workbench #roiCanvas {display:block;border:0!important;border-radius:3px!important;box-shadow:0 5px 24px #1d39451a;max-width:100%}
+.desk-canvas-area[data-view=overlay] #roiWrap {display:none!important}
+.desk-overlay-image {display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;border-radius:3px}
+.desk-image-loading {position:absolute;inset:0;display:grid;place-items:center;background:#f5f8f9;color:#74909b;font-size:12px}
+.desk-canvas-footer {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 16px;border-top:1px solid var(--line-2);min-height:40px;background:white;flex-shrink:0}
+.desk-range-text {font-size:10px;color:#8b9aa4;line-height:1.7}
+.desk-canvas-footer .desk-button {padding:4px 0;font-size:10px}
+.desk-image-metadata {padding:10px 16px;font-size:10px;color:#80939f;border-top:1px solid var(--line-2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:#fcfdfe;min-height:34px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.desk-inspector {display:flex;flex-direction:column;min-width:0;min-height:0;background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.desk-tabs {display:flex;gap:13px;align-items:center;padding:0 17px;border-bottom:1px solid var(--line);min-height:55px;flex-shrink:0}
+.desk-tabs .desk-button {position:relative;padding:18px 1px 16px;border-radius:0;font-size:11px;color:#8a98a1}
+.desk-tabs .desk-button[aria-selected=true] {color:#0b786a;font-weight:600}
+.desk-tabs .desk-button[aria-selected=true]:after {content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#178c78;border-radius:2px}
+.desk-tab-panel {padding:22px 19px;overflow:auto;flex:1;min-height:0}
+.desk-inspector-kicker {font-size:10px;color:#9aa5ac;letter-spacing:.8px;margin-bottom:5px}
+.desk-inspector-title {font-size:15px;font-weight:600;margin-bottom:22px}
+.desk-primary-action {margin-top:auto;padding:16px 18px;border-top:1px solid var(--line);background:#fcfdfd;flex-shrink:0}
+.desk-primary-action>span {display:block;text-align:center;font-size:10px;color:#9aa5ad;margin-top:9px;line-height:1.5}
+.kat-workbench .desk-primary-action.desk-repeat .run-btn:not(.running) {background:white;color:#468479;border:1px solid #cfe4dd}
+.kat-workbench .desk-primary-action.desk-repeat .run-btn:not(.running):hover {background:#f1f8f5}
+.kat-workbench .run-btn {font-size:12px;font-weight:550;border-radius:7px;padding:11px 15px;min-height:40px;box-shadow:none;line-height:1.5;transition:background .16s}
+.kat-workbench .run-btn:disabled {background:#e5edee;color:#a1b4b8;box-shadow:none}
+.kat-workbench .run-btn.ghost {background:white;border:1px solid #d9e3e7;color:#4b737a}
+.kat-workbench .run-btn.ghost:hover:not(:disabled) {background:#f2f8f6}
+.kat-workbench .field {margin-bottom:19px}
+.kat-workbench .field label {font-size:11px;font-weight:550;color:#4e646f;line-height:1.7;margin-bottom:7px;display:block}
+.kat-workbench .field .hint {font-size:10px;color:#93a0a8;line-height:1.8;margin-top:7px}
+.kat-workbench .field select,.kat-workbench .field input,.kat-workbench .question-input,.kat-workbench select {border:1px solid #dde6e9;border-radius:6px;font-size:11px;min-height:37px;color:#3e5662;background:#fff;padding:8px 10px;box-shadow:0 1px 2px #142e3d02;max-width:100%}
+.kat-workbench select {font-family:inherit}
+.kat-workbench .field input:focus,.kat-workbench select:focus,.kat-workbench .question-input:focus {outline:2px solid #c5e5de;outline-offset:1px;border-color:#75b7a7}
+.desk-advanced {border-top:1px solid var(--line-2);padding:15px 0;margin-top:4px;font-size:11px;color:#647b85}
+.desk-advanced>summary {font-weight:550;cursor:pointer;color:#54717c;line-height:1.8;list-style-position:outside;margin-left:11px}
+.desk-advanced[open]>summary {margin-bottom:17px}
+.desk-advanced .note {margin:0!important;padding:0!important;border:0!important;background:transparent!important;font-size:10px;line-height:1.9}
+.desk-advanced .note select {display:block;width:100%;margin-top:7px;font-size:10px}
+.desk-advanced .step-tag {display:none}
+.desk-advanced #roiInfo {display:block;color:#0e8270;font-size:10px}
+.desk-guidance {background:#f5f9f8;border:1px solid #e5eeeb;padding:13px 12px;border-radius:7px;margin-top:17px;color:#7b9699;font-size:10px;line-height:1.9}
+.desk-empty {display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:200px;padding:27px 10px;text-align:center;color:#a2b1bb}
+.desk-empty>svg {width:32px;height:32px;stroke-width:1.1;color:#b0c3cb;margin-bottom:17px}
+.desk-empty h3 {font-size:12px;font-weight:550;color:#6f858e;margin-bottom:9px}
+.desk-empty p {font-size:10px;color:#99a8b0;line-height:1.9;max-width:240px}
+.kat-workbench #uploadResult {margin:0;font-size:11px}
+.kat-workbench #uploadResult .result-card {border:0;border-radius:0;box-shadow:none;background:transparent}
+.kat-workbench #uploadResult .rc-main {display:block;padding:0}
+.kat-workbench #uploadResult .rc-main>img {display:none}
+.kat-workbench #uploadResult .rc-info {font-size:11px;line-height:2;color:#66808b}
+.kat-workbench #uploadResult .rc-title {font-size:15px;margin-bottom:17px;color:#263e49;font-weight:600;line-height:1.8}
+.kat-workbench #uploadResult .rc-foot {padding:19px 0 0}
+.desk-result-scope {font-size:10px;letter-spacing:.5px;color:#8a9da6;margin-bottom:10px}
+.kat-workbench #uploadResult .desk-result-notes {margin-top:18px;padding-top:16px}
+.kat-workbench #uploadResult .desk-result-notes .note {margin:11px 0 0!important;padding:10px!important;border:1px solid #edf1f3!important;background:#fafcfc!important}
+.kat-workbench #uploadResult .desk-result-notes>summary {font-size:11px}
+.kat-workbench #uploadResult .note {font-size:10px;line-height:1.85;background:#f8fafb;border:1px solid #e9eef0;color:#84939c;padding:10px;margin:13px 0 0}
+.kat-workbench #uploadResult details {font-size:10px!important;margin-top:13px!important}
+.kat-workbench .pipeline-report {background:#fff;color:#415c68;border:1px solid #e0e9ed;border-radius:8px;padding:15px;margin-top:14px}
+.kat-workbench .pipeline-report .pr-label {color:#37675f;font-size:11px;font-weight:600;margin-bottom:11px}
+.kat-workbench .pipeline-report .pr-text {font-size:11px;line-height:2;color:#5c7480}
+.kat-workbench .report-actions {display:grid;grid-template-columns:1fr;gap:7px;margin-top:16px}
+.kat-workbench .report-actions .run-btn {min-height:34px;padding:8px 10px;font-size:10px;text-align:left;white-space:normal}
+.kat-workbench .report-note {font-size:10px;line-height:1.8;color:#8fa0a8}
+.kat-workbench .pipeline-steps .step-title,.kat-workbench .kb-title {font-size:11px;color:#567c7e}
+.kat-workbench .mock-banner {font-size:10px;line-height:1.9;border:1px solid #ebdfb5;background:#fcf8ed;color:#9b8848;border-radius:7px;padding:10px}
+.kat-workbench .kb-ref .kb-item {font-size:10px;line-height:1.8;color:#8599a3}
+.kat-workbench .note {font-size:11px;border-radius:7px}
+.kat-workbench .agent-step {box-shadow:none;border-color:var(--line)}
+.kat-workbench .agent-output {font-size:10px;line-height:1.9}
+.kat-workbench #katDesktopNotice {top:auto!important;bottom:43px!important;right:26px!important;background:#164b48!important;border-color:#81b9ab!important;font-size:11px!important;padding:13px 17px!important;max-width:460px!important}
+.desk-compare-main {min-width:0;display:flex;flex-direction:column;gap:16px;overflow:auto}
+.desk-compare-main>.desk-panel {flex-shrink:0}
+.desk-compare-main>.desk-panel>.cols {padding:19px;gap:15px}
+.desk-compare-main .step-tag {font-size:11px;margin-bottom:12px}
+.desk-compare-main input[type=file] {font-size:10px!important;color:#91a0a7;max-width:100%}
+.desk-compare-main input[type=file]::file-selector-button {background:#edf5f3;color:#367b71;border:1px solid #d4e7e1;border-radius:6px;font:inherit;padding:8px 10px;margin-right:9px;cursor:pointer}
+.kat-workbench .desk-compare-main #cmpT1Prev,.kat-workbench .desk-compare-main #cmpT2Prev {object-fit:contain!important;height:180px;max-height:220px!important;background:#f2f6f7;padding:8px;margin-top:15px!important;border:1px solid #e5edf0}
+.desk-compare-layout .desk-inspector .note {padding:0;border:0;background:none;margin:0!important;color:#7c929c;font-size:11px}
+.desk-compare-layout .desk-inspector .note label {display:block;margin:0 0 8px!important;font-size:11px;color:#526e78}
+.desk-compare-layout .desk-inspector .note select {display:block;width:100%;margin:0 0 22px;font-size:10px}
+.kat-workbench #cmpReportBtn {margin-top:20px}
+.kat-workbench #cmpResult {padding:17px;font-size:11px!important}
+.kat-workbench #cmpResult:empty {padding:0}
+.kat-workbench #cmpResult .cols-3 {gap:9px}
+.kat-workbench #cmpResult .cols-3>div>div {font-size:10px!important;line-height:1.8}
+.kat-workbench #cmpResult .note {font-size:10px;padding:12px;line-height:1.9}
+.kat-workbench .desk-document-page {height:100%;overflow:auto!important;padding:22px!important;background:#fff!important;border:1px solid var(--line);border-radius:12px}
+.kat-workbench .desk-document-page>*+* {margin-top:18px!important}
+.kat-workbench .desk-document-page .step-tag {font-size:12px;color:#4a626e}
+.kat-workbench .step-tag>i {background:#e9f3f0;color:#3a8b79;font-size:10px;width:19px;height:19px;border-radius:5px}
+.kat-workbench .region-chips {gap:8px}
+.kat-workbench .region-chip {font-size:11px;padding:8px 12px;border-radius:6px;border-width:1px}
+.kat-workbench .checkline {font-size:11px;color:#7e9099}
+.kat-workbench .checkline em {font-weight:500;font-size:10px}
+.kat-workbench .sample-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.kat-workbench .sample-card {border-radius:9px;box-shadow:none;border-width:1px}
+.kat-workbench .sample-meta {font-size:10px;line-height:1.9}
+.kat-workbench .desk-qa-grid {grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:25px}
+.kat-workbench #qaDrop {min-height:230px;border:1px dashed #cad9df;border-radius:9px;background:#f8fbfb}
+.kat-workbench #qaDrop .di {filter:grayscale(1);opacity:.5}
+.kat-workbench #qaDrop .di {display:grid;place-items:center;margin:0 auto 12px;width:44px;height:44px;background:#e9f3f0;color:#619a8d;border-radius:12px;filter:none;opacity:1}
+.kat-workbench #qaDrop .di svg {width:24px;height:24px}
+.kat-workbench #qaPanel .empty .ei {display:grid;place-items:center;width:48px;height:48px;background:#f0f6f4;color:#81aa9c;border-radius:13px;margin:0 auto 16px}
+.kat-workbench #qaPanel .empty .ei svg {width:29px;height:29px;stroke-width:1.4}
+.kat-workbench #qaDrop .dt {font-weight:500;font-size:13px}
+.kat-workbench .quick-q {font-size:10px;padding:6px 10px;border-width:1px;border-radius:6px}
+.kat-workbench #qaRunBtn {max-width:300px}
+.kat-workbench #questionInput {min-height:100px;font-size:12px;line-height:1.9}
+.kat-workbench .final-answer {background:#f0f7f4;border:1px solid #d5e8df;color:#447369;text-align:left;padding:18px}
+.kat-workbench .final-answer .fa-label {color:#658e84}
+.kat-workbench .final-answer .fa-value {color:#28574f;font-size:18px}
+.kat-workbench .final-answer .fa-desc {color:#65847c;line-height:1.9}
+.desk-kb-prompt {padding:14px 3px 12px}
+.desk-kb-prompt h2 {font-size:19px;font-weight:550;color:#3c5d66}
+.desk-kb-prompt p {font-size:11px;color:#92a1aa;margin-top:9px;line-height:1.9}
+.kat-workbench #kbQuery {font-size:12px;padding:12px 14px}
+.kat-workbench #kbResults {font-size:11px!important;max-width:1050px}
+.kat-workbench .kb-answer {background:#f4f9f7;border:1px solid #d9e9e2;border-radius:9px;padding:18px}
+.kat-workbench .kb-answer .ka-text {font-size:12px;line-height:1.9}
+.kat-workbench .kb-doc {border-radius:8px;border-color:#e3eaee;padding:14px 16px;margin-top:12px}
+.kat-workbench .kb-doc .kd-title {font-size:12px;font-weight:550}
+.kat-workbench .kb-doc .kd-body {font-size:11px;line-height:1.95;color:#7d919b}
+.kat-workbench #scene-archive .desk-document-page {padding:0!important;background:transparent!important;border:0;overflow:hidden!important}
+.kat-workbench #scene-archive .archive-layout {grid-template-columns:254px minmax(0,1fr);gap:17px;height:100%;min-height:0}
+.kat-workbench #scene-archive .archive-library {height:100%;display:flex;flex-direction:column;overflow:hidden}
+.kat-workbench #scene-archive #archiveCases {flex:1;min-height:0;overflow:auto}
+.kat-workbench #scene-archive .archive-library-footer {flex-shrink:0}
+.kat-workbench #scene-archive .archive-case-list {max-height:none}
+.kat-workbench #scene-archive .desk-archive-tabs {height:100%;min-height:0;border-radius:10px}
+.kat-workbench #scene-archive .desk-archive-tabs>.desk-tab-panel {background:#f7f9fa;padding:18px}
+.kat-workbench #scene-archive .desk-archive-tabs .archive-workspace {display:flex;flex-direction:column;height:auto}
+.kat-workbench #scene-archive .desk-archive-tabs .archive-card {flex-shrink:0}
+.kat-workbench #scene-archive .desk-archive-tabs .report-actions {grid-template-columns:repeat(2,minmax(0,1fr))}
+.kat-workbench #scene-archive .desk-archive-tabs .archive-editor {margin-bottom:0}
+.kat-workbench #scene-archive .archive-card {padding:18px;border:1px solid var(--line);border-radius:10px;background:white}
+.kat-workbench #scene-archive .archive-card-head {margin-bottom:15px;gap:9px}
+.kat-workbench #scene-archive h3 {font-size:13px;color:#355b62;font-weight:600}
+.kat-workbench #scene-archive .archive-card-head p,.kat-workbench #scene-archive .archive-library-footer p {font-size:10px;line-height:1.8;color:#93a3ad}
+.kat-workbench #scene-archive .archive-tag {font-size:9px;padding:3px 7px;background:#eef6f3;color:#609286;border-radius:4px;white-space:nowrap}
+.kat-workbench #scene-archive .archive-workspace {gap:16px}
+.kat-workbench #scene-archive .archive-form-grid {gap:13px}
+.kat-workbench #scene-archive .archive-field {font-size:11px;color:#607b86;gap:6px}
+.kat-workbench #scene-archive .question-input {font-size:11px;padding:9px 10px;min-height:37px;border-radius:6px}
+.kat-workbench #scene-archive .archive-toolbar {gap:8px;margin-top:15px}
+.kat-workbench #scene-archive .run-btn {font-size:10px;padding:8px 11px;min-height:34px;border-radius:6px;white-space:normal}
+.kat-workbench #scene-archive .archive-search {gap:7px;margin-bottom:13px}
+.kat-workbench #scene-archive .archive-search .run-btn {font-size:10px;padding:7px 9px}
+.kat-workbench #scene-archive .archive-case-list {max-height:360px;gap:9px}
+.kat-workbench #scene-archive .archive-case-item {border-radius:7px;padding:12px;border-color:#e6edef}
+.kat-workbench #scene-archive .archive-case-item.active {border-color:#81b5a6;background:#f3f9f6}
+.kat-workbench #scene-archive .archive-case-item h4 {font-size:12px;color:#4a6974}
+.kat-workbench #scene-archive .archive-case-title,.kat-workbench #scene-archive .archive-item-meta {font-size:10px;color:#8b9ca7;line-height:1.8}
+.kat-workbench #scene-archive .archive-count {font-size:10px;color:#96a3ac}
+.kat-workbench #scene-archive .archive-report-item {padding:13px;border-radius:7px;gap:12px}
+.kat-workbench #scene-archive .archive-report-info strong {font-size:11px;color:#58737d}
+.kat-workbench #scene-archive .archive-empty {font-size:11px;padding:22px 12px;border-radius:7px;background:#f8fafb;color:#98a5ae}
+.kat-workbench #scene-archive .archive-status {font-size:10px;line-height:1.9;color:#899da7}
+.kat-workbench #scene-archive .archive-summary-hint {font-size:10px;color:#91a2ac}
+.kat-workbench #scene-archive .archive-review-notice {font-size:10px;padding:11px;line-height:1.9;color:#87958c;background:#f5f8f4;border-radius:6px}
+.kat-workbench #scene-archive .archive-review-grid {gap:18px}
+.kat-workbench #scene-archive .archive-history-item {font-size:11px;border-radius:7px}
+.kat-workbench #scene-archive .archive-history-heading b {font-size:11px}
+.kat-workbench #scene-archive .archive-manual {margin-top:17px}
+.desk-help-dialog {margin:auto;max-width:480px;width:calc(100% - 60px);border:1px solid #dbe7e9;border-radius:15px;padding:33px;box-shadow:0 24px 80px #132b3d33;color:#2e4c57}
+.desk-help-dialog::backdrop {background:#122d4059;backdrop-filter:blur(3px)}
+.desk-help-kicker {font-size:10px;letter-spacing:1px;color:#15937c;margin-bottom:9px}
+.desk-help-dialog h2 {font-size:21px;font-weight:600}
+.desk-help-dialog ol {padding:24px 0 14px 22px;font-size:12px;line-height:1.7}
+.desk-help-dialog li {padding:0 0 20px 9px;color:#7a8f98}
+.desk-help-dialog li b {color:#3e636d;font-weight:550}
+.desk-help-dialog p {font-size:11px;color:#8a9aa2;margin-top:5px;line-height:1.8}
+.desk-help-dialog .desk-primary {background:#0d786e;color:white;width:100%;padding:10px}
+.kat-workbench .field label,.kat-workbench .field select,.kat-workbench .field input {font-size:12px}
+.kat-workbench .field .hint {font-size:11px;color:#7c909b}
+.desk-tabs .desk-button {font-size:12px}
+.desk-flow-step {font-size:12px}
+.desk-guidance {font-size:11px;color:#718c91}
+.desk-range-text,.desk-image-metadata {font-size:11px;color:#7f929d}
+.desk-advanced>summary {font-size:12px}
+.desk-advanced .note {font-size:11px;color:#778d97}
+.kat-workbench .pipeline-report .pr-text {font-size:12px}
+.kat-workbench .report-actions .run-btn {font-size:11px}
+.kat-workbench #uploadResult .rc-info {font-size:12px}
+.kat-workbench #uploadResult .note {font-size:11px;color:#7b8e97}
+.desk-empty h3 {font-size:13px}
+.desk-empty p {font-size:11px;color:#8c9fa9}
+.desk-page-subtitle {font-size:12px}
+@media(max-width:1250px) {
+  .desk-shell {grid-template-columns:184px minmax(0,1fr)}
+  .desk-sidebar {padding-left:10px;padding-right:10px}
+  .desk-brand {gap:8px;padding-left:6px;padding-right:3px}
+  .desk-brand strong {font-size:16px}
+  .desk-brand small {font-size:9px}
+  .desk-stage {padding:16px}
+  .desk-topbar,.desk-context {padding-left:20px;padding-right:20px}
+  .desk-analysis-layout {grid-template-columns:minmax(0,1fr) 304px;gap:13px}
+  .desk-tab-panel {padding:19px 15px}
+  .desk-utilities {gap:12px}
+  .desk-utilities .status-dot {font-size:9px}
+  .desk-flow {gap:5px}
+  .desk-flow-step {font-size:10px;gap:5px}
+  .desk-flow-step>span {width:18px;height:18px;font-size:9px}
+  .desk-panel-head {padding:13px 12px}
+  .desk-viewer-tools {gap:6px}
+  .desk-viewer-tools>.desk-button>span {display:none}
+  .desk-view-modes .desk-button {font-size:9px;padding:5px}
+  .desk-view-modes svg {width:13px;height:13px}
+  .kat-workbench #scene-archive .archive-layout {grid-template-columns:220px minmax(0,1fr);gap:12px}
+  .kat-workbench #scene-archive .archive-card {padding:14px}
+  .kat-workbench #scene-archive .archive-form-grid {grid-template-columns:1fr}
+  .kat-workbench #scene-archive .archive-review-grid {grid-template-columns:1fr}
+}
+@media(max-width:1080px) {
+  .desk-page-subtitle {max-width:370px;font-size:10px}
+  .desk-utilities .desk-web-link {display:none}
+  .desk-utilities .status-dot {max-width:160px;overflow:hidden;text-overflow:ellipsis}
+  .desk-tabs {gap:12px;padding:0 13px}
+  .desk-tabs .desk-button {font-size:10px}
+  .desk-flow-step>span {display:none}
+  .desk-flow {padding:0 2px}
+  .desk-range-text {font-size:9px}
+  .desk-canvas-footer {padding:8px 11px}
+  .kat-workbench .desk-compare-main #cmpT1Prev,.kat-workbench .desk-compare-main #cmpT2Prev {height:140px}
+  .kat-workbench .desk-compare-main>.desk-panel>.cols {grid-template-columns:1fr 1fr;padding:13px;gap:10px}
+  .kat-workbench .sample-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+}

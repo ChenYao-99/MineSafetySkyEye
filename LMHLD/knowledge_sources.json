@@ -1,0 +1,154 @@
+{
+  "mine119": {
+    "source_title": "关于开展露天矿山边坡监测系统建设及联网工作的通知（矿安〔2023〕119号）",
+    "source_url": "https://www.chinamine-safety.gov.cn/zfxxgk/fdzdgknr/tzgg/202309/t20230911_462488.shtml",
+    "publisher": "国家矿山安全监察局",
+    "published_at": "2023-09-11",
+    "checked_at": "2026-10-01",
+    "evidence_type": "法规通知摘要",
+    "scope": "露天煤矿及规定范围的金属非金属露天矿山",
+    "verification": "full_text"
+  },
+  "hazard88": {
+    "source_title": "金属非金属矿山重大事故隐患判定标准（矿安〔2022〕88号）",
+    "source_url": "https://www.chinamine-safety.gov.cn/zfxxgk/fdzdgknr/tzgg/202207/t20220721_418764.shtml",
+    "publisher": "国家矿山安全监察局",
+    "published_at": "2022-07-21",
+    "checked_at": "2026-10-01",
+    "evidence_type": "法规通知摘要",
+    "scope": "金属非金属矿山；不能套用为煤矿判定标准",
+    "verification": "full_text"
+  },
+  "hazard41": {
+    "source_title": "金属非金属矿山重大事故隐患判定标准补充情形（矿安〔2024〕41号）",
+    "source_url": "https://www.hunan.gov.cn/zqt/zcsd/202404/t20240425_33285750.html",
+    "publisher": "国家矿山安全监察局（湖南省政府转载）",
+    "published_at": "2024-04-23",
+    "checked_at": "2026-10-01",
+    "evidence_type": "法规通知摘要",
+    "scope": "金属非金属矿山与尾矿库",
+    "verification": "full_text"
+  },
+  "guide2025": {
+    "source_title": "国家矿山安全监察局四季度发布会：2025年版金属非金属矿山智能化建设指南解读",
+    "source_url": "https://www.chinamine-safety.gov.cn/xw/xwfbh/ksjdyjdfbh2025_6781/wzsl/202512/t20251230_590406.shtml",
+    "publisher": "国家矿山安全监察局",
+    "published_at": "2025-12-30",
+    "checked_at": "2026-10-01",
+    "evidence_type": "官方政策解读摘要",
+    "scope": "金属非金属矿山智能化建设；非原文技术条款",
+    "verification": "full_text"
+  },
+  "std37573": {
+    "source_title": "GB/T 37573-2019 露天煤矿边坡稳定性年度评价技术规范",
+    "source_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=503B16F5FE1B63C37904BB011503005C&refer=outter",
+    "publisher": "国家市场监督管理总局、国家标准化管理委员会",
+    "published_at": "2019-06-04",
+    "checked_at": "2026-10-01",
+    "evidence_type": "标准元数据",
+    "scope": "露天煤矿年度稳定性评价；本库未收录标准全文",
+    "verification": "metadata_only"
+  },
+  "std37697": {
+    "source_title": "GB/T 37697-2019 露天煤矿边坡变形监测技术规范",
+    "source_url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=8AA1F5D36F01A8DBE05397BE0A0AB19B",
+    "publisher": "国家市场监督管理总局、国家标准化管理委员会",
+    "published_at": "2019-06-04",
+    "checked_at": "2026-10-01",
+    "evidence_type": "标准元数据",
+    "scope": "露天煤矿变形监测；本库未收录标准全文",
+    "verification": "metadata_only"
+  },
+  "coal17": {
+    "source_title": "应急管理部令第17号：煤矿安全规程",
+    "source_url": "https://www.mem.gov.cn/gk/zfxxgkpt/fdzdgknr/202508/t20250804_553277.shtml",
+    "publisher": "应急管理部",
+    "published_at": "2025-08-04",
+    "checked_at": "2026-10-01",
+    "evidence_type": "现行版本公告摘要",
+    "scope": "煤矿；2026-02-01起施行",
+    "verification": "announcement"
+  },
+  "coal21": {
+    "source_title": "应急管理部令第21号：煤矿重大事故隐患判定标准",
+    "source_url": "https://www.mem.gov.cn/gk/zfxxgkpt/fdzdgknr/202605/t20260528_605335.shtml",
+    "publisher": "应急管理部",
+    "published_at": "2026-05-28",
+    "checked_at": "2026-10-01",
+    "evidence_type": "版本公告及选定条款摘要",
+    "scope": "煤矿；2026-07-01起施行",
+    "verification": "announcement_and_selected_clauses",
+    "full_text_url": "https://www.mem.gov.cn/gk/zfxxgkpt/fdzdgknr/202605/W020260528321876055084.pdf"
+  },
+  "coal_versions": {
+    "source_title": "国家矿山安全监察局公开答复：露天煤矿重大事故隐患文件的废止关系",
+    "source_url": "https://www.chinamine-safety.gov.cn/hd/lyhf/index_3.shtml",
+    "publisher": "国家矿山安全监察局安全基础司",
+    "published_at": "2026-06-03",
+    "checked_at": "2026-10-01",
+    "evidence_type": "官方公开答复摘要",
+    "scope": "露天煤矿；文件效力衔接",
+    "verification": "full_text"
+  },
+  "usgs_basics": {
+    "source_title": "Landslide Basics",
+    "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/landslide-basics",
+    "publisher": "美国地质调查局（USGS）",
+    "published_at": null,
+    "checked_at": "2026-10-01",
+    "evidence_type": "技术科普摘要",
+    "scope": "一般滑坡机理；不是中国矿山法规",
+    "verification": "full_text"
+  },
+  "usgs_signs": {
+    "source_title": "What are the signs of landslide development? What do I do if a landslide occurs?",
+    "source_url": "https://www.usgs.gov/programs/landslide-hazards/what-are-signs-landslide-development-what-do-i-do-if-a-landslide-occurs",
+    "publisher": "美国地质调查局（USGS）",
+    "published_at": null,
+    "checked_at": "2026-10-01",
+    "evidence_type": "技术科普摘要",
+    "scope": "一般滑坡迹象与专业复核；不是矿山工程处置设计",
+    "verification": "full_text"
+  },
+  "usgs_types": {
+    "source_title": "Landslide Types and Processes (Fact Sheet 2004-3072)",
+    "source_url": "https://pubs.usgs.gov/fs/2004/3072/fs-2004-3072.html",
+    "publisher": "美国地质调查局（USGS）",
+    "published_at": "2004",
+    "checked_at": "2026-10-01",
+    "evidence_type": "技术科普摘要",
+    "scope": "滑坡分类、地质、水文和扰动因素",
+    "verification": "full_text"
+  },
+  "esa_s2": {
+    "source_title": "Sentinel-2 mission",
+    "source_url": "https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2",
+    "publisher": "欧洲空间局（ESA）",
+    "published_at": null,
+    "checked_at": "2026-10-01",
+    "evidence_type": "官方任务资料摘要",
+    "scope": "Sentinel-2任务参数；实际影像可用性须逐景核查",
+    "verification": "full_text"
+  },
+  "alxa": {
+    "source_title": "内蒙古阿拉善新井煤业有限公司露天煤矿“2·22”特别重大坍塌事故调查报告",
+    "source_url": "https://www.mem.gov.cn/gk/zfxxgkpt/fdzdgknr/202308/t20230829_460802.shtml",
+    "publisher": "应急管理部（国务院事故调查组报告）",
+    "published_at": "2023-08-29",
+    "checked_at": "2026-10-01",
+    "evidence_type": "事故调查报告摘要",
+    "scope": "2023年阿拉善新井煤业事故；历史案例",
+    "verification": "full_text"
+  },
+  "project": {
+    "source_title": "矿安天眼：输入、检测、报告与验证能力说明（本项目）",
+    "source_url": null,
+    "publisher": "本项目技术说明",
+    "published_at": "2026-10-01",
+    "checked_at": "2026-10-01",
+    "evidence_type": "项目能力说明",
+    "scope": "当前原型版本；不是法规条文或行业通用结论",
+    "verification": "implementation",
+    "source_path": "knowledge_calibration.md"
+  }
+}
