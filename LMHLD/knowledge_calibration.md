@@ -1,6 +1,6 @@
 # 知识库校准与扩充记录
 
-核对日期：2026-10-01。当前46条知识，15个来源记录；其中14个外部来源和1个项目能力说明来源。条目不是46篇完整原始文献。
+本页记录 2026-10-01 的校准。当时有 46 个知识片段和 15 个来源，其中 14 个为外部来源，1 个为项目能力说明。当前条目和来源以 [knowledge_chunks.json](knowledge_chunks.json) 和 [knowledge_sources.json](knowledge_sources.json) 为准。
 
 `knowledge_sources.json`存出处、发布者、发布日期、核对日期、适用对象与核验深度；`knowledge_chunks.json`存编号、分类、定位、摘要与关键词。`knowledge_base.py`启动时验证并合并，保留原11个条目编号。
 

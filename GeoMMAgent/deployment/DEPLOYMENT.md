@@ -1,31 +1,51 @@
-# 部署范围与验收
+# 团队部署与验收记录
 
-当前验收使用同一台Windows机器上的两套新虚拟环境、重新安装的依赖及独立源码副本。
-新环境不使用原环境的Python第三方包；基础解释器DLL、NVIDIA驱动仍来自这台机器。
-模型与参考资产以显式路径绑定现有D盘项目资产，没有复制数据集或更改数据标签。
-这不能替代另一台物理机器的完整离线安装验收。
+## 团队统一安装
 
-提供Python 3.11.0（智能体侧）和3.10.20（检测侧）后，可运行：
+新成员使用 [setup_runtime.ps1](setup_runtime.ps1) 安装，脚本按两份锁定清单建立独立环境。
+
+| 环境 | 用途 | 验证时使用的 Python | PyTorch 安装口径 |
+| --- | --- | --- | --- |
+| `GeoMMA` | 网页后端、报告与归档 | 3.11.0 | [工作台锁定清单](requirements.GeoMMA.lock.txt)，PyTorch 2.11.0，工作台无需 GPU |
+| `lmhld` | 影像分割与检测 | 3.10.20 | [检测 GPU 锁定清单](requirements.lmhld.cuda124.lock.txt)，PyTorch 2.5.1 的 CUDA 12.4 构建（`2.5.1+cu124`） |
+
+当前安装方式面向 Windows x64。请把合仓源码及运行目录放到 D 盘，准备上述两种 Python 和支持 CUDA 12.4 构建的 NVIDIA GPU 驱动。安装脚本会检查检测环境的 CUDA 版本和可用性。下面的两个 Python 路径是示例，请换成本机实际路径。在仓库的 `GeoMMAgent` 目录执行：
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File deployment/setup_runtime.ps1 -Destination D:\GeoMMAgent\runtime_deployment
+$runtimeRoot = 'D:\MineSafetySkyEye-runtime'
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\deployment\setup_runtime.ps1 `
+    -AgentPython 'D:\Python311\python.exe' `
+    -DetectorPython 'D:\Python310\python.exe' `
+    -Destination $runtimeRoot
 ```
 
-所需权重、知识库和矿区参考索引须与原项目保持一致。保留案例隔离索引不得省略。
-原始影像是分析输入，应单独保留；案例数据库和备份默认位于D盘。
+锁定清单记录安装时应使用的具体包版本。项目原有的 `lmhld` 开发环境实测为 PyTorch 2.5.1 的 CUDA 11.8 构建，作为既有环境和实验记录保留。PyTorch 为同一个 2.5.1 版本提供了不同 CUDA 构建。团队新装以本节的 CUDA 12.4 构建为准，复现历史实验时查看该次实验记录中的实际环境。[PyTorch 2.5.1 官方构建说明](https://docs.pytorch.org/get-started/previous-versions/)
 
-安装记录与部署清单分开保存：原始Conda环境版本快照仍保留；pip检测环境使用
-`requirements.lmhld.cuda124.lock.txt`，明确CUDA12.4轮子及官方安装源，去除了三个
-业务运行不需要且无法照搬的Conda MKL组件。NumPy、分割模型和默认权重未改。
-仅有`torch==2.5.1`不能确保得到GPU构建，安装后必须核对`torch.version.cuda`与GPU可用性。
+`*.environment.json` 和 `requirements.lmhld.lock.txt` 记录既有环境。部署脚本读取 `requirements.GeoMMA.lock.txt` 与 `requirements.lmhld.cuda124.lock.txt`。
 
-持续验收使用已观察的四矿开发影像和冻结默认权重，检查结果归档、复核与导出、
-并发忙碌响应、实际服务进程内存/显存、检测服务离线、重启后的恢复。
-目标是一小时工作负载，包含一次服务重启；分别检查两段进程生命周期。
-不以该验收报告矿山识别精度、跨矿达标或24小时长期可靠性，不调用云端模型。
+## 配置运行资产并启动
 
-独立源码与新环境的详细路径、资产绑定及代码哈希见验收目录中的`release_manifest.json`。
-Windows虚拟环境可能有启动器和工作进程，监测与停止必须覆盖实际服务工作进程。
+1. 从团队共享渠道取得需要的模型，按 [模型登记文件](../../LMHLD/model_registry.json) 的相对路径与 SHA-256 配置到 `LMHLD/models_prior/`，也可设置 `KAT_MODELS_ROOT`。检测端部署检查使用 `upload:mine` 对应的权重。
+2. 按团队的评估隔离规则在检测目录中配置 `datasets/mine_benchmark_20261002/mine_case_registry.json`。对应的辅助保留集索引位于 `datasets/input_reserve_registry.json`。训练集或区域评测数据按需设置 `KAT_DATA_ROOT` 与 `KAT_TILED_ROOT`。
+3. 仍在 `GeoMMAgent` 目录执行下方命令。`doctor.py` 检查检测环境、默认权重和保留集索引。`-CheckOnly` 检查启动文件和解释器路径。`-LocalFactsOnly` 选择本地事实汇总模式。
+
+```powershell
+$runtimeRoot = 'D:\MineSafetySkyEye-runtime'
+$launch = @{
+    AgentPython = Join-Path $runtimeRoot 'GeoMMA\Scripts\python.exe'
+    DetectorPython = Join-Path $runtimeRoot 'lmhld\Scripts\python.exe'
+    DetectorDirectory = (Resolve-Path -LiteralPath '..\LMHLD').Path
+}
+& $launch.DetectorPython -B .\deployment\doctor.py --role detector --source $launch.DetectorDirectory
+.\start_demo.ps1 @launch -CheckOnly
+.\start_demo.ps1 @launch -LocalFactsOnly
+```
+
+从 [本地工作台](http://127.0.0.1:5100/) 打开页面。检测服务默认使用 5101。使用自定义检测目录时，停止服务可运行 `.\stop_demo.ps1 -DetectorDirectory $launch.DetectorDirectory`。桌面窗口沿用两套环境，入口见[桌面说明](../desktop/README.md#在团队安装环境下启动)。
+
+## 验收范围
+
+历史验收在同一台 Windows 电脑上重装了两个虚拟环境，并使用独立源码副本和现有 D 盘模型及参考资产。检查范围包括既有开发影像任务、工作负载、报告归档与故障恢复。组员电脑的安装、驱动和首个检测任务需要按上述步骤分别验证。旧回执、数据和权重按团队资产管理规则配置。
 
 ## 2026-10-07：可配置本地部署与实际任务验收
 

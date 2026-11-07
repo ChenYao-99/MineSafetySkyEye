@@ -20,22 +20,13 @@
 | **规模** | 25 365 个图像图块、32 296 个滑坡实例；5 种卫星传感器（含 UAV），覆盖 7 个研究区 |
 | **许可证** | 论文未明确写明，**以 Zenodo 页面标注为准**（引用前请到该页面确认） |
 
-**本项目对 LMHLD 的具体使用**：
+**本项目对 LMHLD 的使用**
 
-- 直接采用其 **7 个研究区中的 6 个**：Emilia-Romagna（意大利）、Gorkha（尼泊尔）、
-  Hokkaido（日本）、Jiuzhaigou（中国）、Wenchuan（中国）、Taiwan（中国）；
-  **第 7 个研究区 Rio de Janeiro（巴西）未使用** —— 该区域数据为 5 通道，
-  与本项目统一的 4 通道（B/G/R/NIR）模型不兼容。
-- 沿用论文提出的 **SAPSS（半自适应图块尺寸选择）** 结果，即各研究区采用不同
-  图块尺寸（32 / 64 / 128 / 224 px），本项目"多尺度"技术路线建立在此基础之上。
-- 沿用论文提出的 **BLDS 复合指标**（precision、recall、F1 的几何平均）作为
-  主要评价指标之一。
-- 使用论文提供的 `LMHLD_dataset_different_patch_sizes` 划分，并自行生成
-  `LMHLD_tiled`（大图块切分为 32px 瓦片，供统一模型训练）。
+- 早期四波段 B/G/R/NIR 实验使用 Emilia-Romagna、Gorkha、Hokkaido、Jiuzhaigou、Wenchuan 和 Taiwan 六个地区。Rio de Janeiro 的原始数据是五通道，未进入这套四波段协议。
+- 后续[七来源原生 RGB 实验](experiments/rgb_final_all_regions_20261020/README.md)将 Rio de Janeiro 的 RGB 输入纳入训练与来源选择。该实验的模型属于研究候选，现役模型见 [model_registry.json](model_registry.json)。
+- 早期实验沿用原数据的区域图块尺寸和 BLDS 指标，并在部分训练中使用自行切分的 `LMHLD_tiled`。各组具体的数据划分、波段和指标以对应实验协议为准。
 
-> ⚠️ **论文 PDF 带机构水印**：该 PDF 每页均有 IEEE Xplore 下载水印，
-> 含下载机构名称。**不得将 PDF 或其截图放入参赛材料**（违反全程匿名要求）。
-> 引用时只写文献信息，不要附原文截图。
+数据从原发布页获取，使用和引用时核对对应版本的许可。
 
 ### 1.2 Sentinel-2 L2A（多光谱数据源，第十四组接入）
 
@@ -46,9 +37,7 @@
 | **波段** | B02/B03/B04/**B08(NIR)**，10 m 分辨率 |
 | **许可证** | Copernicus Sentinel Data License —— **需署名 ESA/Copernicus** |
 
-**本项目结论（第十四组）**：数据接入完全可行（14 秒/景、5 天重访、真实 NIR），
-**但 10 m 分辨率不足以支撑单个滑坡体检测**（滑坡区仅 2262 px，为 Esri 2m 影像的 1/24），
-6 个区域模型在其上分离度全为负。**故未接入部署**，仅作为方法验证与边界结论。
+第十四组验证了多光谱数据接入，并发现该案例在 10 m 影像上的目标分离度较弱。后续版本支持合规的光学四波段 GeoTIFF 输入，具体检测效果随场景、空间分辨率和模型变化。
 
 ### 1.3 Esri World Imagery（真实场景验证底图）
 
@@ -58,16 +47,16 @@
 
 ---
 
-## 二、本团队自研内容（无第三方权利争议）
+## 二、本团队实现与实验
 
 | 内容 | 位置 |
 |---|---|
-| 滑坡检测推理模块（批量滑窗、多尺度融合、D-S 冲突拒绝） | `detector.py`、`detector_service.py` |
+| 滑坡检测推理模块与多尺度评估 | `detector.py`、`detector_service.py` |
 | 多粒度几何引擎（掩膜→区域/对象/像素三粒度） | `geo_geometry.py` |
 | 定量分析工具集（NDVI/区域统计/趋势变点/两期对比） | `geo_tools.py` |
-| RAG 知识库（BM25，11 篇露天矿安全文档） | `knowledge_base.py` |
+| 安全知识检索与来源登记 | `knowledge_base.py` |
 | 训练脚本与实验（先验加权损失、小样本适配、统一模型） | `train_prior.py`、`train_unified.py`、`train_upload_adapt.py` |
-| 全部评估脚本与 12 组实验报告 | `eval_*.py`、`experiments/` |
+| 评估脚本与实验记录 | `eval_*.py`、`experiments/` |
 
 ---
 
@@ -75,14 +64,14 @@
 
 | 组件 | 用途 | 许可/说明 |
 |---|---|---|
-| PyTorch 2.5.1 | 深度学习框架 | BSD-3-Clause |
+| PyTorch（检测侧 2.5.1） | 深度学习框架 | BSD-3-Clause |
 | segmentation-models-pytorch | UNet++ 模型 | MIT |
 | albumentations | 数据增强 | MIT |
 | OpenCV | 图像处理 | Apache 2.0 |
 | NumPy / SciPy | 数值计算 | BSD |
 | Flask / flask-cors | 服务接口 | BSD / MIT |
 | CAMEL (camel-ai) | 多智能体框架 | Apache 2.0 |
-| **GeoMMAgent / GeoMMBench** | 多智能体框架与基准（上游项目） | **Apache 2.0**，详见 `D:\GeoMMAgent\NOTICE` |
+| **GeoMMAgent / GeoMMBench** | 多智能体框架与基准（上游项目） | **Apache 2.0**，详见 [GeoMMAgent NOTICE](../GeoMMAgent/NOTICE) |
 | Qwen API（阿里云百炼） | 大模型推理服务 | 商业服务，遵守其服务条款 |
 | Esri World Imagery | 真实场景验证影像 | 见第一节 |
 
@@ -102,7 +91,7 @@
 
 ---
 
-*最后更新：2026-09-22*
+*来源说明复核日期为 2026-11-07。下列增补保留当时的数据范围。*
 
 
 ## 2026-10-03原始矿区与复核材料增补

@@ -38,14 +38,11 @@ GeoMMAgent 及其改版说明
   coordinator/coordinator.py        调度健壮性增强（三级恢复、调度统计）
   configs/GeoMMBench.yaml           智能体启用配置调整
 
-三、未作改动的上游内容
+三、上游框架与后续修改范围
 
-  exec_agents/  toolkit/  run/  geomm_mcp/  assets/  index.html
-  requirements.txt  .env_template  run_benchmark.sh
-
-  ⚠ 上述清单基于文件级检查（新增/修改/未改）整理，非逐行差异比对。
-     若用于正式分发，建议与上游仓库做一次完整 diff 核对。
-
+  exec_agents/、toolkit/、run/、geomm_mcp/ 等目录源于上游框架。
+  矿安天眼的后续迭代涉及智能体执行、工具、配置和依赖等文件。
+  具体实现与修改范围以仓库源码和版本记录为准。
 
 用途说明
 --------
@@ -54,9 +51,9 @@ GeoMMAgent 及其改版说明
   新增 report_grounding.py、REPAIR_NOTES.md、tests/test_report_contracts.py。
   更新 backend.py、前端源和副本、requirements.txt、.env_template，完成
   输入波段、ROI、报告数值与来源校验、超时并发限制、结果缓存和知识来源展示。
-  上文「未作改动」中的 requirements.txt 与 .env_template 已不再适用于本版本。
+  requirements.txt 与 .env_template 随工作台的部署与配置要求维护。
 
-本仓库为本团队的**私有备份**，用于版本管理与回滚，不对外分发。
+当前公开源码用于阅读、复现与协作。模型、数据、账户凭据与本地运行归档分别管理。
 本团队与本仓库不对上游项目的适用性、正确性作任何担保。
 
 2026-10-08 本团队增补：

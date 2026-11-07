@@ -14,45 +14,24 @@ Windows本机原型，采用pywebview 6.2.1和系统已有WebView2。独立窗�
 - 顶部操作指引说明完整流程；文件、尺度、服务状态与当前归档案例均有独立位置。
 - 字体、间距、按钮和空态统一，1000×720与1440×900工作区均完成布局检查。
 
-## 当前电脑如何使用
+## 在团队安装环境下启动
 
-双击项目根目录的 `启动矿安天眼桌面版.bat`。
-
-- 自动调用原有启动器，检查并启动或复用5100/5101服务，不自动打开浏览器。
-- “工作区”菜单切换现有六个页面；“工具”可打开网页版、导出目录及日志目录。
-- 影像仍通过原有文件选择和ROI操作导入；接口、量测、报告与归档相同。
-- 桌面中点击导出会保存到 `D:\GeoMMAgent\data\desktop_exports`，完成后显示通知；
-  同名文件另起编号，不覆盖已有内容。网页版继续使用原有浏览器下载行为。
-- 关闭桌面窗口保留共享服务；已打开的网页版仍可使用。
-- 如需停止整套系统，继续使用原有 `stop_demo.bat`。
-
-原来的 `启动矿安天眼演示.bat` 和 `http://127.0.0.1:5100/` 仍是网页版入口。
-案例库共享；不同窗口对同一案例提交意见时仍执行原来的版本冲突检查。
-
-桌面运行环境在 `cache/desktop_runtime`，WebView2配置、窗口大小和日志在 `cache/desktop`；
-新增运行缓存及自动保存的导出文件均在D盘。重复打开同一端口的桌面入口会尝试激活已有窗口。
-首次检查环境时会短暂显示启动页；若已有服务版本不匹配，会提示检查，不强行关闭现有网页服务。
-
-## 环境与诊断
-
-本机已经安装独立桌面依赖，不修改GeoMMA和lmhld两个现役环境。
-需要重建桌面环境时，在项目根目录执行：
+先完成[团队统一安装](../deployment/DEPLOYMENT.md#团队统一安装)和[运行资产配置](../deployment/DEPLOYMENT.md#配置运行资产并启动)。桌面窗口使用 WebView2，并在 `GeoMMAgent/cache/desktop_runtime` 下安装独立的窗口依赖。以下命令从 `GeoMMAgent` 目录执行：
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File desktop/install.ps1
+$runtimeRoot = 'D:\MineSafetySkyEye-runtime'
+$agentPython = Join-Path $runtimeRoot 'GeoMMA\Scripts\python.exe'
+$detectorPython = Join-Path $runtimeRoot 'lmhld\Scripts\python.exe'
+$detectorDirectory = (Resolve-Path -LiteralPath '..\LMHLD').Path
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\desktop\install.ps1 -BasePython $agentPython
+$desktopPython = '.\cache\desktop_runtime\Scripts\pythonw.exe'
+& $desktopPython -B .\desktop\app.py --agent-python $agentPython `
+    --detector-python $detectorPython --detector-dir $detectorDirectory --local-facts-only
 ```
 
-只检查桌面环境、不启动窗口：
+已有原项目默认目录和解释器的电脑可双击 `启动矿安天眼桌面版.bat`。克隆后的并列目录使用上面的显式路径参数。桌面端复用同一套 5100 和 5101 服务，导出到当前工作台目录下的 `data/desktop_exports`，同名文件自动编号。
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File start_desktop.ps1 -CheckOnly
-```
-
-启动异常查看 `cache/desktop/desktop.log`、`cache/desktop/launcher_5100.log` 和 `cache/launcher`。
-关闭后重新打开入口会重新检查服务。云端智能体功能沿用原系统配置与联网要求。
-
-这不是可在任意电脑直接运行的独立安装包；本机仍使用既有Python、GPU环境和模型资产。
-布局更新后关闭桌面窗口、重新打开入口即可加载新资源，后台服务可继续复用。
+关闭桌面窗口后，网页版仍可在共享服务运行时使用。停止整套服务时，使用 `.\stop_demo.ps1 -DetectorDirectory $detectorDirectory`。启动日志位于 `cache/desktop/` 和 `cache/launcher/`。在线报告与网页使用同一套模型配置。
 
 ## 验收入口
 

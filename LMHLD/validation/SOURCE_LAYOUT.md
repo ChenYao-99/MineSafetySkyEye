@@ -1,9 +1,17 @@
-# 当前代码入口与历史归档
+# 源码入口与历史归档
 
-2026-10-16：额外清理已完成的报告/材料生成脚本、旧阶段汇总器和淘汰实验缓存。
-运行报告模块、数据保护合同、关键训练/推理/评估实现、被其他实现引用的共享核验函数保留。
-当前状态以 `D:/GeoMMAgent/maintenance/phase12_20261015/README.md` 与
-`D:/GeoMMAgent/maintenance/slim_project/README.md` 为准；下文旧优先级与归档属于历史记录。
+| 用途 | 入口 |
+| --- | --- |
+| 本地安装、环境检查和启动 | [团队统一安装](../../GeoMMAgent/deployment/DEPLOYMENT.md#团队统一安装) |
+| 影像检查、分割、量测及两期对比 | [detector_service.py](../detector_service.py)、[raster_upload.py](../raster_upload.py)、[geo_geometry.py](../geo_geometry.py) |
+| 工作台、报告与事实约束 | [backend.py](../../GeoMMAgent/backend.py)、[report_grounding.py](../../GeoMMAgent/report_grounding.py) |
+| 模型文件与推理参数 | [model_registry.json](../model_registry.json) |
+| 输入参考、数据角色及保留集检查 | [pixel_reference_contract.py](../pixel_reference_contract.py)、[published_inventory_contract.py](../published_inventory_contract.py)、[protected_inputs.py](../protected_inputs.py) |
+| 研究记录 | [检测模块的实验索引](../README.md#实验从哪里看) |
+
+## 历史维护记录
+
+以下内容对应 2026-10-05 和 10-16 的源码清理。缓存、退役脚本归档和历史权重位于维护者的本地实验资产中，复现时按当时的代码与数据记录查找。
 
 2026-10-05按用户要求清理已完成的一次性生成器、固定案例访问/图面诊断、空样板及根目录调试输出。正式运行、训练评估和数据来源校验实现保留原路径，避免破坏导入、冻结哈希和复现协议。
 

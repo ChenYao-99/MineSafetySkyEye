@@ -2,8 +2,8 @@
 """
 detector_service.py — 矿安天眼 · 滑坡检测独立服务 (GPU)
 =========================================================
-运行环境: lmhld conda 环境 (torch 2.5.1 CUDA)
-由 D:\\GeoMMAgent\\backend.py 启动时自动拉起 (端口 5001)
+运行环境: 独立的 lmhld Python 环境，团队部署使用 PyTorch 2.5.1+cu124。
+由 GeoMMAgent 工作台启动或复用，默认端口为 5101。
 
 API:
   GET  /api/health              → {status, detector_loaded}

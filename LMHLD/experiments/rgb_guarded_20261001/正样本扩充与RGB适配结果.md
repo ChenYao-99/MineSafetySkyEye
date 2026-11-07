@@ -51,7 +51,7 @@
 | rgb_guarded | 43 | 0.6572 | 0.4907 | 4.73% |
 | rgb_guarded | 44 | 0.6577 | 0.5035 | 4.83% |
 
-![RGB与矿山参考对照](D:/LMHLD/experiments/rgb_guarded_20261001/evaluation/rgb_comparison.png)
+RGB与矿山参考对照（本地实验产物 `rgb_comparison.png`）
 
 ## 矿山图示参考结果
 
@@ -104,7 +104,7 @@ Hpakant背景仅表示该事件图示范围外的空间参考，未全面审核�
 
 42号组合在主阈值下Las Cruces内部召回17.41%、Hpakant坍塌源区内部召回6.79%。这仍偏低；图示裁块、色偏、分辨率和标签不确定性限制解释，但不能据此把漏检全部归咎于数据。组合相对既有模型有改进，同时FPR上升，且多数F1仍低于源域基座。
 
-![Hpakant逐像素对照](D:/LMHLD/experiments/rgb_guarded_20261001/evaluation/hpakant_comparison.png)
+Hpakant逐像素对照（本地实验产物 `hpakant_comparison.png`）
 
 ## 保留的失败与验证
 
@@ -128,6 +128,6 @@ Hpakant背景仅表示该事件图示范围外的空间参考，未全面审核�
 - 首次外部评估：`validation/evaluate_rgb_joint_study.py`与`rgb_balanced_20261001/evaluation/results.json`。
 - 组合选择与回归：`validation/calibrate_rgb_guard.py`、`evaluate_rgb_guard.py`、`rgb_guarded_20261001/protocol.json`。
 - 服务：`rgb_adapter.py`、`models_prior/rgb_guarded_20261001/adapter.json`，需要其中两份组件权重一并交付。
-- 创新论证：[项目更新版](D:/GeoMMAgent/竞赛材料/创新点论证_更新版.md)。
+- 创新论证：项目更新版（本地实验产物 `创新点论证_更新版.md`）。
 
 剩余关键缺口是多矿区原始影像和可信事故边界、稳定的真实矿山召回、真正未参与迭代的新增测试集，以及现场/专家核验。本轮尚不足以支持国家一等奖水平的性能与落地论断。

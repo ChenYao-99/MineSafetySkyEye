@@ -15,6 +15,8 @@
 
 ## 本地查看和运行
 
+需要运行整套系统时，请在 Windows 的 D 盘目录中打开 PowerShell，再克隆源码。
+
 ```powershell
 git clone https://github.com/ChenYao-99/MineSafetySkyEye.git
 cd MineSafetySkyEye
@@ -22,9 +24,9 @@ cd MineSafetySkyEye
 
 只看代码或分析实验时，先读上表对应的 README 和实验记录。当前的完整运行方式面向 Windows，默认以 D 盘作为项目与运行缓存位置。工作台服务使用端口 5100，检测服务使用端口 5101，两端各有自己的 Python 环境。
 
-1. 按[部署说明](GeoMMAgent/deployment/DEPLOYMENT.md)准备依赖。检测环境的现有部署清单使用 PyTorch 的 CUDA 12.4 构建。
+1. 新成员从[团队统一安装](GeoMMAgent/deployment/DEPLOYMENT.md#团队统一安装)开始。安装脚本创建工作台和检测两套环境，检测侧统一使用 `torch==2.5.1+cu124`。
 2. 按[检测模块说明](LMHLD/README.md#本地使用)配置权重和输入索引。权重通过团队共享渠道或相应来源获取，使用 [model_registry.json](LMHLD/model_registry.json) 中的路径和校验值核对。保留案例索引和评估资产按团队的隔离规则配置。
-3. 从 `GeoMMAgent` 目录启动工作台，使用[启动示例](GeoMMAgent/README.md#在自己的电脑上运行)指定旁边的 `LMHLD` 目录和本机解释器。先使用 `-CheckOnly` 检查路径，再使用 `-LocalFactsOnly` 验证本地检测与量测流程。
+3. 从 `GeoMMAgent` 目录启动工作台，使用[启动示例](GeoMMAgent/deployment/DEPLOYMENT.md#配置运行资产并启动)指定旁边的 `LMHLD` 目录和本机解释器。先使用 `-CheckOnly` 检查路径，再使用 `-LocalFactsOnly` 验证本地检测与量测流程。
 4. 从 [本地工作台](http://127.0.0.1:5100/) 打开页面，选择有权限使用的测试影像。在线报告模式的模型配置和本地凭据模板见 [GeoMMAgent README](GeoMMAgent/README.md)。
 
 公开源码与运行资产分别管理。训练数据、原始影像、权重、案例库、评估保留集、账户凭据和大型实验中间产物通过各自的授权渠道配置。部分历史脚本依赖当时的本机路径和冻结资产，复现时以对应实验的协议为准。源目录中的小型实验结果用于阅读和对照。

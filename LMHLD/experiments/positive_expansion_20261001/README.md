@@ -17,4 +17,4 @@ Hpakant背景仅表示该事件图示范围外的空间参考，未全面审核�
 
 来源：[UNOSAT事故页](https://unosat.org/products/2117)、[原报告PDF](https://unosat.org/static/unosat_filesystem/2117/UNOSAT_TUK_LS2011-Report_v2_HR.pdf)、[Hpakant论文](https://doi.org/10.1016/j.isprsjprs.2021.05.015)、[作者Figure 7](https://ars.els-cdn.com/content/image/1-s2.0-S0924271621001489-gr7_lrg.jpg)。
 
-本轮结果：[完整报告](D:/LMHLD/experiments/rgb_guarded_20261001/正样本扩充与RGB适配结果.md)。
+本轮结果：[完整报告](../rgb_guarded_20261001/正样本扩充与RGB适配结果.md)。

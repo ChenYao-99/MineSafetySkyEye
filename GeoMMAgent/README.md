@@ -2,7 +2,7 @@
 
 矿安天眼是一个面向露天矿遥感影像的筛查与复核原型。用户可以上传一张影像，圈定需要检查的范围，查看模型标出的疑似区域。上传同一矿区的两期影像时，工作台还可以对比共同可见范围内的候选变化。
 
-这个目录负责界面、任务调度、报告、案例归档和人工复核。实际分割和几何量测由 [LMHLD 检测模块](../LMHLD/README.md) 完成。项目获得省赛二等奖，当前代码包含赛后的工程改进。
+这个目录负责界面、任务调度、报告、案例归档和人工复核。实际分割和几何量测由 [LMHLD 检测模块](../LMHLD/README.md) 完成。
 
 ## 从一张影像到一份复核记录
 
@@ -27,27 +27,13 @@
 
 ## 在自己的电脑上运行
 
-当前启动脚本面向 Windows，要求工作台和检测源码位于 D 盘。工作台默认使用 `127.0.0.1:5100`，检测服务默认使用 `127.0.0.1:5101`，两端使用各自的 Python 环境。
+新成员按[团队统一安装](deployment/DEPLOYMENT.md#团队统一安装)操作。当前启动脚本面向 Windows，要求两套源码位于 D 盘。工作台默认使用 `127.0.0.1:5100`，检测服务默认使用 `127.0.0.1:5101`，两端使用各自的 Python 环境。检测侧的团队安装基准是 PyTorch 2.5.1 的 CUDA 12.4 构建。
 
-1. 按[部署说明](deployment/DEPLOYMENT.md)准备两个环境。检测侧需要与显卡驱动匹配的 PyTorch/CUDA 版本，以及已登记的模型权重和运行索引。
-2. 使用当前项目的默认路径时，可以双击 [启动矿安天眼演示.bat](启动矿安天眼演示.bat)。需要使用自己的环境路径时，在本目录打开 PowerShell，按下面的示例指定参数。
-3. 打开 [本地工作台](http://127.0.0.1:5100/)，从影像检测页开始。桌面入口和 WebView2 依赖见[桌面工作台说明](desktop/README.md)。
+完成[权重、索引和启动配置](deployment/DEPLOYMENT.md#配置运行资产并启动)后，从 [本地工作台](http://127.0.0.1:5100/) 打开影像检测页。首次运行可选 `-LocalFactsOnly`，用本地检测与量测结果生成事实汇总。需要在线报告时，按 [.env_template](.env_template) 与 [模型配置](configs/GeoMMBench.yaml) 配置本地 `.env`。
 
-下面以两个源码目录并列为例。先将两条 Python 路径换成自己的安装位置。
+已有原项目默认目录和解释器的电脑可以双击 [启动矿安天眼演示.bat](启动矿安天眼演示.bat)。合仓后的克隆目录和自定义环境应按统一安装页明确指定路径。需要桌面窗口时，参见[桌面工作台说明](desktop/README.md#在团队安装环境下启动)。
 
-```powershell
-$launch = @{
-    AgentPython = 'D:\venvs\GeoMMA\Scripts\python.exe'
-    DetectorPython = 'D:\venvs\lmhld\Scripts\python.exe'
-    DetectorDirectory = (Resolve-Path '..\LMHLD').Path
-}
-.\start_demo.ps1 @launch -CheckOnly
-.\start_demo.ps1 @launch -LocalFactsOnly
-```
-
-`-CheckOnly` 检查启动文件和路径。`-LocalFactsOnly` 根据本地检测与量测结果生成事实汇总，适合先验证影像到报告的流程。需要在线模型报告时，参考 [.env_template](.env_template) 和 [模型配置](configs/GeoMMBench.yaml) 配置自己的本地 `.env`，然后启动在线可用模式。使用自定义检测目录时，可以用 `.\stop_demo.ps1 -DetectorDirectory $launch.DetectorDirectory` 停止同一套服务。
-
-模型获取、路径设置与检测接口见 [LMHLD 说明](../LMHLD/README.md)。运行生成的日志、上传影像和 SQLite 案例库由各使用者在本地保存。
+模型、影像和案例库按[检测模块说明](../LMHLD/README.md#本地使用)在本地配置。日志、上传影像和 SQLite 案例库保存在各自电脑上。
 
 ## 验证记录
 

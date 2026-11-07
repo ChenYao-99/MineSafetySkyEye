@@ -37,7 +37,7 @@
 
 固定0.5阈值辅助口径：F1 68.34% → 68.24%，覆盖检出 57.06% → 55.36%，背景FPR 5.48% → 5.01%。九寨沟第二种子在主口径下背景误检上升，抵消其他地区下降，不能只选北海道改善来描述全量训练。
 
-![来源学习曲线](source_learning_curves.png)
+来源学习曲线（本地实验产物 `source_learning_curves.png`）
 
 ## 尺度机制与误检控制
 
@@ -62,7 +62,7 @@
 
 条件门控相对TTA5的覆盖检出在两个种子均改善，但42种子F1下降超过0.5个百分点；目标背景FPR的均值3%与最差地区5%上限也未满足；相对学习固定混合未达到每种子覆盖检出至少提高1个百分点。未通过项：f1_preserved_vs_tta, candidate_macro_fpr_bounded, candidate_region_fpr_bounded, beats_constant_small。未事后放宽门槛。
 
-![尺度对照](scale_comparison.png)
+尺度对照（本地实验产物 `scale_comparison.png`）
 
 三档来源预算均在训练前固定，不从目标结果挑最好工作点。仅收紧阈值会损失检出，结果如下：
 
@@ -72,7 +72,7 @@
 | 1.00% | 38.65% | 45.43% | 2.10% |
 | 0.50% | 31.57% | 36.89% | 1.21% |
 
-![固定来源预算取舍](source_budget_tradeoff.png)
+固定来源预算取舍（本地实验产物 `source_budget_tradeoff.png`）
 
 ## 证据边界、文件和复现
 

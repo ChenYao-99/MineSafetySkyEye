@@ -28,7 +28,7 @@
 
 ## 本地使用
 
-只想浏览代码时，可以从 [detector_service.py](detector_service.py) 的上传检测和两期对比接口入手。需要实际推理时，先按[部署说明](../GeoMMAgent/deployment/DEPLOYMENT.md)准备检测环境。现有 GPU 部署清单使用与 CUDA 12.4 匹配的 PyTorch 构建。依赖版本见 [requirements.txt](requirements.txt) 和[部署锁定清单](../GeoMMAgent/deployment/requirements.lmhld.cuda124.lock.txt)。
+只想浏览代码时，可以从 [detector_service.py](detector_service.py) 的上传检测和两期对比接口入手。实际运行请按[团队统一安装](../GeoMMAgent/deployment/DEPLOYMENT.md#团队统一安装)建立检测环境。部署验收采用 Python 3.10.20，安装脚本按 [GPU 部署锁定清单](../GeoMMAgent/deployment/requirements.lmhld.cuda124.lock.txt)固定 `torch==2.5.1+cu124` 和其他依赖版本。[requirements.txt](requirements.txt) 是检测模块的依赖参考。
 
 | 资源或设置 | 如何准备 |
 | --- | --- |
